@@ -1,0 +1,76 @@
+==============================
+ GIT WORKFLOW (For Members)
+==============================
+
+1. START YOUR WORK SESSION
+------------------------------
+# Go to the project folder
+cd <project-folder>
+
+# Make sure you're on main
+git switch main
+
+# Pull the latest updates from the remote repo
+git pull origin main
+
+------------------------------
+
+2. CREATE YOUR WORKING BRANCH
+------------------------------
+# Create and switch to your own branch (use your name or task)
+git switch -c feature/<your-name>-<task>
+
+Example:
+git switch -c feature/alex-fix-ui
+
+------------------------------
+
+3. MAKE CHANGES
+------------------------------
+# Edit files, add code, etc.
+
+# Check status
+git status
+
+# Stage the files you changed
+git add <file>         # or 'git add .' to add all
+
+# Commit with a clear message
+git commit -m "Describe what you changed"
+
+------------------------------
+
+4. SYNC WITH REMOTE MAIN (OPTIONAL)
+------------------------------
+# If the main branch has new updates:
+git fetch origin
+git rebase origin/main
+# or merge if you prefer:
+# git merge origin/main
+
+# Fix any conflicts → git add <fixed-file> → git rebase --continue
+
+------------------------------
+
+5. PUSH YOUR BRANCH
+------------------------------
+# Push your branch to remote for review
+git push -u origin feature/<your-name>-<task>
+
+------------------------------
+
+6. SUBMIT FOR MERGE
+------------------------------
+# Notify the maintainer (or open a Pull Request)
+# The maintainer will handle merging into main.
+
+------------------------------
+
+7. AFTER MERGE (CLEANUP)
+------------------------------
+# Switch back to main and update
+git switch main
+git pull origin main
+
+# Delete your local branch if finished
+git branch -d feature/<your-name>-<task>

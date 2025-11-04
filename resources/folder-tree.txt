@@ -1,0 +1,10 @@
+Yzu-Go
+|
+|_index.html
+|
+|_games
+  |_game-1-folder
+  |_game-2-folder
+  |_game-3-folder
+  |_game-4-folder
+  |_game-5-folder
