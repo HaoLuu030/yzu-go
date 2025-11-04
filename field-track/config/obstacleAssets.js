@@ -1,0 +1,161 @@
+import { boardWidth} from "../entities/physics.js";
+import { SCALE } from "./scale.js";
+
+// shiba
+const shiba1 = new Image();
+const shiba2 = new Image();
+const shiba3 = new Image();
+const shiba4 = new Image();
+shiba1.src = '../img/shiba-1.png';
+shiba2.src = '../img/shiba-2.png';
+shiba3.src = '../img/shiba-3.png';
+shiba4.src = '../img/shiba-4.png';
+// corgi
+const corgi1 = new Image();
+const corgi2 = new Image();
+const corgi3 = new Image();
+const corgi4 = new Image();
+const corgi5 = new Image();
+const corgi6 = new Image();
+corgi1.src = '../img/corgi-1.png';
+corgi2.src = '../img/corgi-2.png';
+corgi3.src = '../img/corgi-3.png';
+corgi4.src = '../img/corgi-4.png';
+corgi5.src = '../img/corgi-5.png';
+corgi6.src = '../img/corgi-6.png';
+// cone
+const cone = new Image();
+cone.src = '../img/cone.png';
+// basket ball
+const basket_ball = new Image();
+basket_ball.src = '../img/basket-ball.png';
+// volley
+const volley_ball = new Image();
+volley_ball.src = '../img/volley-ball.png';
+// dave
+const dave1 = new Image();
+const dave2 = new Image();
+const dave3 = new Image();
+const dave4 = new Image();
+const dave5 = new Image();
+const dave6 = new Image();
+dave1.src = '../img/dave-1.png';
+dave2.src = '../img/dave-2.png';
+dave3.src = '../img/dave-3.png';
+dave4.src = '../img/dave-4.png';
+dave5.src = '../img/dave-5.png';
+dave6.src = '../img/dave-6.png';
+// cycling man
+const cyclingMan1 = new Image();
+const cyclingMan2 = new Image();
+const cyclingMan3 = new Image();
+const cyclingMan4 = new Image();
+const cyclingMan5 = new Image();
+const cyclingMan6 = new Image();
+cyclingMan1.src = '../img/cycling-man-1.png';
+cyclingMan2.src = '../img/cycling-man-2.png';
+cyclingMan3.src = '../img/cycling-man-3.png';
+cyclingMan4.src = '../img/cycling-man-4.png';
+cyclingMan5.src = '../img/cycling-man-5.png';
+cyclingMan6.src = '../img/cycling-man-6.png';
+
+
+
+
+export const obstacleAssets = {
+    // test: {
+    //     img: basket_ball,
+    //     width: boardWidth * SCALE.CART_WIDTH_RATIO,
+    //     get height() {
+    //         return this.width * SCALE.CART_ASPECT_RATIO;
+    //     },
+    //     speed: 4,
+    //     isAnimated: false,
+    //     probability: 1,
+    // },
+    // test: {
+    //     img: basket_ball,
+    //     width: boardWidth * SCALE.CART_WIDTH_RATIO,
+    //     get height() {
+    //         return this.width * SCALE.CART_ASPECT_RATIO;
+    //     },
+    //     speed: 4,
+    //     isAnimated: false,
+    //     probability: 1,
+    // },
+    cone: {
+        img: cone,
+        width: boardWidth * SCALE.CONE_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.CONE_ASPECT_RATIO;
+        },
+        speed: 4,
+        isAnimated: false,
+        probability: 0.2,
+    },
+    shiba: {
+        frames: [shiba1, shiba2, shiba3, shiba4],
+        width: boardWidth * SCALE.SHIBA_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.SHIBA_ASPECT_RATIO;
+        },
+        speed: 6,
+        isAnimated: true,
+        probability: 0.3,
+    },
+
+    corgi: {
+        frames: [corgi1, corgi2, corgi3, corgi4, corgi5, corgi6],
+        width: boardWidth * SCALE.CORGI_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.CORGI_ASPECT_RATIO;
+        },
+        speed: 4,
+        isAnimated: true,
+        probability: 0.4,
+    },
+
+    dave: {
+        frames: [dave1, dave2, dave3, dave4, dave5, dave6],
+        width: boardWidth * SCALE.HUMAN_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.HUMAN_ASPECT_RATIO;
+        },
+        speed: 6,
+        isAnimated: true,
+        probability: 0.5,
+    },
+
+    basket_ball: {
+        img: basket_ball,
+        width: boardWidth * SCALE.CART_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.CART_ASPECT_RATIO;
+        },
+        speed: 4,
+        isAnimated: false,
+        probability: 0.8,
+    },
+
+    volley_ball: {
+        img: volley_ball,
+        width: boardWidth * SCALE.CART_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.CART_ASPECT_RATIO;
+        },
+        speed: 4,
+        isAnimated: false,
+        probability: 0.9,
+    },
+    cycling_man: {
+        frames: [cyclingMan1, cyclingMan2, cyclingMan3, cyclingMan4, cyclingMan5, cyclingMan6],
+        width: boardWidth * SCALE.CYLING_MAN_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.CYLING_MAN_ASPECT_RATIO;
+        },
+        speed: 8,
+        isAnimated: true,
+        probability: 0.95,
+    }
+}
+
