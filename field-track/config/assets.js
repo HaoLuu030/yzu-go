@@ -58,9 +58,11 @@ cyclingMan3.src = '../img/cycling-man-3.png';
 cyclingMan4.src = '../img/cycling-man-4.png';
 cyclingMan5.src = '../img/cycling-man-5.png';
 cyclingMan6.src = '../img/cycling-man-6.png';
-// goal post
-const goal_post = new Image();
-goal_post.src = '../img/goal-post.png';
+// goal posts
+const goal_post_left = new Image();
+goal_post_left.src = '../img/goal-post-left.png';
+const goal_post_right = new Image();
+goal_post_right.src = '../img/goal-post-right.png';
 
 
 
@@ -158,18 +160,29 @@ export const obstacleAssets = {
         },
         speed: 8,
         isAnimated: true,
-        probability: 0.95,
+        probability: 1,
     }
 }
 
-export const backgroundAssets = {
-    goal_post: {
-        img: goal_post,
+export const midgroundAssets = {
+    goal_post_left: {
+        img: goal_post_left,
         width: boardWidth * SCALE.GOAL_POST_WIDTH_RATIO,
         get height() {
             return this.width * SCALE.GOAL_POST_ASPECT_RATIO;
         },
-        speed: 5,
+        speed: 4,
+        probability: 0.5
+    },
+
+    goal_post_right: {
+        img: goal_post_right,
+        width: boardWidth * SCALE.GOAL_POST_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.GOAL_POST_ASPECT_RATIO;
+        },
+        speed: 4,
+        probability: 1
     }
 }
 

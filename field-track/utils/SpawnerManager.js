@@ -1,26 +1,37 @@
 import Entity from "../entities/entity.js";
 import { AnimatedObstacle, StaticObstacle } from "../entities/obstacle.js";
-import { boardWidth, groundY } from "../entities/physics.js";
+import { boardWidth, groundY, groundY1 } from "../entities/physics.js";
 import { gameState } from "../config/gameState.js";
 import createHitBox from "./hitBox.js";
 
 export default class SpawnerManager {
-    constructor(entityManager, obstacleAssets, backgroundAssets) {
+    constructor(entityManager, obstacleAssets, midgroundAssets) {
         this.entityManager = entityManager;
         this.obstacleAssets = obstacleAssets;
-        this.backgroundAssets = backgroundAssets;
-        this.frameCount = 0;
-        this.spawnInterval = 180; // 180
-        this.lastSpawnedType = null;
+        this.midgroundAssets = midgroundAssets;
+        // spawn period for obstacle
+        this.obstacleframeCount = 0;
+        this.obstaclespawnInterval = 180; // 180
+        // spawn period for midground interval
+        this.midgroundFrameCount = 0;
+        this.midgroundSpawnInterval = 500;
+        this.lastObstacle = null;
+        this.lastMidGround = null;
     }
 
     update() {
-        this.frameCount++;
-        const currentInterval = this.spawnInterval / gameState.spawnRateScale;
-        if (this.frameCount >= currentInterval) {
-            this.frameCount = 0;
+        this.obstacleframeCount++;
+        this.midgroundFrameCount++;
+        const objectInterval = this.obstaclespawnInterval / gameState.spawnRateScale;
+        const midgroundInterval = this.midgroundSpawnInterval / gameState.spawnRateScale;
+        if (this.obstacleframeCount >= objectInterval) {
+            this.obstacleframeCount = 0;
             this.spawnObstacle();
-            this.spawnBackgroundObject();
+        }
+
+        if (this.midgroundFrameCount >= midgroundInterval) {
+            this.midgroundFrameCount = 0;
+            this.spawnMidgroundObject();
         }
     }
 
@@ -29,9 +40,9 @@ export default class SpawnerManager {
         // make sure the adjacent obstacles are not the same
         let chosenType;
         do {
-            chosenType = this.chooseObstacleType();
-        } while (chosenType == this.lastSpawnedType);
-        this.lastSpawnedType = chosenType;
+            chosenType = this.chooseType('obstacle');
+        } while (chosenType == this.lastObstacle);
+        this.lastObstacle = chosenType;
         // chosenType = this.chooseObstacleType();
         const config = this.obstacleAssets[chosenType];
 
@@ -60,11 +71,16 @@ export default class SpawnerManager {
     }
 
     spawnMidgroundObject() {
-        let type = "goal_post";
-        const config = this.backgroundAssets[type];
+        let type;
+        do {
+            type = this.chooseType('midground');
+        } while (type == this.lastMidGround);
+        this.lastMidGround = type;
+        console.log(type);
+        const config = this.midgroundAssets[type];
         const {width, height, speed, img} = config;
-        const x = boardWidth;
-        const y = groundY - height;
+        const x = boardWidth + 100;
+        const y = groundY1 - height;
         let object;
         object = new Entity(x, y, width, height, speed, img);
         this.entityManager.add(object, "midground");
@@ -72,16 +88,24 @@ export default class SpawnerManager {
     }
 
 
-    chooseObstacleType() {
+    chooseType(entity) {
         const rand = Math.random();
-
+        let assets;
         // choose the obstacle randomly
+        switch (entity) {
+            case "midground":
+                assets = this.midgroundAssets;
+                break;
+            case "obstacle":
+                assets = this.obstacleAssets;
+                break;
+        }
         // sweep through all the obstacles in the obstacle asset file
-        for (const [key, value] of Object.entries(this.obstacleAssets)) {
+        for (const [key, value] of Object.entries(assets)) {
             if (rand < value.probability) return key;
         }
         // fall back
-        return Object.keys(this.obstacleAssets)[0];
+        // return Object.keys(this.assets)[0];
     }
 
     reset() {
