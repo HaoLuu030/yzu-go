@@ -1,9 +1,9 @@
 import { boardHeight, boardWidth, groundY } from "./entities/physics.js";
 import { SCALE } from "./config/scale.js";
 import Player from "./entities/player.js";
-import EntityManager from "./entities/EntityManager.js";
-import SpawnerManager from "./SpawnerManager.js";
-import { obstacleAssets } from "./config/obstacleAssets.js";
+import EntityManager from "./entities/entityManager.js";
+import SpawnerManager from "./utils/SpawnerManager.js";
+import { obstacleAssets, backgroundAssets } from "./config/assets.js";
 import createHitBox from "./utils/hitBox.js";
 import { pause, resume, gameOver, setupResetButtonEvents } from "./utils/gameFunction.js";
 import { gameState } from "./config/gameState.js";
@@ -12,7 +12,7 @@ import { gameState } from "./config/gameState.js";
 // setup
 const entityManager = new EntityManager();
 let context;
-const spawnerManager = new SpawnerManager(entityManager, obstacleAssets);
+const spawnerManager = new SpawnerManager(entityManager, obstacleAssets, backgroundAssets);
 
 // load frames
 let playerFrames = [];

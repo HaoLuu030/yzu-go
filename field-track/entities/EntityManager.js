@@ -6,6 +6,7 @@ export default class EntityManager {
         this.entities = {
             player: null,
             obstacles: [],
+            midgrounds: [],
             backgrounds: []
         };
     }
@@ -15,6 +16,9 @@ export default class EntityManager {
                 this.entities.player = entity;
                 break;
             case "background":
+                this.entities.backgrounds.push(entity);
+                break;
+            case "midground":
                 this.entities.backgrounds.push(entity);
                 break;
             case "obstacle":

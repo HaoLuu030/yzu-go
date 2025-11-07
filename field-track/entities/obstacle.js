@@ -4,9 +4,7 @@ import drawHitBox from "../utils/drawHitBox.js";
 
 export default class Obstacle extends Entity {
     constructor(x, y, width, height, speed, img, hitbox = null) {
-        super(x, y, width, height, speed);
-        this.img = img;
-
+        super(x, y, width, height, speed, img);
         // if hitbox config is passed, use it - else use full box
         if (hitbox) {
             this.hitbox = {

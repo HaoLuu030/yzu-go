@@ -5,7 +5,7 @@ import drawHitBox from '../utils/drawHitBox.js';
 
 export default class Player extends Entity {
     constructor(x, y, width, height, speed, frames, jumpImg, hitbox = null) {
-        super(x, y, width, height, speed);
+        super(x, y, width, height, speed, jumpImg);
         this.frames = frames;
         this.jumpImg = jumpImg;
         this.frameDelay = 0;
