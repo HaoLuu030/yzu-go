@@ -59,7 +59,7 @@ export default class SpawnerManager {
         this.entityManager.add(obstacle, "obstacle");
     }
 
-    spawnBackgroundObject() {
+    spawnMidgroundObject() {
         let type = "goal_post";
         const config = this.backgroundAssets[type];
         const {width, height, speed, img} = config;

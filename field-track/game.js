@@ -2,7 +2,7 @@ import { boardHeight, boardWidth, groundY } from "./entities/physics.js";
 import { SCALE } from "./config/scale.js";
 import Player from "./entities/player.js";
 import EntityManager from "./entities/entityManager.js";
-import SpawnerManager from "./utils/SpawnerManager.js";
+import SpawnerManager from "./utils/spawnerManager.js";
 import { obstacleAssets, backgroundAssets } from "./config/assets.js";
 import createHitBox from "./utils/hitBox.js";
 import { pause, resume, gameOver, setupResetButtonEvents } from "./utils/gameFunction.js";
