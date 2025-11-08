@@ -2,7 +2,7 @@ import { gameState } from "../config/gameState.js";
 import { gameLoop } from "../game.js";
 import { SCALE } from "../config/scale.js";
 import { boardHeight, boardWidth } from "../entities/physics.js";
-import { entityManager, spawnerManager, player } from "../game.js";
+import { scoreManager, entityManager, spawnerManager, player } from "../game.js";
 
 
 // store reset button state for handling clicking and hovering
@@ -34,10 +34,17 @@ export function gameOver(context, board) {
     // stop the game loop
     cancelAnimationFrame(gameState.animationId);
 
+    // player cry
+    player.isDead = true;
+    // clear the board
+    context.clearRect(0, 0, boardWidth, boardHeight);
+    entityManager.drawAll(context);
+    scoreManager.draw(context);
+
 
     // game over image
     const gameOverImg = new Image();
-    gameOverImg.src = '../img/game-over.png';
+    gameOverImg.src = '../assets/img/game-over.png';
 
 
     gameOverImg.onload = () => {
@@ -68,7 +75,7 @@ function restartGame() {
 
 function drawResetButton(context, resetY) {
     const resetImg = resetButton.image;
-    resetImg.src = "../img/reset.png";
+    resetImg.src = "../assets/img/reset.png";
 
     resetImg.onload = () => {
         resetButton.width = boardWidth * SCALE.RESET_BUTTON_WIDTH_RATIO;

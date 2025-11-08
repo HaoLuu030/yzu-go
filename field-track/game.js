@@ -14,7 +14,8 @@ import ScoreManager from "./utils/scoreManager.js";
 const entityManager = new EntityManager();
 let context;
 const spawnerManager = new SpawnerManager(entityManager, obstacleAssets, midgroundAssets);
-const scoreManager = new ScoreManager("'20px', 'Press Start 2P, monospace", "#333", 5, 20);
+const scoreManager = new ScoreManager("9px 'Press Start 2P', monospace", "#333", 5, 20);
+
 
 // load frames
 let playerFrames = [];
@@ -25,15 +26,13 @@ for (let i = 0; i < 8; i++) {
     image.src = `./assets/img/student-${i + 1}.png`;
     playerFrames.push(image);
 }
-let playerJumpImg = new Image();
-playerJumpImg.src = './assets/img/student-jump.png';
 // initalize a student
 let playerWidth = boardWidth * SCALE.STUDENT_WIDTH_RATIO;
 let playerHeight = playerWidth * SCALE.STUDENT_ASPECT_RATIO;
 let playerX = boardWidth * 0.1;
 let playerY = groundY - playerHeight;
 let playerHitBox = createHitBox("player", playerWidth, playerHeight);
-let player = new Player(playerX, playerY, playerWidth, playerHeight, 0, playerFrames, playerJumpImg, playerHitBox);
+let player = new Player(playerX, playerY, playerWidth, playerHeight, 0, playerFrames, playerHitBox);
 
 // register student
 entityManager.add(player, "player")
@@ -89,4 +88,4 @@ export function gameLoop() {
     gameState.animationId =requestAnimationFrame(gameLoop);
 }
 
-export { spawnerManager, entityManager, player };
+export { scoreManager, spawnerManager, entityManager, player };

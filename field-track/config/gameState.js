@@ -22,6 +22,8 @@ export const gameState = {
         this.frameCount = 0;
         this.speedScale = 1;
         this.spawnRateScale = 1;
+        this.score = 0;
+        this._lastMileStone = 0;
     },
     toggleTesting() {
         this.testing = !this.testing;

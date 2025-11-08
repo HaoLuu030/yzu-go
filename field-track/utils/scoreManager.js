@@ -1,7 +1,7 @@
 import { gameState } from "../config/gameState.js";
 
 export default class ScoreManager {
-    constructor(font="16px monospace", color ="#333", x = 5, y = 40) {
+    constructor(font="100px monospace", color ="#333", x = 5, y = 40) {
         this.font = font;
         this.color = color;
         this.x = x;
@@ -15,7 +15,8 @@ export default class ScoreManager {
         // high score
         const saved = Number(localStorage.getItem("dino_high_score") || 0);
 
-        if (!Number.isNaN(saved)) gameState.higScore = saved;
+        if (!Number.isNaN(saved)) gameState.highScore = saved;
+
 
         // sound effect
         this.milestoneSound = new Audio("../assets/sfx/mile-stone-sound.mp3");
@@ -33,6 +34,7 @@ export default class ScoreManager {
         gameState.score += gain;
 
         const currentMilestone = Math.floor(gameState.score / this.milestoneStep);
+        console.log(currentMilestone, gameState._lastMileStone);
         if (currentMilestone > gameState._lastMileStone) {
             gameState._lastMileStone = currentMilestone;
             if(this.milestoneSound) this.milestoneSound.play();

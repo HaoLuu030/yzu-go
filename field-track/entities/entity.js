@@ -16,8 +16,8 @@ export class Entity {
         }
     }
     draw(context) {
-        console.log("Drawing image");
-        console.log(this.img);
+        // console.log("Drawing image");
+        // console.log(this.img);
         context.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 }

@@ -76,7 +76,7 @@ export default class SpawnerManager {
             type = this.chooseType('midground');
         } while (type == this.lastMidGround);
         this.lastMidGround = type;
-        console.log(type);
+        // console.log(type);
         const config = this.midgroundAssets[type];
         const {width, height, speed, img} = config;
         const x = boardWidth + 100;

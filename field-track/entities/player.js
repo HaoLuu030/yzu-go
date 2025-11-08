@@ -3,16 +3,25 @@ import { groundY, gravity, jumpForce } from './physics.js';
 import { gameState } from '../config/gameState.js';
 import drawHitBox from '../utils/drawHitBox.js';
 
+let jumpImg = new Image();
+jumpImg.src = "../assets/img/student-jump.png";
+
+let cryImg = new Image();
+cryImg.src = "../assets/img/student-cry.png";
+
+
 export default class Player extends Entity {
-    constructor(x, y, width, height, speed, frames, jumpImg, hitbox = null) {
+    constructor(x, y, width, height, speed, frames, hitbox = null) {
         super(x, y, width, height, speed, jumpImg);
-        this.frames = frames;
         this.jumpImg = jumpImg;
+        this.cryImg = cryImg;
+        this.frames = frames;
         this.frameDelay = 0;
         this.frameInterval = 4;
         this.currentFrame = 0;
         this.velocityY = 0;
         this.jumping = false;
+        this.isDead = false;
         // if hitbox config is passed, use it - else use full box
         if (hitbox) {
             this.hitbox = {
@@ -56,13 +65,24 @@ export default class Player extends Entity {
         }
     }
     draw(context) {
-        const img = this.jumping ? this.jumpImg : this.frames[this.currentFrame];
+        let img;
+        if (this.isDead)
+        {
+            img = cryImg;
+        }
+        else if (this.jumping) {
+            img = this.jumpImg;
+        }
+        else {
+            img = this.frames[this.currentFrame];
+        }
         context.drawImage(img, this.x, this.y, this.width, this.height);
         if (this.hitbox && gameState.testing) { drawHitBox(this.x, this.y, this.hitbox, 'white', context); }
     }
 
     reset() {
         // restore default state
+        this.isDead = false;
         this.x = this.initialX ?? this.x; // optional if you want fixed start position
         this.y = groundY - this.height;
         this.velocityY = 0;
