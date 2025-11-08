@@ -8,6 +8,10 @@ export const gameState = {
     isRunning: true,
     testing: false,
     gameOver: false,
+    score: 0,
+    highScore: 0,
+    // track milestone
+    _lastMileStone: 0,
     increase() {
         if (this.frameCount % 300 == 0) {
             this.speedScale = Math.min(this.speedScale + this.speedIncrease, 4);

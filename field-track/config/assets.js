@@ -6,10 +6,10 @@ const shiba1 = new Image();
 const shiba2 = new Image();
 const shiba3 = new Image();
 const shiba4 = new Image();
-shiba1.src = '../img/shiba-1.png';
-shiba2.src = '../img/shiba-2.png';
-shiba3.src = '../img/shiba-3.png';
-shiba4.src = '../img/shiba-4.png';
+shiba1.src = '../assets/img/shiba-1.png';
+shiba2.src = '../assets/img/shiba-2.png';
+shiba3.src = '../assets/img/shiba-3.png';
+shiba4.src = '../assets/img/shiba-4.png';
 // corgi
 const corgi1 = new Image();
 const corgi2 = new Image();
@@ -17,21 +17,21 @@ const corgi3 = new Image();
 const corgi4 = new Image();
 const corgi5 = new Image();
 const corgi6 = new Image();
-corgi1.src = '../img/corgi-1.png';
-corgi2.src = '../img/corgi-2.png';
-corgi3.src = '../img/corgi-3.png';
-corgi4.src = '../img/corgi-4.png';
-corgi5.src = '../img/corgi-5.png';
-corgi6.src = '../img/corgi-6.png';
+corgi1.src = '../assets/img/corgi-1.png';
+corgi2.src = '../assets/img/corgi-2.png';
+corgi3.src = '../assets/img/corgi-3.png';
+corgi4.src = '../assets/img/corgi-4.png';
+corgi5.src = '../assets/img/corgi-5.png';
+corgi6.src = '../assets/img/corgi-6.png';
 // cone
 const cone = new Image();
-cone.src = '../img/cone.png';
+cone.src = '../assets/img/cone.png';
 // basket ball
 const basket_ball = new Image();
-basket_ball.src = '../img/basket-ball.png';
+basket_ball.src = '../assets/img/basket-ball.png';
 // volley
 const volley_ball = new Image();
-volley_ball.src = '../img/volley-ball.png';
+volley_ball.src = '../assets/img/volley-ball.png';
 // dave
 const dave1 = new Image();
 const dave2 = new Image();
@@ -39,12 +39,12 @@ const dave3 = new Image();
 const dave4 = new Image();
 const dave5 = new Image();
 const dave6 = new Image();
-dave1.src = '../img/dave-1.png';
-dave2.src = '../img/dave-2.png';
-dave3.src = '../img/dave-3.png';
-dave4.src = '../img/dave-4.png';
-dave5.src = '../img/dave-5.png';
-dave6.src = '../img/dave-6.png';
+dave1.src = '../assets/img/dave-1.png';
+dave2.src = '../assets/img/dave-2.png';
+dave3.src = '../assets/img/dave-3.png';
+dave4.src = '../assets/img/dave-4.png';
+dave5.src = '../assets/img/dave-5.png';
+dave6.src = '../assets/img/dave-6.png';
 // cycling man
 const cyclingMan1 = new Image();
 const cyclingMan2 = new Image();
@@ -52,17 +52,17 @@ const cyclingMan3 = new Image();
 const cyclingMan4 = new Image();
 const cyclingMan5 = new Image();
 const cyclingMan6 = new Image();
-cyclingMan1.src = '../img/cycling-man-1.png';
-cyclingMan2.src = '../img/cycling-man-2.png';
-cyclingMan3.src = '../img/cycling-man-3.png';
-cyclingMan4.src = '../img/cycling-man-4.png';
-cyclingMan5.src = '../img/cycling-man-5.png';
-cyclingMan6.src = '../img/cycling-man-6.png';
+cyclingMan1.src = '../assets/img/cycling-man-1.png';
+cyclingMan2.src = '../assets/img/cycling-man-2.png';
+cyclingMan3.src = '../assets/img/cycling-man-3.png';
+cyclingMan4.src = '../assets/img/cycling-man-4.png';
+cyclingMan5.src = '../assets/img/cycling-man-5.png';
+cyclingMan6.src = '../assets/img/cycling-man-6.png';
 // goal posts
 const goal_post_left = new Image();
-goal_post_left.src = '../img/goal-post-left.png';
+goal_post_left.src = '../assets/img/goal-post-left.png';
 const goal_post_right = new Image();
-goal_post_right.src = '../img/goal-post-right.png';
+goal_post_right.src = '../assets/img/goal-post-right.png';
 
 
 

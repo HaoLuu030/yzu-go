@@ -7,12 +7,14 @@ import { obstacleAssets, midgroundAssets } from "./config/assets.js";
 import createHitBox from "./utils/hitBox.js";
 import { pause, resume, gameOver, setupResetButtonEvents } from "./utils/gameFunction.js";
 import { gameState } from "./config/gameState.js";
+import ScoreManager from "./utils/scoreManager.js";
 
 
 // setup
 const entityManager = new EntityManager();
 let context;
 const spawnerManager = new SpawnerManager(entityManager, obstacleAssets, midgroundAssets);
+const scoreManager = new ScoreManager("'20px', 'Press Start 2P, monospace", "#333", 5, 20);
 
 // load frames
 let playerFrames = [];
@@ -20,11 +22,11 @@ let playerFrames = [];
 // load student image
 for (let i = 0; i < 8; i++) {
     let image = new Image();
-    image.src = `./img/student-${i + 1}.png`;
+    image.src = `./assets/img/student-${i + 1}.png`;
     playerFrames.push(image);
 }
 let playerJumpImg = new Image();
-playerJumpImg.src = './img/student-jump.png';
+playerJumpImg.src = './assets/img/student-jump.png';
 // initalize a student
 let playerWidth = boardWidth * SCALE.STUDENT_WIDTH_RATIO;
 let playerHeight = playerWidth * SCALE.STUDENT_ASPECT_RATIO;
@@ -77,10 +79,12 @@ export function gameLoop() {
     if (!gameState.isRunning) return;
     // update all entities based on real time
     spawnerManager.update();
+    scoreManager.update();
     entityManager.updateAll();
     // clear and redraw the entire scene
     context.clearRect(0, 0, boardWidth, boardHeight);
     entityManager.drawAll(context);
+    scoreManager.draw(context);
     // request the next frame
     gameState.animationId =requestAnimationFrame(gameLoop);
 }
