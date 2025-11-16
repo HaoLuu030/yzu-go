@@ -3,7 +3,7 @@ import { SCALE } from "./config/scale.js";
 import Player from "./entities/player.js";
 import EntityManager from "./entities/entityManager.js";
 import SpawnerManager from "./utils/spawnerManager.js";
-import { obstacleAssets, midgroundAssets } from "./config/assets.js";
+import { obstacleAssets, midgroundAssets, backgroundAssets } from "./config/assets.js";
 import createHitBox from "./utils/hitBox.js";
 import { pause, resume, gameOver, setupResetButtonEvents } from "./utils/gameFunction.js";
 import { gameState } from "./config/gameState.js";
@@ -13,7 +13,7 @@ import ScoreManager from "./utils/scoreManager.js";
 // setup
 const entityManager = new EntityManager();
 let context;
-const spawnerManager = new SpawnerManager(entityManager, obstacleAssets, midgroundAssets);
+const spawnerManager = new SpawnerManager(entityManager, obstacleAssets, midgroundAssets, backgroundAssets);
 const scoreManager = new ScoreManager("9px 'Press Start 2P', monospace", "#333", 5, 20);
 
 

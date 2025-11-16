@@ -1,7 +1,7 @@
 import { gameState } from "../config/gameState.js";
-
+import { boardWidth } from "../entities/physics.js";
 export default class ScoreManager {
-    constructor(font="100px monospace", color ="#333", x = 5, y = 40) {
+    constructor(font = "100px monospace", color = "#333", x = 5, y = 40) {
         this.font = font;
         this.color = color;
         this.x = x;
@@ -28,21 +28,21 @@ export default class ScoreManager {
     }
 
     update() {
-        if(!gameState.isRunning || gameState.gameOver) return;
+        if (!gameState.isRunning || gameState.gameOver) return;
 
         const gain = this.basePtPersecond;
         gameState.score += gain;
 
         const currentMilestone = Math.floor(gameState.score / this.milestoneStep);
-        console.log(currentMilestone, gameState._lastMileStone);
+        // console.log(currentMilestone, gameState._lastMileStone);
         if (currentMilestone > gameState._lastMileStone) {
             gameState._lastMileStone = currentMilestone;
-            if(this.milestoneSound) this.milestoneSound.play();
+            if (this.milestoneSound) this.milestoneSound.play();
 
             this._flashUntil = performance.now() + 1000;
         }
 
-        if(gameState.score > gameState.highScore) {
+        if (gameState.score > gameState.highScore) {
             gameState.highScore = Math.floor(gameState.score);
             localStorage.setItem("dino_high_score", String(gameState.highScore));
         }
@@ -59,6 +59,15 @@ export default class ScoreManager {
 
 
         const text = `HI ${hiStr}  ${scoreStr}`;
+        // ⭐ calculate text width
+        const textWidth = context.measureText(text).width;
+
+        // ⭐ right-align: boardWidth - margin - textWidth
+        const margin = 20;
+        this.x = boardWidth - textWidth - margin;
+
+
+
         context.fillText(text, this.x, this.y);
         context.restore();
     }

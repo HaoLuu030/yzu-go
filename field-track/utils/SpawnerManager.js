@@ -1,29 +1,36 @@
 import Entity from "../entities/entity.js";
 import { AnimatedObstacle, StaticObstacle } from "../entities/obstacle.js";
-import { boardWidth, groundY, groundY1 } from "../entities/physics.js";
+import { boardWidth, groundY, groundY1, groundY2 } from "../entities/physics.js";
 import { gameState } from "../config/gameState.js";
 import createHitBox from "./hitBox.js";
 
 export default class SpawnerManager {
-    constructor(entityManager, obstacleAssets, midgroundAssets) {
+    constructor(entityManager, obstacleAssets, midgroundAssets, backgroundAssets) {
         this.entityManager = entityManager;
         this.obstacleAssets = obstacleAssets;
         this.midgroundAssets = midgroundAssets;
+        this.backgroundAssets = backgroundAssets;
         // spawn period for obstacle
         this.obstacleframeCount = 0;
         this.obstaclespawnInterval = 180; // 180
+        this.lastObstacle = null;
         // spawn period for midground interval
         this.midgroundFrameCount = 0;
         this.midgroundSpawnInterval = 500;
-        this.lastObstacle = null;
         this.lastMidGround = null;
+        // spawn period for background interval
+        this.backgroundFrameCount = 0;
+        this.backgroundSpawnInterval = 100;
+        this.lastBackground = null;
     }
 
     update() {
         this.obstacleframeCount++;
         this.midgroundFrameCount++;
+        this.backgroundFrameCount++;
         const objectInterval = this.obstaclespawnInterval / gameState.spawnRateScale;
         const midgroundInterval = this.midgroundSpawnInterval / gameState.spawnRateScale;
+        const backgroundInterval = this.backgroundSpawnInterval / gameState.spawnRateScale;
         if (this.obstacleframeCount >= objectInterval) {
             this.obstacleframeCount = 0;
             this.spawnObstacle();
@@ -32,6 +39,11 @@ export default class SpawnerManager {
         if (this.midgroundFrameCount >= midgroundInterval) {
             this.midgroundFrameCount = 0;
             this.spawnMidgroundObject();
+        }
+
+        if (this.backgroundFrameCount >= backgroundInterval) {
+            this.backgroundFrameCount = 0;
+            this.spawnBackgroundObject();
         }
     }
 
@@ -74,17 +86,33 @@ export default class SpawnerManager {
         let type;
         do {
             type = this.chooseType('midground');
-        } while (type == this.lastMidGround);
-        this.lastMidGround = type;
+        } while (type == this.lastBackground);
+        this.lastBackground = type;
         // console.log(type);
         const config = this.midgroundAssets[type];
-        const {width, height, speed, img} = config;
+        const { width, height, speed, img } = config;
         const x = boardWidth + 100;
         const y = groundY1 - height;
         let object;
         object = new Entity(x, y, width, height, speed, img);
         this.entityManager.add(object, "midground");
+    }
 
+    spawnBackgroundObject() {
+        let type;
+        do {
+            type = this.chooseType('background');
+        } while (type == this.lastBackground);
+        this.lastBackground = type;
+        // console.log(type);
+        const config = this.backgroundAssets[type];
+        const { width, height, speed, img } = config;
+        const x = boardWidth + 100;
+        const y = groundY2 - height;
+        let object;
+        object = new Entity(x, y, width, height, speed, img);
+        this.entityManager.add(object, "background");
+        this.backgroundSpawnInterval = 200 + Math.random() * 100;
     }
 
 
@@ -99,19 +127,24 @@ export default class SpawnerManager {
             case "obstacle":
                 assets = this.obstacleAssets;
                 break;
+            case "background":
+                assets = this.backgroundAssets;
         }
         // sweep through all the obstacles in the obstacle asset file
         for (const [key, value] of Object.entries(assets)) {
             if (rand < value.probability) return key;
         }
         // fall back
-        // return Object.keys(this.assets)[0];
+        return Object.keys(assets)[0];
     }
 
     reset() {
-        this.frameCount = 0;          // start counting from zero again
-        this.lastSpawnedType = null;  // allow any obstacle to spawn first
-        this.spawnInterval = 180;     // reset to your default interval
+        this.obstacleframeCount = 0;
+        this.midgroundFrameCount = 0;
+        this.backgroundFrameCount = 0;
+        this.lastObstacle = null;
+        this.lastMidGround = null;
+        this.lastBackground = null;
     }
 
 }

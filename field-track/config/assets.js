@@ -63,6 +63,21 @@ const goal_post_left = new Image();
 goal_post_left.src = '../assets/img/goal-post-left.png';
 const goal_post_right = new Image();
 goal_post_right.src = '../assets/img/goal-post-right.png';
+// clouds
+const cloud_1 = new Image();
+
+const cloud_3 = new Image();
+const cloud_4 = new Image();
+const cloud_6 = new Image();
+const cloud_7 = new Image();
+const cloud_8 = new Image();
+cloud_1.src = '../assets/img/cloud-1.png';
+
+cloud_3.src = '../assets/img/cloud-3.png';
+cloud_4.src = '../assets/img/cloud-4.png';
+cloud_6.src = '../assets/img/cloud-6.png';
+cloud_7.src = '../assets/img/cloud-7.png';
+cloud_8.src = '../assets/img/cloud-8.png';
 
 
 
@@ -171,7 +186,7 @@ export const midgroundAssets = {
         get height() {
             return this.width * SCALE.GOAL_POST_ASPECT_RATIO;
         },
-        speed: 4,
+        speed: 3,
         probability: 0.5
     },
 
@@ -181,8 +196,71 @@ export const midgroundAssets = {
         get height() {
             return this.width * SCALE.GOAL_POST_ASPECT_RATIO;
         },
-        speed: 4,
+        speed: 3,
         probability: 1
     }
+}
+
+export const backgroundAssets = {
+    cloud_1: {
+        img: cloud_1,
+        width: boardWidth * SCALE.SMALL_CLOUD_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.SMALL_CLOUD_ASPECT_RATIO / 1.5;
+        },
+        speed: 3.5,
+        probability: 0.1
+    },
+
+
+    cloud_3: {
+        img: cloud_3,
+        width: boardWidth * SCALE.BIG_CLOUD_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.BIG_CLOUD_ASPECT_RATIO;
+        },
+        speed: 3.5,
+        probability: 0.3
+    },
+
+    cloud_4: {
+        img: cloud_4,
+        width: boardWidth * SCALE.MID_CLOUD_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.MID_CLOUD_ASPECT_RATIO;
+        },
+        speed: 3.5,
+        probability: 0.4
+    },
+
+    cloud_6: {
+        img: cloud_6,
+        width: boardWidth * SCALE.BIG_CLOUD_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.BIG_CLOUD_ASPECT_RATIO;
+        },
+        speed: 3.5,
+        probability: 0.6
+    },
+
+    cloud_7: {
+        img: cloud_7,
+        width: boardWidth * SCALE.MID_CLOUD_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.MID_CLOUD_ASPECT_RATIO;
+        },
+        speed: 3.5,
+        probability: 0.7
+    },
+
+    cloud_8: {
+        img: cloud_8,
+        width: boardWidth * SCALE.SMALL_CLOUD_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.SMALL_CLOUD_ASPECT_RATIO / 1.5;
+        },
+        speed: 3.5,
+        probability: 0.8
+    },
 }
 
