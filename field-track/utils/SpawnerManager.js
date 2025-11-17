@@ -112,7 +112,7 @@ export default class SpawnerManager {
         let object;
         object = new Entity(x, y, width, height, speed, img);
         this.entityManager.add(object, "background");
-        this.backgroundSpawnInterval = 200 + Math.random() * 100;
+        this.backgroundSpawnInterval = Math.random() * 100;
     }
 
 
