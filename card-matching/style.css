@@ -1,0 +1,57 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(8, 60px);
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+    position: relative;
+}
+
+.cell {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cell img {
+    width: 48px;
+    height: auto;
+    pointer-events: none;
+}
+
+.cell.empty {
+    background: transparent;
+    border: none;
+    cursor: default;
+}
+
+.cell.active {
+    border: 2px solid red;
+}
+
+/* Canvas overlays the board */
+#lineCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+/* score board */
+#hud {
+    font-size: 20px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
