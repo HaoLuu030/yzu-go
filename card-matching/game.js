@@ -351,6 +351,25 @@ function hasAnyMovesLeft() {
     return false; // no moves remaining
 }
 
+function resetGame() {
+    // save score + time to localStorage
+    localStorage.setItem("lastScore", score);
+    localStorage.setItem("lastTime", time);
+
+    clearInterval(timerInterval);
+
+    // reset variables
+    score = 0;
+    time = 0;
+    scoreDisplay.textContent = "Score: 0";
+    timeDisplay.textContent = "Time: 0s";
+
+    // rebuild the board
+    init();
+}
+
+document.getElementById("resetBtn").addEventListener("click", resetGame);
+
 
 
 init();
