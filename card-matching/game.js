@@ -1,4 +1,4 @@
-const ROW = 6 + 2; // board plus outer border
+const ROW = 8 + 2; // board plus outer border
 const COL = 8 + 2;
 
 const board = [];
@@ -11,8 +11,18 @@ const icons = [
     "https://flagcdn.com/w80/ca.png",
     "https://flagcdn.com/w80/kr.png",
     "https://flagcdn.com/w80/vn.png",
-    "https://flagcdn.com/w80/fr.png",
-    "https://flagcdn.com/w80/gb.png"
+    "https://flagcdn.com/w80/fj.png",
+    "https://flagcdn.com/w80/gb.png",
+    "https://flagcdn.com/w80/it.png",
+    "https://flagcdn.com/w80/sa.png",
+    "https://flagcdn.com/w80/cz.png",
+    "https://flagcdn.com/w80/np.png",
+    "https://flagcdn.com/w80/ps.png",
+    "https://flagcdn.com/w80/gm.png",
+    "https://flagcdn.com/w80/vc.png",
+    "https://flagcdn.com/w80/nl.png",
+    "https://flagcdn.com/w80/mm.png",
+    "https://flagcdn.com/w80/kg.png",
 ];
 
 const gameBoard = document.getElementById("board");
@@ -32,6 +42,12 @@ let score = 0;
 let time = 0;
 let timerInterval = null;
 
+function getRandomIconSet(count) {
+    const shuffled = [...icons].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count);
+}
+
+
 /* -------------------------
    Initialize the board
 ------------------------- */
@@ -39,8 +55,12 @@ function init() {
     let items = [];
 
     // make pairs
+    // pick 12 random icons for this game
+    const gameIcons = getRandomIconSet(12);
+
+    // generate pairs using only the selected icons
     for (let i = 0; i < (ROW - 2) * (COL - 2) / 2; i++) {
-        items.push(icons[i % icons.length], icons[i % icons.length]);
+        items.push(gameIcons[i % gameIcons.length], gameIcons[i % gameIcons.length]);
     }
 
     // shuffle
@@ -52,8 +72,8 @@ function init() {
         for (let c = 0; c < COL; c++) {
             board[r][c] =
                 (r === 0 || r === ROW - 1 || c === 0 || c === COL - 1)
-                ? ""
-                : items.pop();
+                    ? ""
+                    : items.pop();
         }
     }
 
@@ -178,8 +198,18 @@ function select(r, c) {
                     // delay rendering to allow animation
                     setTimeout(() => {
                         render();
-                        checkGameEnd();   // NEW
+
+                        // If player won, stop — do NOT show lose message
+                        if (checkGameEnd()) return;
+
+                        // Otherwise, check for dead board (lose condition)
+                        if (!hasAnyMovesLeft()) {
+                            clearInterval(timerInterval);
+                            alert(`❌ No more moves left!\nYou lose!\nScore: ${score}\nTime: ${time}s`);
+                        }
                     }, 300);
+
+
                 }
             }
         }
@@ -202,15 +232,17 @@ function highlight(r, c, on) {
 function checkGameEnd() {
     for (let r = 1; r < ROW - 1; r++) {
         for (let c = 1; c < COL - 1; c++) {
-            if (board[r][c] !== "") return;
+            if (board[r][c] !== "") return false; // not finished
         }
     }
 
+    // WIN CASE
     clearInterval(timerInterval);
-
     setTimeout(() => {
         alert(`🎉 You win!\nScore: ${score}\nTime: ${time}s`);
     }, 200);
+
+    return true; // winner
 }
 
 /* -------------------------
@@ -287,5 +319,38 @@ function twoTurnPoints(a, b) {
     }
     return null;
 }
+
+function canConnect(a, b) {
+    return getPath(a, b) !== null;
+}
+
+function hasAnyMovesLeft() {
+    // check all interior cells
+    for (let r1 = 1; r1 < ROW - 1; r1++) {
+        for (let c1 = 1; c1 < COL - 1; c1++) {
+
+            if (!board[r1][c1]) continue; // skip empty
+
+            for (let r2 = 1; r2 < ROW - 1; r2++) {
+                for (let c2 = 1; c2 < COL - 1; c2++) {
+
+                    if (!board[r2][c2]) continue; // skip empty
+                    if (r1 === r2 && c1 === c2) continue; // same tile
+                    if (board[r1][c1] !== board[r2][c2]) continue; // must match type
+
+                    // FOUND A CONNECTABLE PAIR
+                    if (canConnect({ r: r1, c: c1 }, { r: r2, c: c2 })) {
+                        return true;
+                    }
+                }
+            }
+
+        }
+    }
+
+    return false; // no moves remaining
+}
+
+
 
 init();
