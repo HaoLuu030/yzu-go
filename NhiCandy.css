@@ -1,0 +1,37 @@
+/*set background fixed, Arial, Helvetica,
+ sans-serif, text white and align text to center */
+body {
+    background: url(./background.jpg) no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    text-align: center;
+}
+
+/*450 * 450
+background - lightblue
+border slategray 5px solid
+radius 10px
+margin 0 auto
+wrap fit the image into its cotainer
+*/
+
+#board
+{
+    height: 450px;
+    width: 450px;
+    background-color: lightblue;
+    border: 5px solid slategray;
+    border-radius: 10px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+#board img{
+    height: 50px;
+    width: 50px;
+}
+
+
