@@ -1,9 +1,12 @@
-const ROW = 8 + 2; // board plus outer border
-const COL = 8 + 2;
+/* ============================================================
+   1. CONSTANTS & GLOBAL GAME STATE
+============================================================ */
+
+const ROW = 8 + 2; 
+const COL = 15 + 2;
 
 const board = [];
 
-// Option B — real flag images (copy-pasteable URLs)
 const icons = [
     "https://flagcdn.com/w80/tw.png",
     "https://flagcdn.com/w80/jp.png",
@@ -26,21 +29,23 @@ const icons = [
 ];
 
 const gameBoard = document.getElementById("board");
-
-// Canvas for connecting line
 const canvas = document.getElementById("lineCanvas");
 const ctx = canvas.getContext("2d");
 
-// NEW: Score + Timer display
 const scoreDisplay = document.getElementById("score");
 const timeDisplay = document.getElementById("time");
 
 let first = null;
 
-// NEW: score + timer variables
+let baseScore = 10;
 let score = 0;
 let time = 0;
 let timerInterval = null;
+
+
+/* ============================================================
+   2. RANDOMIZATION HELPERS
+============================================================ */
 
 function getRandomIconSet(count) {
     const shuffled = [...icons].sort(() => Math.random() - 0.5);
@@ -48,85 +53,51 @@ function getRandomIconSet(count) {
 }
 
 
-/* -------------------------
-   Initialize the board
-------------------------- */
+/* ============================================================
+   3. GAME INITIALIZATION
+============================================================ */
+
 function init() {
     let items = [];
 
-    // make pairs
-    // pick 12 random icons for this game
     const gameIcons = getRandomIconSet(12);
+    const PAIR_COUNT = ((ROW - 2) * (COL - 2)) / 2;
 
-    // generate pairs using only the selected icons
-    for (let i = 0; i < (ROW - 2) * (COL - 2) / 2; i++) {
+    for (let i = 0; i < PAIR_COUNT; i++) {
         items.push(gameIcons[i % gameIcons.length], gameIcons[i % gameIcons.length]);
     }
 
-    // shuffle
     items.sort(() => Math.random() - 0.5);
 
-    // fill board
     for (let r = 0; r < ROW; r++) {
         board[r] = [];
         for (let c = 0; c < COL; c++) {
-            board[r][c] =
+            board[r][c] = 
                 (r === 0 || r === ROW - 1 || c === 0 || c === COL - 1)
-                    ? ""
-                    : items.pop();
+                ? ""
+                : items.pop();
         }
     }
 
     render();
     resizeCanvas();
-
-    startTimer();   // NEW
+    startTimer();
 }
 
-/* -------------------------
-   Timer start (NEW)
-------------------------- */
-function startTimer() {
-    timerInterval = setInterval(() => {
-        time++;
-        timeDisplay.textContent = `Time: ${time}s`;
-    }, 1000);
-}
 
-/* -------------------------
-   Add score (NEW)
-------------------------- */
-function addScore(points) {
-    score += points;
-    scoreDisplay.textContent = `Score: ${score}`;
-}
+/* ============================================================
+   4. RENDERING SYSTEM
+============================================================ */
 
-/* -------------------------
-   Resize canvas
-------------------------- */
-function resizeCanvas() {
-    const rect = gameBoard.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-    canvas.style.top = rect.top + "px";
-    canvas.style.left = rect.left + "px";
-}
-
-window.addEventListener("resize", resizeCanvas);
-
-/* -------------------------
-   Render the board
-------------------------- */
 function render() {
     gameBoard.innerHTML = "";
     gameBoard.style.gridTemplateColumns = `repeat(${COL - 2}, 60px)`;
 
     for (let r = 1; r < ROW - 1; r++) {
         for (let c = 1; c < COL - 1; c++) {
+
             const div = document.createElement("div");
             div.className = board[r][c] ? "cell" : "cell empty";
-            div.dataset.r = r;
-            div.dataset.c = c;
 
             if (board[r][c]) {
                 div.innerHTML = `<img src="${board[r][c]}">`;
@@ -138,9 +109,17 @@ function render() {
     }
 }
 
-/* -------------------------
-   Convert cell to canvas center
-------------------------- */
+function resizeCanvas() {
+    const rect = gameBoard.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    canvas.style.top = `${rect.top}px`;
+    canvas.style.left = `${rect.left}px`;
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+
 function cellCenter(r, c) {
     const cells = document.getElementsByClassName("cell");
     const index = (r - 1) * (COL - 2) + (c - 1);
@@ -152,9 +131,6 @@ function cellCenter(r, c) {
     };
 }
 
-/* -------------------------
-   Draw connecting path
-------------------------- */
 function drawPath(points) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = "red";
@@ -162,92 +138,73 @@ function drawPath(points) {
 
     ctx.beginPath();
     ctx.moveTo(points[0].x, points[0].y);
+
     for (let i = 1; i < points.length; i++) {
         ctx.lineTo(points[i].x, points[i].y);
     }
+
     ctx.stroke();
 
     setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), 300);
 }
 
-/* -------------------------
-   Handle tile selection
-------------------------- */
+
+/* ============================================================
+   5. INPUT HANDLING (CLICK LOGIC)
+============================================================ */
+
 function select(r, c) {
     const val = board[r][c];
 
     if (!first) {
         first = { r, c, val };
         highlight(r, c, true);
-    } else {
-        if (first.r !== r || first.c !== c) {
-            if (first.val === val) {
+        return;
+    }
 
-                // find path
-                const path = getPath(first, { r, c });
-                if (path) {
-                    board[first.r][first.c] = "";
-                    board[r][c] = "";
+    if (first.r !== r || first.c !== c) {
 
-                    const points = path.map(p => cellCenter(p.r, p.c));
-                    drawPath(points);
+        if (first.val === val) {
+            const path = getPath(first, { r, c });
 
-                    // NEW: add score
-                    addScore(10);
+            if (path) {
+                board[first.r][first.c] = "";
+                board[r][c] = "";
 
-                    // delay rendering to allow animation
-                    setTimeout(() => {
+                drawPath(path.map(p => cellCenter(p.r, p.c)));
+                addScore(baseScore);
+
+                setTimeout(() => {
+                    render();
+
+                    if (checkGameEnd()) return;
+
+                    if (!hasAnyMovesLeft()) {
+                        alert("⚠️ No moves left! The board will shuffle.");
+                        shuffleBoard();
                         render();
+                    }
 
-                        // If player won, stop — do NOT show lose message
-                        if (checkGameEnd()) return;
-
-                        // Otherwise, check for dead board (lose condition)
-                        if (!hasAnyMovesLeft()) {
-                            clearInterval(timerInterval);
-                            alert(`❌ No more moves left!\nYou lose!\nScore: ${score}\nTime: ${time}s`);
-                        }
-                    }, 300);
-
-
-                }
+                }, 300);
             }
         }
-        highlight(first.r, first.c, false);
-        first = null;
     }
+
+    highlight(first.r, first.c, false);
+    first = null;
 }
 
-/* -------------------------
-   Highlight selected tile
-------------------------- */
+
 function highlight(r, c, on) {
     const idx = (r - 1) * (COL - 2) + (c - 1);
-    document.getElementsByClassName("cell")[idx].classList.toggle("active", on);
+    document.getElementsByClassName("cell")[idx]
+        .classList.toggle("active", on);
 }
 
-/* -------------------------
-   Check if game ended (NEW)
-------------------------- */
-function checkGameEnd() {
-    for (let r = 1; r < ROW - 1; r++) {
-        for (let c = 1; c < COL - 1; c++) {
-            if (board[r][c] !== "") return false; // not finished
-        }
-    }
 
-    // WIN CASE
-    clearInterval(timerInterval);
-    setTimeout(() => {
-        alert(`🎉 You win!\nScore: ${score}\nTime: ${time}s`);
-    }, 200);
-
-    return true; // winner
-}
-
-/* -------------------------
-   Path-finding logic
-------------------------- */
+/* ============================================================
+   6. PATHFINDING (CLEARLINE, L-TURN, Z-TURN)
+============================================================ */
 
 function inBounds(p) {
     return p.r > 0 && p.r < ROW - 1 && p.c > 0 && p.c < COL - 1;
@@ -269,16 +226,14 @@ function clearLine(a, b) {
     if (!inBounds(a) || !inBounds(b)) return false;
 
     if (a.r === b.r) {
-        for (let c = Math.min(a.c, b.c) + 1; c < Math.max(a.c, b.c); c++) {
+        for (let c = Math.min(a.c, b.c) + 1; c < Math.max(a.c, b.c); c++)
             if (board[a.r][c] !== "") return false;
-        }
         return true;
     }
 
     if (a.c === b.c) {
-        for (let r = Math.min(a.r, b.r) + 1; r < Math.max(a.r, b.r); r++) {
+        for (let r = Math.min(a.r, b.r) + 1; r < Math.max(a.r, b.r); r++)
             if (board[r][a.c] !== "") return false;
-        }
         return true;
     }
 
@@ -294,16 +249,13 @@ function oneTurnPoint(a, b) {
     for (const p of candidates) {
         if (!inBounds(p)) continue;
         if (board[p.r][p.c] !== "") continue;
-
-        if (clearLine(a, p) && clearLine(p, b)) {
-            return p;
-        }
+        if (clearLine(a, p) && clearLine(p, b)) return p;
     }
+
     return null;
 }
 
 function twoTurnPoints(a, b) {
-    // search interior only (ignore border)
     for (let r = 1; r < ROW - 1; r++) {
         for (let c = 1; c < COL - 1; c++) {
 
@@ -320,56 +272,113 @@ function twoTurnPoints(a, b) {
     return null;
 }
 
-function canConnect(a, b) {
-    return getPath(a, b) !== null;
-}
 
-function hasAnyMovesLeft() {
-    // check all interior cells
-    for (let r1 = 1; r1 < ROW - 1; r1++) {
-        for (let c1 = 1; c1 < COL - 1; c1++) {
+/* ============================================================
+   7. SCORE & TIMER SYSTEM
+============================================================ */
 
-            if (!board[r1][c1]) continue; // skip empty
+function startTimer() {
+    timerInterval = setInterval(() => {
+        time++;
+        timeDisplay.textContent = `Time: ${time}s`;
 
-            for (let r2 = 1; r2 < ROW - 1; r2++) {
-                for (let c2 = 1; c2 < COL - 1; c2++) {
-
-                    if (!board[r2][c2]) continue; // skip empty
-                    if (r1 === r2 && c1 === c2) continue; // same tile
-                    if (board[r1][c1] !== board[r2][c2]) continue; // must match type
-
-                    // FOUND A CONNECTABLE PAIR
-                    if (canConnect({ r: r1, c: c1 }, { r: r2, c: c2 })) {
-                        return true;
-                    }
-                }
-            }
-
+        if (time % 30 === 0 && baseScore > 2) {
+            baseScore -= 2;
         }
-    }
 
-    return false; // no moves remaining
+    }, 1000);
 }
+
+function addScore(points) {
+    score += points;
+    scoreDisplay.textContent = `Score: ${score}`;
+}
+
+
+/* ============================================================
+   8. BOARD UTILITIES (RESET, SHUFFLE)
+============================================================ */
+
+function shuffleBoard() {
+    let tiles = [];
+
+    for (let r = 1; r < ROW - 1; r++)
+        for (let c = 1; c < COL - 1; c++)
+            if (board[r][c] !== "") tiles.push(board[r][c]);
+
+    tiles.sort(() => Math.random() - 0.5);
+
+    let i = 0;
+    for (let r = 1; r < ROW - 1; r++)
+        for (let c = 1; c < COL - 1; c++)
+            if (board[r][c] !== "") board[r][c] = tiles[i++];
+}
+
 
 function resetGame() {
-    // save score + time to localStorage
     localStorage.setItem("lastScore", score);
     localStorage.setItem("lastTime", time);
 
     clearInterval(timerInterval);
 
-    // reset variables
     score = 0;
     time = 0;
     scoreDisplay.textContent = "Score: 0";
     timeDisplay.textContent = "Time: 0s";
 
-    // rebuild the board
     init();
 }
 
+
+/* ============================================================
+   9. MOVE DETECTION (DEAD BOARD / GAME END)
+============================================================ */
+
+function canConnect(a, b) {
+    return getPath(a, b) !== null;
+}
+
+function hasAnyMovesLeft() {
+    for (let r1 = 1; r1 < ROW - 1; r1++) {
+        for (let c1 = 1; c1 < COL - 1; c1++) {
+
+            if (!board[r1][c1]) continue;
+
+            for (let r2 = 1; r2 < ROW - 1; r2++) {
+                for (let c2 = 1; c2 < COL - 1; c2++) {
+
+                    if (!board[r2][c2]) continue;
+                    if (r1 === r2 && c1 === c2) continue;
+                    if (board[r1][c1] !== board[r2][c2]) continue;
+
+                    if (canConnect({ r: r1, c: c1 }, { r: r2, c: c2 }))
+                        return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+
+function checkGameEnd() {
+    for (let r = 1; r < ROW - 1; r++)
+        for (let c = 1; c < COL - 1; c++)
+            if (board[r][c] !== "") return false;
+
+    clearInterval(timerInterval);
+    setTimeout(() => {
+        alert(`🎉 You win!\nScore: ${score}\nTime: ${time}s`);
+    }, 200);
+
+    return true;
+}
+
+
+/* ============================================================
+   10. EVENT LISTENERS & GAME START
+============================================================ */
+
 document.getElementById("resetBtn").addEventListener("click", resetGame);
-
-
 
 init();

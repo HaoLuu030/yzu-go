@@ -1,6 +1,15 @@
 body {
     font-family: sans-serif;
     text-align: center;
+    background-size: cover;
+    background-image: url(./img/background.png);
+    /* makes the image cover the whole screen */
+    background-repeat: no-repeat;
+    /* prevents tiling */
+    background-position: center;
+    /* keeps the image centered */
+    background-attachment: fixed;
+    /* optional: keeps background fixed on scroll */
 }
 
 #board {
@@ -47,6 +56,7 @@ body {
     left: 0;
     pointer-events: none;
 }
+
 /* score board */
 #hud {
     font-size: 20px;
