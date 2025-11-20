@@ -6,7 +6,17 @@ var score = 0;
 var currtile;
 var nextile;
 
-window.onload = function () {
+const bgm = document.getElementById("bgm");
+const musicBtn = document.getElementById("music-btn");
+let musicOn = false;  // initially off until user clicks start
+
+let timeLeft = 60;     // seconds
+let timerInterval = null;
+let gameStarted = false;
+
+
+
+function beginGame() {
     startGame();
     window.setInterval(function () {
         crushCandy();
@@ -16,6 +26,7 @@ window.onload = function () {
         generateCandy();
     }, 100);
 }
+
 function randomCandy() {
     return candies[Math.floor(Math.random() * candies.length)]; //0 - 5.99
 }
@@ -55,11 +66,202 @@ function startGame() {
     console.log(board);
 }
 
+function crushT() {
+    let created = false;
+
+    // Up-T and Down-T (center at [i][j])
+    for (let i = 1; i < rows - 1; i++) {
+        for (let j = 1; j < columns - 1; j++) {
+
+            let center = board[i][j].src;
+
+            if (center.includes("blank")) continue;
+
+            let up = board[i - 1][j].src;
+            let down = board[i + 1][j].src;
+            let left = board[i][j - 1].src;
+            let right = board[i][j + 1].src;
+
+            // Up-T: row above has 3 same, and center+down same
+            if (up == left && up == right && up == center && center == down) {
+                board[i - 1][j - 1].src = "./images/blank.gif"; // left arm
+                board[i - 1][j].src = "./images/blank.gif"; // top center
+                board[i - 1][j + 1].src = "./images/blank.gif"; // right arm
+                board[i + 1][j].src = "./images/blank.gif"; // bottom
+                board[i][j].src = "./images/luggage.png";
+                score += 20;
+                created = true;
+            }
+
+            // Down-T
+            if (down == left && down == right && down == center && center == up) {
+                board[i + 1][j - 1].src = "./images/blank.gif";
+                board[i + 1][j].src = "./images/blank.gif";
+                board[i + 1][j + 1].src = "./images/blank.gif";
+                board[i - 1][j].src = "./images/blank.gif";
+                board[i][j].src = "./images/luggage.png";
+                score += 20;
+                created = true;
+            }
+        }
+    }
+
+    // Left-T and Right-T (center at [i][j])
+    for (let i = 1; i < rows - 1; i++) {
+        for (let j = 1; j < columns - 1; j++) {
+
+            let center = board[i][j].src;
+            if (center.includes("blank")) continue;
+
+            let up = board[i - 1][j].src;
+            let down = board[i + 1][j].src;
+            let left = board[i][j - 1].src;
+            let right = board[i][j + 1].src;
+
+            // Left-T
+            if (left == up && left == down && left == center && center == right) {
+                board[i - 1][j - 1].src = "./images/blank.gif";
+                board[i][j - 1].src = "./images/blank.gif";
+                board[i + 1][j - 1].src = "./images/blank.gif";
+                board[i][j + 1].src = "./images/blank.gif";
+                board[i][j].src = "./images/luggage.png";
+                score += 20;
+                created = true;
+            }
+
+            // Right-T
+            if (right == up && right == down && right == center && center == left) {
+                board[i - 1][j + 1].src = "./images/blank.gif";
+                board[i][j + 1].src = "./images/blank.gif";
+                board[i + 1][j + 1].src = "./images/blank.gif";
+                board[i][j - 1].src = "./images/blank.gif";
+                board[i][j].src = "./images/luggage.png";
+                score += 20;
+                created = true;
+            }
+        }
+    }
+
+    if (created) {
+        const sound = new Audio("../sound effects/shining.mp3");
+        sound.play();
+    }
+}
+
+
+function crushL() {
+    let created = false;
+
+    // We need a 3x3 scanning window (i = 0..rows-3, j = 0..cols-3)
+    for (let i = 0; i < rows - 2; i++) {
+        for (let j = 0; j < columns - 2; j++) {
+
+            // Names of each tile in the 3×3 window
+            let a = board[i][j].src;
+            let b = board[i][j + 1].src;
+            let c = board[i][j + 2].src;
+            let d = board[i + 1][j].src;
+            let e = board[i + 1][j + 1].src;
+            let f = board[i + 1][j + 2].src;
+            let g = board[i + 2][j].src;
+            let h = board[i + 2][j + 1].src;
+            let k = board[i + 2][j + 2].src; // bottom-right
+
+            // skip blanks
+            if (a.includes("blank")) continue;
+
+            // -------------------------
+            // 1. Normal L shape:
+            // X
+            // X
+            // XXX
+            // tiles: a, d, g, h, k
+            // -------------------------
+            if (a == d && d == g && g == h && h == k) {
+                board[i][j].src = "./images/blank.gif";
+                board[i + 1][j].src = "./images/blank.gif";
+                board[i + 2][j].src = "./images/blank.gif";
+                board[i + 2][j + 1].src = "./images/blank.gif";
+                board[i + 2][j + 2].src = "./images/blank.gif";
+
+                board[i + 2][j + 2].src = "./images/luggage.png"; // corner
+                score += 25;
+                created = true;
+            }
+
+            // -------------------------
+            // 2. Upside-down L:
+            // XXX
+            //   X
+            //   X
+            // tiles: a, b, c, f, k
+            // -------------------------
+            if (a == b && b == c && c == f && f == k) {
+                board[i][j].src = "./images/blank.gif";
+                board[i][j + 1].src = "./images/blank.gif";
+                board[i][j + 2].src = "./images/blank.gif";
+                board[i + 1][j + 2].src = "./images/blank.gif";
+                board[i + 2][j + 2].src = "./images/blank.gif";
+
+                board[i][j + 2].src = "./images/luggage.png"; // corner
+                score += 25;
+                created = true;
+            }
+
+            // -------------------------
+            // 3. Mirrored L:
+            //   X
+            //   X
+            // XXX
+            // tiles: c, f, k, h, g
+            // -------------------------
+            if (c == f && f == k && k == h && h == g) {
+                board[i][j + 2].src = "./images/blank.gif";
+                board[i + 1][j + 2].src = "./images/blank.gif";
+                board[i + 2][j + 2].src = "./images/blank.gif";
+                board[i + 2][j + 1].src = "./images/blank.gif";
+                board[i + 2][j].src = "./images/blank.gif";
+
+                board[i + 2][j].src = "./images/luggage.png"; // corner
+                score += 25;
+                created = true;
+            }
+
+            // -------------------------
+            // 4. Rotated L:
+            // XXX
+            // X
+            // X
+            // tiles: a, b, c, d, g
+            // -------------------------
+            if (a == b && b == c && c == d && d == g) {
+                board[i][j].src = "./images/blank.gif";
+                board[i][j + 1].src = "./images/blank.gif";
+                board[i][j + 2].src = "./images/blank.gif";
+                board[i + 1][j].src = "./images/blank.gif";
+                board[i + 2][j].src = "./images/blank.gif";
+
+                board[i][j].src = "./images/luggage.png"; // corner
+                score += 25;
+                created = true;
+            }
+        }
+    }
+
+    if (created) {
+        const sound = new Audio("../sound effects/shining.mp3");
+        sound.play();
+    }
+}
+
+
 
 
 function crushCandy() {
     crushFive();
     crushFour();
+    crushT();
+    crushL();
     crushThree();
     document.getElementById("score").innerText = score;
 
@@ -363,3 +565,134 @@ function generateCandy() {
         }
     }
 }
+
+// ==== MUSIC FUNCTIONS (top-level) ====
+
+function fadeInMusic(bgm, targetVolume = 0.6) {
+    bgm.volume = 0;
+    bgm.play();
+
+    let v = 0;
+    const fade = setInterval(() => {
+        v += 0.02;
+        if (v >= targetVolume) {
+            v = targetVolume;
+            clearInterval(fade);
+        }
+        bgm.volume = v;
+    }, 50);
+}
+
+function fadeOutMusic(bgm) {
+    let v = bgm.volume;
+    const fade = setInterval(() => {
+        v -= 0.02;
+        if (v <= 0) {
+            v = 0;
+            bgm.pause();
+            clearInterval(fade);
+        }
+        bgm.volume = v;
+    }, 50);
+}
+
+
+function startCountdown() {
+    timerInterval = setInterval(() => {
+
+        timeLeft--;
+        document.getElementById("timer").innerText = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            endGame();
+        }
+
+    }, 1000);
+}
+
+
+function endGame() {
+    // stop candy generation
+    gameStarted = false;
+
+    // show overlay
+    document.getElementById("gameover-overlay").style.display = "flex";
+}
+
+
+// ==== GAME STARTUP ====
+
+window.onload = function () {
+
+    // ==== DOM ELEMENTS ====
+    const bgm = document.getElementById("bgm");
+    const musicBtn = document.getElementById("music-btn");
+    const startOverlay = document.getElementById("overlay");
+    const gameOverOverlay = document.getElementById("gameover-overlay");
+
+    // ==== STATE ====
+    let musicOn = false;
+
+
+    // ===== MUSIC TOGGLE BUTTON =====
+    musicBtn.onclick = function () {
+        if (musicOn) {
+            fadeOutMusic(bgm);
+            musicBtn.textContent = "🔇 Music Off";
+            musicOn = false;
+        } else {
+            fadeInMusic(bgm);
+            musicBtn.textContent = "🔊 Music On";
+            musicOn = true;
+        }
+    };
+
+
+    // ===== START OVERLAY CLICK =====
+    startOverlay.onclick = function () {
+
+        // hide start overlay
+        startOverlay.style.display = "none";
+
+        // auto play music on start
+        if (!musicOn) {
+            fadeInMusic(bgm);
+            musicBtn.textContent = "🔊 Music On";
+            musicOn = true;
+        }
+
+        // start game only once
+        if (!gameStarted) {
+            gameStarted = true;
+            beginGame();
+            startCountdown();
+        }
+    };
+
+
+    // ===== GAME OVER RESTART =====
+    gameOverOverlay.onclick = function () {
+
+        // hide overlay
+        gameOverOverlay.style.display = "none";
+
+        // reset timer
+        timeLeft = 60;
+        document.getElementById("timer").innerText = timeLeft;
+
+        // reset score
+        score = 0;
+        document.getElementById("score").innerText = 0;
+
+        // reset board
+        board = [];
+        document.getElementById("board").innerHTML = "";
+
+        // restart game
+        beginGame();
+        startCountdown();
+        gameStarted = true;
+    };
+};
+
