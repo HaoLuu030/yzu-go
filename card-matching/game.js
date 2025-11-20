@@ -371,6 +371,19 @@ function resetGame() {
     init();
 }
 
+function applyShufflePenalty() {
+    // cost 20 points, never below 0
+    score = Math.max(0, score - 20);
+    scoreDisplay.textContent = `Score: ${score}`;
+
+    shuffleBoard();
+    render();
+
+    // Optional: play a shuffle sound later
+    // playShuffleSound();
+}
+
+
 
 /* ============================================================
    9. MOVE DETECTION (DEAD BOARD / GAME END)
@@ -487,5 +500,10 @@ function playMatchSound() {
 
 
 document.getElementById("resetBtn").addEventListener("click", resetGame);
+
+// Shuffle button
+document.getElementById("shuffleBtn").addEventListener("click", () => {
+    applyShufflePenalty();
+});
 
 init();
