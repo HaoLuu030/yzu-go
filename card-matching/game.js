@@ -69,6 +69,9 @@ let score = 0;
 let time = 0;
 let timerInterval = null;
 
+// shuffle sound
+const shuffleSound = document.getElementById("shuffleSound");
+
 
 /* ============================================================
    2. RANDOMIZATION HELPERS
@@ -376,6 +379,8 @@ function applyShufflePenalty() {
     score = Math.max(0, score - 20);
     scoreDisplay.textContent = `Score: ${score}`;
 
+    playShuffleSound();
+
     shuffleBoard();
     render();
 
@@ -494,6 +499,11 @@ function playClickSound() {
 function playMatchSound() {
     matchSound.currentTime = 0;
     matchSound.play();
+}
+
+function playShuffleSound() {
+    shuffleSound.currentTime = 0;
+    shuffleSound.play();
 }
 
 
