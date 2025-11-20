@@ -20,7 +20,7 @@ export default class SpawnerManager {
         this.lastMidGround = null;
         // spawn period for background interval
         this.backgroundFrameCount = 0;
-        this.backgroundSpawnInterval = 100;
+        this.backgroundSpawnInterval = 300;
         this.lastBackground = null;
     }
 
@@ -30,7 +30,7 @@ export default class SpawnerManager {
         this.backgroundFrameCount++;
         const objectInterval = this.obstaclespawnInterval / gameState.spawnRateScale;
         const midgroundInterval = this.midgroundSpawnInterval / gameState.spawnRateScale;
-        const backgroundInterval = this.backgroundSpawnInterval / gameState.spawnRateScale;
+        const backgroundInterval = this.backgroundSpawnInterval;
         if (this.obstacleframeCount >= objectInterval) {
             this.obstacleframeCount = 0;
             this.spawnObstacle();
@@ -128,6 +128,7 @@ export default class SpawnerManager {
                 assets = this.obstacleAssets;
                 break;
             case "background":
+                console.log("Choose background");
                 assets = this.backgroundAssets;
         }
         // sweep through all the obstacles in the obstacle asset file
