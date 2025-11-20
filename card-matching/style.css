@@ -45,8 +45,10 @@ body {
     cursor: default;
 }
 
+/* Shade effect when selected */
 .cell.active {
-    border: 2px solid red;
+    filter: brightness(85%);
+    transition: filter 0.15s ease;
 }
 
 /* Canvas overlays the board */

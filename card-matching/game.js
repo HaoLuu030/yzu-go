@@ -2,7 +2,7 @@
    1. CONSTANTS & GLOBAL GAME STATE
 ============================================================ */
 
-const ROW = 8 + 2; 
+const ROW = 8 + 2;
 const COL = 15 + 2;
 
 const board = [];
@@ -26,6 +26,19 @@ const icons = [
     "https://flagcdn.com/w80/nl.png",
     "https://flagcdn.com/w80/mm.png",
     "https://flagcdn.com/w80/kg.png",
+    "https://flagcdn.com/w80/sv.png",
+    "https://flagcdn.com/w80/sk.png",
+    "https://flagcdn.com/w80/fr.png",
+    "https://flagcdn.com/w80/za.png",
+    "https://flagcdn.com/w80/bd.png",
+    "https://flagcdn.com/w80/es.png",
+    "https://flagcdn.com/w80/ca.png",
+    "https://flagcdn.com/w80/hn.png",
+    "https://flagcdn.com/w80/tr.png",
+    "https://flagcdn.com/w80/at.png",
+    "https://flagcdn.com/w80/bz.png",
+    "https://flagcdn.com/w80/my.png",
+    "https://flagcdn.com/w80/id.png",
 ];
 
 const gameBoard = document.getElementById("board");
@@ -34,6 +47,20 @@ const ctx = canvas.getContext("2d");
 
 const scoreDisplay = document.getElementById("score");
 const timeDisplay = document.getElementById("time");
+
+// ⭐ ADDED FOR BGM
+const bgm = document.getElementById("bgm");
+const musicToggle = document.getElementById("musicToggle");
+let isMusicOn = false;
+let bgmStarted = false;
+
+// click sound
+const clickSound = document.getElementById("clickSound");
+clickSound.volume = 0.35;   // adjust volume here
+
+// match sound
+const matchSound = document.getElementById("matchSound");
+matchSound.volume = 0.45; // adjust volume to taste
 
 let first = null;
 
@@ -64,7 +91,10 @@ function init() {
     const PAIR_COUNT = ((ROW - 2) * (COL - 2)) / 2;
 
     for (let i = 0; i < PAIR_COUNT; i++) {
-        items.push(gameIcons[i % gameIcons.length], gameIcons[i % gameIcons.length]);
+        items.push(
+            gameIcons[i % gameIcons.length],
+            gameIcons[i % gameIcons.length]
+        );
     }
 
     items.sort(() => Math.random() - 0.5);
@@ -72,10 +102,10 @@ function init() {
     for (let r = 0; r < ROW; r++) {
         board[r] = [];
         for (let c = 0; c < COL; c++) {
-            board[r][c] = 
+            board[r][c] =
                 (r === 0 || r === ROW - 1 || c === 0 || c === COL - 1)
-                ? ""
-                : items.pop();
+                    ? ""
+                    : items.pop();
         }
     }
 
@@ -154,6 +184,15 @@ function drawPath(points) {
 ============================================================ */
 
 function select(r, c) {
+
+     playClickSound();
+
+    // ⭐ ADDED FOR BGM — play music on first interaction
+    if (!bgmStarted && isMusicOn) {
+        bgm.play();
+        bgmStarted = true;
+    }
+
     const val = board[r][c];
 
     if (!first) {
@@ -170,6 +209,8 @@ function select(r, c) {
             if (path) {
                 board[first.r][first.c] = "";
                 board[r][c] = "";
+
+                playMatchSound();
 
                 drawPath(path.map(p => cellCenter(p.r, p.c)));
                 addScore(baseScore);
@@ -316,13 +357,14 @@ function shuffleBoard() {
 
 
 function resetGame() {
-    localStorage.setItem("lastScore", score);
-    localStorage.setItem("lastTime", time);
+    localStorage.setItem("flagMatching_score", score);
+    localStorage.setItem("flagMatching_time", time);
 
     clearInterval(timerInterval);
 
     score = 0;
     time = 0;
+    baseScore = 10;
     scoreDisplay.textContent = "Score: 0";
     timeDisplay.textContent = "Time: 0s";
 
@@ -378,6 +420,71 @@ function checkGameEnd() {
 /* ============================================================
    10. EVENT LISTENERS & GAME START
 ============================================================ */
+
+/* ============================================================
+   MUSIC SYSTEM — Smooth Fade In / Fade Out
+============================================================ */
+
+musicToggle.addEventListener("click", () => {
+    if (!isMusicOn) {
+        isMusicOn = true;
+        musicToggle.textContent = "🔈 Music Off";
+        fadeInMusic();
+    } else {
+        isMusicOn = false;
+        musicToggle.textContent = "🔊 Music On";
+        fadeOutMusic();
+    }
+});
+
+function fadeInMusic() {
+    bgm.volume = 0;
+    bgm.play();
+
+    let target = 0.4;         // final volume
+    let duration = 1500;      // 1.5 seconds
+    let step = target / (duration / 50);
+
+    let fade = setInterval(() => {
+        if (!isMusicOn) { 
+            clearInterval(fade);
+            return;
+        }
+
+        bgm.volume = Math.min(target, bgm.volume + step);
+
+        if (bgm.volume >= target) {
+            clearInterval(fade);
+        }
+    }, 50);
+}
+
+function fadeOutMusic() {
+    let duration = 1000;      // 1 second
+    let step = bgm.volume / (duration / 50);
+
+    let fade = setInterval(() => {
+        bgm.volume = Math.max(0, bgm.volume - step);
+
+        if (bgm.volume <= 0) {
+            clearInterval(fade);
+            bgm.pause();
+        }
+    }, 50);
+}
+
+function playClickSound() {
+    clickSound.currentTime = 0; // rewind to avoid stacking
+    clickSound.play();
+}
+
+function playMatchSound() {
+    matchSound.currentTime = 0;
+    matchSound.play();
+}
+
+
+
 
 document.getElementById("resetBtn").addEventListener("click", resetGame);
 
