@@ -1,5 +1,5 @@
 // Universal save function for all levels
-function saveLevelProgress(levelName, score) {
+export function saveLevelProgress(levelName, score) {
     const data = {
         score: score,
         unlocked: true

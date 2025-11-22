@@ -1,3 +1,4 @@
+import { saveLevelProgress } from "../utils/logScore.js";
 /* ============================================================
    1. CONSTANTS & GLOBAL GAME STATE
 ============================================================ */
@@ -439,6 +440,7 @@ function checkGameEnd() {
             if (board[r][c] !== "") return false;
 
     clearInterval(timerInterval);
+    saveLevelProgress("level_3", score);
 
     setTimeout(() => {
         winMessage.innerHTML = `🎉 You Win!<br>Score: ${score}<br>Time: ${time}s`;
