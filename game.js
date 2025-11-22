@@ -69,91 +69,75 @@ function startGame() {
 function crushT() {
     let created = false;
 
-    for (let i = 0; i < rows - 2; i++) {
-        for (let j = 0; j < columns - 2; j++) {
+    // Up-T and Down-T (center at [i][j])
+    for (let i = 1; i < rows - 1; i++) {
+        for (let j = 1; j < columns - 1; j++) {
 
-            // local references for readability
-            let a = board[i][j].src;
-            let b = board[i][j + 1].src;
-            let c = board[i][j + 2].src;
+            let center = board[i][j].src;
 
-            let d = board[i + 1][j].src;
-            let e = board[i + 1][j + 1].src; // center tile
-            let f = board[i + 1][j + 2].src;
+            if (center.includes("blank")) continue;
 
-            let g = board[i + 2][j].src;
-            let h = board[i + 2][j + 1].src;
-            let k = board[i + 2][j + 2].src;
+            let up = board[i - 1][j].src;
+            let down = board[i + 1][j].src;
+            let left = board[i][j - 1].src;
+            let right = board[i][j + 1].src;
 
-            if (e.includes("blank")) continue;
-
-            // ===========================
-            // 1. Upright T
-            //   XXX
-            //    X
-            //    X
-            // center = e
-            // ===========================
-            if (a == b && b == c && c == e && e == h) {
-                board[i][j].src = "./images/blank.gif";
-                board[i][j + 1].src = "./images/blank.gif";
-                board[i][j + 2].src = "./images/blank.gif";
-                board[i + 1][j + 1].src = "./images/luggage.png";
-                board[i + 2][j + 1].src = "./images/blank.gif";
+            // Up-T: row above has 3 same, and center+down same
+            if (up == left && up == right && up == center && center == down) {
+                board[i - 1][j - 1].src = "./images/blank.gif"; // left arm
+                board[i - 1][j].src = "./images/blank.gif"; // top center
+                board[i - 1][j + 1].src = "./images/blank.gif"; // right arm
+                board[i + 1][j].src = "./images/blank.gif"; // bottom
+                board[i][j].src = "./images/luggage.png";
+                score += 20;
                 created = true;
-                score += 25;
             }
 
-            // ===========================
-            // 2. Upside-down T
-            //    X
-            //    X
-            //   XXX
-            // center = h
-            // ===========================
-            if (g == h && h == k && h == e && e == b) {
-                board[i + 2][j].src = "./images/blank.gif";
-                board[i + 2][j + 1].src = "./images/luggage.png";
-                board[i + 2][j + 2].src = "./images/blank.gif";
+            // Down-T
+            if (down == left && down == right && down == center && center == up) {
+                board[i + 1][j - 1].src = "./images/blank.gif";
+                board[i + 1][j].src = "./images/blank.gif";
                 board[i + 1][j + 1].src = "./images/blank.gif";
-                board[i][j + 1].src = "./images/blank.gif";
+                board[i - 1][j].src = "./images/blank.gif";
+                board[i][j].src = "./images/luggage.png";
+                score += 20;
                 created = true;
-                score += 25;
+            }
+        }
+    }
+
+    // Left-T and Right-T (center at [i][j])
+    for (let i = 1; i < rows - 1; i++) {
+        for (let j = 1; j < columns - 1; j++) {
+
+            let center = board[i][j].src;
+            if (center.includes("blank")) continue;
+
+            let up = board[i - 1][j].src;
+            let down = board[i + 1][j].src;
+            let left = board[i][j - 1].src;
+            let right = board[i][j + 1].src;
+
+            // Left-T
+            if (left == up && left == down && left == center && center == right) {
+                board[i - 1][j - 1].src = "./images/blank.gif";
+                board[i][j - 1].src = "./images/blank.gif";
+                board[i + 1][j - 1].src = "./images/blank.gif";
+                board[i][j + 1].src = "./images/blank.gif";
+                board[i][j].src = "./images/luggage.png";
+                score += 20;
+                created = true;
             }
 
-            // ===========================
-            // 3. Left-facing T
-            //     X
-            //   XXX
-            //     X
-            // center = e
-            // ===========================
-            if (d == e && e == f && e == b && e == h) {
-                board[i + 1][j].src = "./images/blank.gif";
-                board[i + 1][j + 1].src = "./images/luggage.png";
-                board[i + 1][j + 2].src = "./images/blank.gif";
+            // Right-T
+            if (right == up && right == down && right == center && center == left) {
+                board[i - 1][j + 1].src = "./images/blank.gif";
                 board[i][j + 1].src = "./images/blank.gif";
-                board[i + 2][j + 1].src = "./images/blank.gif";
+                board[i + 1][j + 1].src = "./images/blank.gif";
+                board[i][j - 1].src = "./images/blank.gif";
+                board[i][j].src = "./images/luggage.png";
+                score += 20;
                 created = true;
-                score += 25;
-            }
-
-            // ===========================
-            // 4. Right-facing T
-            //   X
-            // XXX
-            //   X
-            // center = e
-            // ===========================
-            if (a == e && e == g && e == b && e == f) {
-                board[i][j].src = "./images/blank.gif";
-                board[i + 1][j].src = "./images/blank.gif";
-                board[i + 2][j].src = "./images/blank.gif";
-                board[i][j + 1].src = "./images/blank.gif";
-                board[i + 2][j + 1].src = "./images/blank.gif";
-                board[i + 1][j + 1].src = "./images/luggage.png";
-                created = true;
-                score += 25;
             }
         }
     }
@@ -163,8 +147,6 @@ function crushT() {
         sound.play();
     }
 }
-
-
 
 
 function crushL() {
