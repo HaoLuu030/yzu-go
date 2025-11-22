@@ -12,12 +12,28 @@ body {
     /* optional: keeps background fixed on scroll */
 }
 
+#boardWrapper {
+    display: block;          /* block-level container */
+    width: fit-content;      /* shrink-to-fit the board */
+    margin: 0 auto;          /* center it */
+    position: relative;      /* canvas uses this */
+
+
+    padding: 15px;
+    border: 5px solid rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow:
+        0 0 10px rgba(255, 255, 255, 0.7),
+        0 0 25px rgba(255, 100, 100, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+
 #board {
     display: grid;
     grid-template-columns: repeat(8, 60px);
     justify-content: center;
     gap: 6px;
-    margin-top: 20px;
     position: relative;
 }
 

@@ -14,8 +14,6 @@
   <span id="time">Time: 0s</span>
 </div>
 
-<!-- Canvas for drawing connecting lines -->
-<canvas id="lineCanvas"></canvas>
 
 <button id="resetBtn">Reset Game</button>
 <button id="shuffleBtn">Shuffle (-20)</button>
@@ -24,7 +22,13 @@
 <audio id="clickSound" src="./sfx/click.wav"></audio>
 <audio id="matchSound" src="./sfx/match.mp3"></audio>
 <audio id="shuffleSound" src="sfx/shuffle.mp3"></audio>
-<div id="board"></div>
+
+<div id="boardWrapper">
+  <!-- drawing the connecting line -->
+    <canvas id="lineCanvas"></canvas>
+    <!-- game board -->
+    <div id="board"></div>
+</div>
 
 <script src="game.js"></script>
 

@@ -143,11 +143,12 @@ function render() {
 }
 
 function resizeCanvas() {
-    const rect = gameBoard.getBoundingClientRect();
+    const rect = boardWrapper.getBoundingClientRect();
     canvas.width = rect.width;
     canvas.height = rect.height;
-    canvas.style.top = `${rect.top}px`;
-    canvas.style.left = `${rect.left}px`;
+
+    canvas.style.top = "0px";
+    canvas.style.left = "0px";
 }
 
 window.addEventListener("resize", resizeCanvas);
@@ -188,7 +189,7 @@ function drawPath(points) {
 
 function select(r, c) {
 
-     playClickSound();
+    playClickSound();
 
     // ⭐ ADDED FOR BGM — play music on first interaction
     if (!bgmStarted && isMusicOn) {
@@ -464,7 +465,7 @@ function fadeInMusic() {
     let step = target / (duration / 50);
 
     let fade = setInterval(() => {
-        if (!isMusicOn) { 
+        if (!isMusicOn) {
             clearInterval(fade);
             return;
         }
