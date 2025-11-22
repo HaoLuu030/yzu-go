@@ -373,9 +373,6 @@ function shuffleBoard() {
 
 
 function resetGame() {
-    localStorage.setItem("flagMatching_score", score);
-    localStorage.setItem("flagMatching_time", time);
-
     clearInterval(timerInterval);
 
     score = 0;
