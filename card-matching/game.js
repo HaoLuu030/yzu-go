@@ -388,6 +388,7 @@ function resetGame() {
 }
 
 function applyShufflePenalty() {
+    if(score < 20) return;
     // cost 20 points, never below 0
     score = Math.max(0, score - 20);
     scoreDisplay.textContent = `Score: ${score}`;
