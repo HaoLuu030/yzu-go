@@ -1,48 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Building 7</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Building 7</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h2>Gather the Flags</h2>
+  <h2>Gather the Flags</h2>
 
-<div id="hud">
-  <span id="score">Score: 0</span>
-  <span id="time">Time: 0s</span>
-</div>
-
-
-<button id="resetBtn">Reset Game</button>
-<button id="shuffleBtn">Shuffle (-20)</button>
-<button id="musicToggle">🔊 Music On</button>
-<audio id="bgm" src="./sfx/soundtrack.mp3" loop></audio>
-<audio id="clickSound" src="./sfx/click.wav"></audio>
-<audio id="matchSound" src="./sfx/match.mp3"></audio>
-<audio id="shuffleSound" src="sfx/shuffle.mp3"></audio>
+  <div id="hud">
+    <span id="score">Score: 0</span>
+    <span id="time">Time: 0s</span>
+  </div>
 
 
+  <button id="resetBtn">Reset Game</button>
+  <button id="shuffleBtn">Shuffle (-20)</button>
+  <button id="musicToggle">🔊 Music On</button>
+  <audio id="bgm" src="./sfx/soundtrack.mp3" loop></audio>
+  <audio id="clickSound" src="./sfx/click.wav"></audio>
+  <audio id="matchSound" src="./sfx/match.mp3"></audio>
+  <audio id="shuffleSound" src="sfx/shuffle.mp3"></audio>
 
-<!-- board -->
- <!-- overlay - start -->
-<div id="boardWrapper">
-  <div id="gameOverlay">
-        <div id="overlayBox">
-            <h2>Gather the Flags</h2>
-            <button id="startBtn">Start Game</button>
-        </div>
+
+
+  <!-- board -->
+  <!-- overlay - start -->
+  <div id="boardWrapper">
+    <div id="gameOverlay">
+      <div id="overlayBox">
+        <h2>Gather the Flags</h2>
+        <button id="startBtn">Start Game</button>
+      </div>
     </div>
-  <!-- drawing the connecting line -->
+    <!-- overlay - win -->
+    <div id="winOverlay">
+      <div id="winBox">
+        <h2 id="winMessage">You Win!</h2>
+        <button id="returnBtn">Return to Map</button>
+      </div>
+    </div>
+    <!-- drawing the connecting line -->
     <canvas id="lineCanvas"></canvas>
     <!-- game board -->
     <div id="board"></div>
-</div>
+  </div>
 
-<script src="game.js"></script>
+  <script src="game.js"></script>
 
 
 
 </body>
+
 </html>

@@ -53,6 +53,11 @@ const gameOverlay = document.getElementById("gameOverlay");
 
 let gameStarted = false;
 
+const winOverlay = document.getElementById("winOverlay");
+const winMessage = document.getElementById("winMessage");
+const returnBtn = document.getElementById("returnBtn");
+
+
 // ⭐ ADDED FOR BGM
 const bgm = document.getElementById("bgm");
 const musicToggle = document.getElementById("musicToggle");
@@ -434,9 +439,11 @@ function checkGameEnd() {
             if (board[r][c] !== "") return false;
 
     clearInterval(timerInterval);
+
     setTimeout(() => {
-        alert(`🎉 You win!\nScore: ${score}\nTime: ${time}s`);
-    }, 200);
+        winMessage.innerHTML = `🎉 You Win!<br>Score: ${score}<br>Time: ${time}s`;
+        winOverlay.style.display = "flex";
+    }, 300);
 
     return true;
 }
@@ -540,3 +547,6 @@ startBtn.addEventListener("click", () => {
     }
 });
 
+returnBtn.addEventListener("click", () => {
+    window.location.href = "../map/map.html"; // change to your real map page
+});
