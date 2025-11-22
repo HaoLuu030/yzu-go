@@ -1,10 +1,11 @@
+import { saveLevelProgress } from "../utils/logScore.js";
 var candies = ["Blue", "Orange", "Green", "Yellow", "Red", "Purple"];
 var board = [];
 var rows = 9;
 var columns = 9;
 var score = 0;
-var currtile;
-var nextile;
+var currTile;
+var otherTile;
 
 const bgm = document.getElementById("bgm");
 const musicBtn = document.getElementById("music-btn");
@@ -613,8 +614,10 @@ function startCountdown() {
 
 
 function endGame() {
+
     // stop candy generation
     gameStarted = false;
+    saveLevelProgress("level_1", score);
 
     // show overlay
     document.getElementById("gameover-overlay").style.display = "flex";
@@ -625,15 +628,10 @@ function endGame() {
 
 window.onload = function () {
 
-    // ==== DOM ELEMENTS ====
-    const bgm = document.getElementById("bgm");
-    const musicBtn = document.getElementById("music-btn");
+    // use already defined global bgm, musicBtn, gameStarted, musicOn
+
     const startOverlay = document.getElementById("overlay");
     const gameOverOverlay = document.getElementById("gameover-overlay");
-
-    // ==== STATE ====
-    let musicOn = false;
-
 
     // ===== MUSIC TOGGLE BUTTON =====
     musicBtn.onclick = function () {
@@ -652,17 +650,14 @@ window.onload = function () {
     // ===== START OVERLAY CLICK =====
     startOverlay.onclick = function () {
 
-        // hide start overlay
         startOverlay.style.display = "none";
 
-        // auto play music on start
         if (!musicOn) {
             fadeInMusic(bgm);
             musicBtn.textContent = "🔊 Music On";
             musicOn = true;
         }
 
-        // start game only once
         if (!gameStarted) {
             gameStarted = true;
             beginGame();
@@ -674,7 +669,6 @@ window.onload = function () {
     // ===== GAME OVER RESTART =====
     gameOverOverlay.onclick = function () {
 
-        // hide overlay
         gameOverOverlay.style.display = "none";
 
         // reset timer
@@ -695,4 +689,5 @@ window.onload = function () {
         gameStarted = true;
     };
 };
+
 
