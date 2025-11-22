@@ -3,7 +3,7 @@
 ============================================================ */
 
 const ROW = 8 + 2;
-const COL = 15 + 2;
+const COL = 12 + 2;
 
 const board = [];
 
@@ -47,6 +47,11 @@ const ctx = canvas.getContext("2d");
 
 const scoreDisplay = document.getElementById("score");
 const timeDisplay = document.getElementById("time");
+
+const startBtn = document.getElementById("startBtn");
+const gameOverlay = document.getElementById("gameOverlay");
+
+let gameStarted = false;
 
 // ⭐ ADDED FOR BGM
 const bgm = document.getElementById("bgm");
@@ -114,7 +119,7 @@ function init() {
 
     render();
     resizeCanvas();
-    startTimer();
+
 }
 
 
@@ -188,6 +193,7 @@ function drawPath(points) {
 ============================================================ */
 
 function select(r, c) {
+    if (!gameStarted) return;
 
     playClickSound();
 
@@ -517,4 +523,20 @@ document.getElementById("shuffleBtn").addEventListener("click", () => {
     applyShufflePenalty();
 });
 
-init();
+init(); // Prepare the tiles, but do NOT start timer/music yet
+
+// Wait until player clicks Start
+startBtn.addEventListener("click", () => {
+    gameOverlay.style.display = "none";
+
+    if (!gameStarted) {
+        gameStarted = true;
+        startTimer();
+
+        isMusicOn = true;
+        musicToggle.textContent = "🔈 Music Off";
+        fadeInMusic();
+
+    }
+});
+
