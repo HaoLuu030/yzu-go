@@ -9,6 +9,9 @@ jumpImg.src = "../assets/img/student-jump.png";
 let cryImg = new Image();
 cryImg.src = "../assets/img/student-cry.png";
 
+let jumpSfx = new Audio("../assets/sfx/jump.mp3");
+jumpSfx.volume = 0.6; // optional
+
 
 export default class Player extends Entity {
     constructor(x, y, width, height, speed, frames, hitbox = null) {
@@ -62,12 +65,14 @@ export default class Player extends Entity {
         if (!this.jumping) {
             this.velocityY = -jumpForce;
             this.jumping = true;
+
+            jumpSfx.currentTime = 0;
+            jumpSfx.play();
         }
     }
     draw(context) {
         let img;
-        if (this.isDead)
-        {
+        if (this.isDead) {
             img = cryImg;
         }
         else if (this.jumping) {

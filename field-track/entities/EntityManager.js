@@ -1,6 +1,8 @@
 import { gameState } from "../config/gameState.js";
 import { detectCollision } from "../utils/detectCollision.js";
-import { gameOver } from "../utils/gameFunction.js";
+
+let hitSfx = new Audio("../assets/sfx/collide.mp3");
+
 export default class EntityManager {
     constructor() {
         this.entities = {
@@ -38,7 +40,8 @@ export default class EntityManager {
         if (this.entities.player) {
             for (const obstacle of this.entities.obstacles) {
                 if (detectCollision(this.entities.player, obstacle)) {
-                    // console.log("collision!");
+                    hitSfx.currentTime = 0;
+                    hitSfx.play();
                     gameState.gameOver = true;
                 }
             }

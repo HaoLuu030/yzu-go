@@ -1,26 +1,34 @@
 import { gameState } from "../config/gameState.js";
 import { boardWidth } from "../entities/physics.js";
+// import { saveLevelProgress } from "../../utils/logScore.js";
+
+function saveLevelProgress(levelName, score) {
+    const data = {
+        score: score,
+        unlocked: true
+    };
+
+    localStorage.setItem(levelName, JSON.stringify(data));
+}
+
 export default class ScoreManager {
     constructor(font = "100px monospace", color = "#333", x = 5, y = 40) {
-        this.font = font;
-        this.color = color;
-        this.x = x;
-        this.y = y;
+    this.font = font;
+    this.color = color;
+    this.x = x;
+    this.y = y;
 
+    this.basePtPersecond = 0.1;
+    this.milestoneStep = 100;
 
-        // scoring pace
-        this.basePtPersecond = 0.1;
-        this.milestoneStep = 100;
+    // FIXED — correctly load saved high score
+    const savedObj = JSON.parse(localStorage.getItem("level_2") || "{}");
+    const savedScore = typeof savedObj.score === "number" ? savedObj.score : 0;
+    gameState.highScore = savedScore;
 
-        // high score
-        const saved = Number(localStorage.getItem("dino_high_score") || 0);
+    this.milestoneSound = new Audio("../assets/sfx/mile-stone-sound.mp3");
+}
 
-        if (!Number.isNaN(saved)) gameState.highScore = saved;
-
-
-        // sound effect
-        this.milestoneSound = new Audio("../assets/sfx/mile-stone-sound.mp3");
-    }
 
     reset() {
         gameState.score = 0;
@@ -44,7 +52,7 @@ export default class ScoreManager {
 
         if (gameState.score > gameState.highScore) {
             gameState.highScore = Math.floor(gameState.score);
-            localStorage.setItem("dino_high_score", String(gameState.highScore));
+            saveLevelProgress("level_2", gameState.highScore);
         }
     }
 

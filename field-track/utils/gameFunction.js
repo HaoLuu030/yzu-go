@@ -103,30 +103,6 @@ export function setupResetButtonEvents(board, context) {
             mouseX <= resetButton.x + resetButton.width &&
             mouseY <= resetButton.y + resetButton.height &&
             mouseY >= resetButton.y;
-
-        // if the reset button stage has changed
-        if (hovered !== resetButton.isHovered) {
-            resetButton.isHovered = hovered;
-
-            // redraw hover effect (simple glow)
-            context.save(); // remember all current draw settings
-            context.clearRect(resetButton.x - 5, resetButton.y - 5, resetButton.width + 10, resetButton.height + 10);
-
-            // change style based on hovered state
-            if (hovered) {
-                context.shadowColor = "black";
-                context.shadowBlur = 20;
-            } else {
-                context.shadowBlur = 0;
-            }
-
-            // clear button area
-            context.clearRect(resetButton.x - 20, resetButton.y - 20, resetButton.width + 40, resetButton.height + 40);
-
-            // redraw base button
-            context.drawImage(resetButton.image, resetButton.x, resetButton.y, resetButton.width, resetButton.height);
-            context.restore();
-        }
     });
 
 
@@ -144,7 +120,6 @@ export function setupResetButtonEvents(board, context) {
             mouseY >= resetButton.y;
 
         if (inSideReset) {
-            console.log("Reset button clicked");
             resetButton.visible = false;
             restartGame();
         }
