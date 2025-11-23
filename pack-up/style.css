@@ -105,3 +105,22 @@ wrap fit the image into its cotainer
     font-family: Arial;
     text-align: center;
 }
+
+/* back button */
+#back-btn {
+    background: #ff9eea;
+    padding: 12px 25px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    margin-top: 15px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    transition: 0.2s;
+}
+
+#back-btn:hover {
+    transform: scale(1.08);
+}

@@ -129,7 +129,7 @@ function crushT() {
                 board[i + 2][j].src = "./images/blank.gif";         // g
                 board[i + 2][j + 2].src = "./images/blank.gif";    // k
 
-                board[i + 2][j + 2].src = "./images/luggage.png"; 
+                board[i + 2][j + 2].src = "./images/luggage.png";
                 score += 20;
                 created = true;
             }
@@ -169,7 +169,7 @@ function crushT() {
                 board[i + 2][j + 2].src = "./images/blank.gif";    // k
                 board[i + 1][j + 1].src = "./images/blank.gif"; // e 
                 board[i + 1][j].src = "./images/blank.gif" //d
-                board[i + 1][j + 2].src = "./images/luggage.png"; 
+                board[i + 1][j + 2].src = "./images/luggage.png";
                 score += 20;
                 created = true;
             }
@@ -745,28 +745,12 @@ window.onload = function () {
     };
 
 
-    // ===== GAME OVER RESTART =====
-    gameOverOverlay.onclick = function () {
-
-        gameOverOverlay.style.display = "none";
-
-        // reset timer
-        timeLeft = 60;
-        document.getElementById("timer").innerText = timeLeft;
-
-        // reset score
-        score = 0;
-        document.getElementById("score").innerText = 0;
-
-        // reset board
-        board = [];
-        document.getElementById("board").innerHTML = "";
-
-        // restart game
-        beginGame();
-        startCountdown();
-        gameStarted = true;
+    // Back to map button
+    document.getElementById("back-btn").onclick = function (e) {
+        e.stopPropagation();
+        window.location.href = "./map/map.html";   // change to your actual map page
     };
+
 };
 
 
