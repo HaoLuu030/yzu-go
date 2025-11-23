@@ -8,6 +8,7 @@ import createHitBox from "./utils/hitBox.js";
 import { pause, resume, gameOver, setupResetButtonEvents } from "./utils/gameFunction.js";
 import { gameState } from "./config/gameState.js";
 import ScoreManager from "./utils/scoreManager.js";
+import { startGame } from "./utils/gameFunction.js";
 
 
 // setup
@@ -43,49 +44,54 @@ window.onload = function () {
     board.height = boardHeight;
     context = board.getContext("2d");
 
-    gameState.animationId = this.requestAnimationFrame(gameLoop);
+    // Draw "Press Enter to Start" first frame
+    context.fillStyle = "#333";
+    context.font = "18px 'Press Start 2P'";
+    context.fillText("PRESS SPACE TO START", boardWidth / 10, boardHeight / 2);
 
     setupResetButtonEvents(board, context);
-    // handle button clicks
+
     document.addEventListener('keydown', (e) => {
+        if (gameState.waitingToStart && e.code === "Space") {
+            startGame();
+            return;
+        }
 
         switch (e.code) {
             case 'Space':
-                player.jump();
+                if (gameState.isRunning) player.jump();
                 break;
             case 'KeyP':
-                if (gameState.isRunning) {
-                    pause();
-                } else {
-                    resume();
+                if (!gameState.waitingToStart) {
+                    gameState.isRunning ? pause() : resume();
                 }
-                break;
-            case 'KeyT':
-                gameState.toggleTesting();
-
-            default:
                 break;
         }
     });
+};
 
-}
 
 export function gameLoop() {
-    if (gameState.gameOver){
+
+    if (gameState.waitingToStart) return;
+
+    if (gameState.gameOver) {
         gameOver(context, document.getElementById("board"));
         return;
     }
+
     if (!gameState.isRunning) return;
-    // update all entities based on real time
+
     spawnerManager.update();
     scoreManager.update();
     entityManager.updateAll();
-    // clear and redraw the entire scene
+
     context.clearRect(0, 0, boardWidth, boardHeight);
     entityManager.drawAll(context);
     scoreManager.draw(context);
-    // request the next frame
-    gameState.animationId =requestAnimationFrame(gameLoop);
+
+    gameState.animationId = requestAnimationFrame(gameLoop);
 }
+
 
 export { scoreManager, spawnerManager, entityManager, player };

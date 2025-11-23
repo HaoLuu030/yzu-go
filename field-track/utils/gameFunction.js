@@ -61,6 +61,13 @@ export function gameOver(context, board) {
     }
 }
 
+export function startGame() {
+    gameState.waitingToStart = false;
+    gameState.isRunning = true;
+
+    gameState.animationId = requestAnimationFrame(gameLoop);
+}
+
 function restartGame() {
     gameState.gameOver = false;
     gameState.isRunning = true;

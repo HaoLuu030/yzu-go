@@ -1,11 +1,12 @@
 export const gameState = {
+    waitingToStart: true,
     frameCount: 0,
     speedScale: 1,
     speedIncrease: 0.001,
     spawnRateScale: 1,
     spawnRateIncrease: 0.001,
     animationId: null,
-    isRunning: true,
+    isRunning: false,
     testing: false,
     gameOver: false,
     score: 0,
