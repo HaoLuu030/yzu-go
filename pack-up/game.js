@@ -1,8 +1,8 @@
 import { saveLevelProgress } from "../utils/logScore.js";
 var candies = ["Blue", "Orange", "Green", "Yellow", "Red", "Purple"];
 var board = [];
-var rows = 9;
-var columns = 9;
+var rows = 5;
+var columns = 5;
 var score = 0;
 var currTile;
 var otherTile;
@@ -70,73 +70,109 @@ function startGame() {
 function crushT() {
     let created = false;
 
-    // Up-T and Down-T (center at [i][j])
-    for (let i = 1; i < rows - 1; i++) {
-        for (let j = 1; j < columns - 1; j++) {
+    // Scan 3×3 windows
+    for (let i = 0; i < rows - 2; i++) {
+        for (let j = 0; j < columns - 2; j++) {
 
-            let center = board[i][j].src;
+            // 3×3 indexing reference:
+            //
+            // a  b  c
+            // d  e  f
+            // g  h  k
+            //
+            let a = board[i][j].src;
+            let b = board[i][j + 1].src;
+            let c = board[i][j + 2].src;
+            let d = board[i + 1][j].src;
+            let e = board[i + 1][j + 1].src;   // center
+            let f = board[i + 1][j + 2].src;
+            let g = board[i + 2][j].src;
+            let h = board[i + 2][j + 1].src;
+            let k = board[i + 2][j + 2].src;
 
-            if (center.includes("blank")) continue;
+            if (e.includes("blank")) continue;
 
-            let up = board[i - 1][j].src;
-            let down = board[i + 1][j].src;
-            let left = board[i][j - 1].src;
-            let right = board[i][j + 1].src;
+            // =======================================================
+            // 1. UP-T:
+            //      XXX
+            //       X     
+            //       X
+            //
+            // pattern: a,b,c,e,h all same as center e
+            // =======================================================
+            if (e == b && e == a && e == c && e == h) {
 
-            // Up-T: row above has 3 same, and center+down same
-            if (up == left && up == right && up == center && center == down) {
-                board[i - 1][j - 1].src = "./images/blank.gif"; // left arm
-                board[i - 1][j].src = "./images/blank.gif"; // top center
-                board[i - 1][j + 1].src = "./images/blank.gif"; // right arm
-                board[i + 1][j].src = "./images/blank.gif"; // bottom
-                board[i][j].src = "./images/luggage.png";
+                board[i][j].src = "./images/blank.gif";           // a
+                board[i][j + 1].src = "./images/blank.gif";       // b
+                board[i][j + 2].src = "./images/blank.gif";       // c
+                board[i + 1][j + 1].src = "./images/luggage.png"; // e
+                board[i + 2][j + 1].src = "./images/blank.gif";   // h
+
                 score += 20;
                 created = true;
             }
 
-            // Down-T
-            if (down == left && down == right && down == center && center == up) {
-                board[i + 1][j - 1].src = "./images/blank.gif";
-                board[i + 1][j].src = "./images/blank.gif";
-                board[i + 1][j + 1].src = "./images/blank.gif";
-                board[i - 1][j].src = "./images/blank.gif";
-                board[i][j].src = "./images/luggage.png";
-                score += 20;
-                created = true;
-            }
-        }
-    }
+            // =======================================================
+            // 2. DOWN-T:
+            //
+            //       X
+            //       X
+            //      XXX
+            //
+            // pattern same, just center of vertical branch is g (down)
+            // tiles: a,d,g,e,f all same
+            // =======================================================
+            if (b == e && b == h && b == g && b == k) {
 
-    // Left-T and Right-T (center at [i][j])
-    for (let i = 1; i < rows - 1; i++) {
-        for (let j = 1; j < columns - 1; j++) {
+                board[i][j + 1].src = "./images/blank.gif";     // b
+                board[i + 1][j + 1].src = "./images/blank.gif";     // e
+                board[i + 2][j + 1].src = "./images/blank.gif"; // h (down center)
+                board[i + 2][j].src = "./images/blank.gif";         // g
+                board[i + 2][j + 2].src = "./images/blank.gif";    // k
 
-            let center = board[i][j].src;
-            if (center.includes("blank")) continue;
-
-            let up = board[i - 1][j].src;
-            let down = board[i + 1][j].src;
-            let left = board[i][j - 1].src;
-            let right = board[i][j + 1].src;
-
-            // Left-T
-            if (left == up && left == down && left == center && center == right) {
-                board[i - 1][j - 1].src = "./images/blank.gif";
-                board[i][j - 1].src = "./images/blank.gif";
-                board[i + 1][j - 1].src = "./images/blank.gif";
-                board[i][j + 1].src = "./images/blank.gif";
-                board[i][j].src = "./images/luggage.png";
+                board[i + 2][j + 2].src = "./images/luggage.png"; 
                 score += 20;
                 created = true;
             }
 
-            // Right-T
-            if (right == up && right == down && right == center && center == left) {
-                board[i - 1][j + 1].src = "./images/blank.gif";
-                board[i][j + 1].src = "./images/blank.gif";
-                board[i + 1][j + 1].src = "./images/blank.gif";
-                board[i][j - 1].src = "./images/blank.gif";
-                board[i][j].src = "./images/luggage.png";
+            // =======================================================
+            // 3. LEFT-T:
+            //
+            //      X
+            //      XXX
+            //      X
+            //
+            // pattern: e matches b,d,h,f
+            // =======================================================
+            if (a == d && a == g && a == e && a == f) {
+                console.log("found left T")
+                board[i][j].src = "./images/blank.gif";       // a
+                board[i + 1][j].src = "./images/blank.gif";       // d
+                board[i + 2][j].src = "./images/blank.gif";         // g
+                board[i + 1][j + 1].src = "./images/luggage.png"; // e center
+                board[i + 1][j].src = "./images/blank.gif";   // f
+
+                score += 20;
+                created = true;
+            }
+
+            // =======================================================
+            // 4. RIGHT-T:
+            //
+            //       X
+            //     XXX
+            //       X 
+            //
+            // right T: e matches c, f, k, e, d
+            // =======================================================
+            if (c == f && c == k && c == e && c == d) {
+                console.log("found right T");
+                board[i][j + 2].src = "./images/blank.gif";       // c
+                board[i + 1][j + 2].src = "./images/blank.gif"; // f
+                board[i + 2][j + 2].src = "./images/blank.gif";    // k
+                board[i + 1][j + 1].src = "./images/blank.gif"; // e 
+                board[i + 1][j].src = "./images/blank.gif" //d
+                board[i + 1][j + 2].src = "./images/luggage.png"; 
                 score += 20;
                 created = true;
             }
@@ -150,12 +186,16 @@ function crushT() {
 }
 
 
+
 function crushL() {
     let created = false;
 
     // We need a 3x3 scanning window (i = 0..rows-3, j = 0..cols-3)
     for (let i = 0; i < rows - 2; i++) {
         for (let j = 0; j < columns - 2; j++) {
+            // a b c
+            // d e f
+            // g h k
 
             // Names of each tile in the 3×3 window
             let a = board[i][j].src;
@@ -259,10 +299,10 @@ function crushL() {
 
 
 function crushCandy() {
-    crushFive();
-    crushFour();
     crushT();
     crushL();
+    crushFive();
+    crushFour();
     crushThree();
     document.getElementById("score").innerText = score;
 
@@ -624,6 +664,49 @@ function endGame() {
 }
 
 
+function loadCustomBoard(layout) {
+    board = [];
+    document.getElementById("board").innerHTML = "";
+
+    for (let r = 0; r < layout.length; r++) {
+        let row = [];
+
+        for (let c = 0; c < layout[r].length; c++) {
+
+            let tile = document.createElement("img");
+            tile.id = r + "-" + c;
+
+            let name = layout[r][c];
+            tile.src = (name === "blank")
+                ? "./images/blank.gif"
+                : "./images/" + name + ".png";
+
+            // keep interactions
+            tile.addEventListener("dragstart", dragStart);
+            tile.addEventListener("dragover", dragOver);
+            tile.addEventListener("dragenter", dragEnter);
+            tile.addEventListener("dragleave", dragLeave);
+            tile.addEventListener("drop", dragDrop);
+            tile.addEventListener("dragend", dragEnd);
+
+            document.getElementById("board").append(tile);
+            row.push(tile);
+        }
+
+        board.push(row);
+    }
+
+    // 🔥 allow browser to draw the board first
+    window.setInterval(function () {
+        crushCandy();
+        setTimeout(() => {
+            slideCandy();
+        }, 100);
+        generateCandy();
+    }, 100);
+}
+
+
 // ==== GAME STARTUP ====
 
 window.onload = function () {
@@ -660,8 +743,14 @@ window.onload = function () {
 
         if (!gameStarted) {
             gameStarted = true;
-            beginGame();
-            startCountdown();
+            loadCustomBoard([
+                ["Blue", "Orange", "Purple", "Yellow", "Red"],
+                ["Purple", "Purple", "Blue", "Purple", "Purple"],
+                ["Yellow", "Red", "Purple", "Orange", "Blue"],
+                ["Green", "Yellow", "Red", "Blue", "Red"],
+                ["Green", "Yellow", "Red", "Blue", "Red"]
+            ])
+            // startCountdown();
         }
     };
 

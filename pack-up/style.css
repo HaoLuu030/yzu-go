@@ -50,8 +50,8 @@ wrap fit the image into its cotainer
 
 
 #board {
-    height: 450px;
-    width: 450px;
+    height: 250px;   /* 4 × 50px */
+    width: 250px;
     background-color: lightblue;
     border: 5px solid slategray;
     border-radius: 10px;
@@ -64,7 +64,7 @@ wrap fit the image into its cotainer
 
 
 #board img {
-    height: 50px;
+     height: 50px;
     width: 50px;
 }
 
