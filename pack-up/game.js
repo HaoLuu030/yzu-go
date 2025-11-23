@@ -1,8 +1,8 @@
 import { saveLevelProgress } from "../utils/logScore.js";
 var candies = ["Blue", "Orange", "Green", "Yellow", "Red", "Purple"];
 var board = [];
-var rows = 5;
-var columns = 5;
+var rows = 9;
+var columns = 9;
 var score = 0;
 var currTile;
 var otherTile;
@@ -64,7 +64,6 @@ function startGame() {
         // push row at the end of the board
         board.push(row);
     }
-    console.log(board);
 }
 
 function crushT() {
@@ -145,7 +144,6 @@ function crushT() {
             // pattern: e matches b,d,h,f
             // =======================================================
             if (a == d && a == g && a == e && a == f) {
-                console.log("found left T")
                 board[i][j].src = "./images/blank.gif";       // a
                 board[i + 1][j].src = "./images/blank.gif";       // d
                 board[i + 2][j].src = "./images/blank.gif";         // g
@@ -166,7 +164,6 @@ function crushT() {
             // right T: e matches c, f, k, e, d
             // =======================================================
             if (c == f && c == k && c == e && c == d) {
-                console.log("found right T");
                 board[i][j + 2].src = "./images/blank.gif";       // c
                 board[i + 1][j + 2].src = "./images/blank.gif"; // f
                 board[i + 2][j + 2].src = "./images/blank.gif";    // k
@@ -696,7 +693,6 @@ function loadCustomBoard(layout) {
         board.push(row);
     }
 
-    // 🔥 allow browser to draw the board first
     window.setInterval(function () {
         crushCandy();
         setTimeout(() => {
@@ -743,14 +739,8 @@ window.onload = function () {
 
         if (!gameStarted) {
             gameStarted = true;
-            loadCustomBoard([
-                ["Blue", "Orange", "Purple", "Yellow", "Red"],
-                ["Purple", "Purple", "Blue", "Purple", "Purple"],
-                ["Yellow", "Red", "Purple", "Orange", "Blue"],
-                ["Green", "Yellow", "Red", "Blue", "Red"],
-                ["Green", "Yellow", "Red", "Blue", "Red"]
-            ])
-            // startCountdown();
+            beginGame();
+            startCountdown();
         }
     };
 
