@@ -15,9 +15,9 @@ export default class SpawnerManager {
         this.obstaclespawnInterval = 180; // 180
         this.lastObstacle = null;
         // spawn period for midground interval
-        this.midgroundFrameCount = 0;
-        this.midgroundSpawnInterval = 500;
-        this.lastMidGround = null;
+        // this.midgroundFrameCount = 0;
+        // this.midgroundSpawnInterval = 750;
+        // this.lastMidGround = null;
         // spawn period for background interval
         this.backgroundFrameCount = 0;
         this.backgroundSpawnInterval = 100;
@@ -26,20 +26,20 @@ export default class SpawnerManager {
 
     update() {
         this.obstacleframeCount++;
-        this.midgroundFrameCount++;
+        // this.midgroundFrameCount++;
         this.backgroundFrameCount++;
         const objectInterval = this.obstaclespawnInterval / gameState.spawnRateScale;
-        const midgroundInterval = this.midgroundSpawnInterval / gameState.spawnRateScale;
-        const backgroundInterval = this.backgroundSpawnInterval / gameState.spawnRateScale;
+        // const midgroundInterval = this.midgroundSpawnInterval / gameState.spawnRateScale;
+        const backgroundInterval = this.backgroundSpawnInterval;
         if (this.obstacleframeCount >= objectInterval) {
             this.obstacleframeCount = 0;
             this.spawnObstacle();
         }
 
-        if (this.midgroundFrameCount >= midgroundInterval) {
-            this.midgroundFrameCount = 0;
-            this.spawnMidgroundObject();
-        }
+        // if (this.midgroundFrameCount >= midgroundInterval) {
+        //     this.midgroundFrameCount = 0;
+        //     this.spawnMidgroundObject();
+        // }
 
         if (this.backgroundFrameCount >= backgroundInterval) {
             this.backgroundFrameCount = 0;
@@ -108,11 +108,10 @@ export default class SpawnerManager {
         const config = this.backgroundAssets[type];
         const { width, height, speed, img } = config;
         const x = boardWidth + 100;
-        const y = groundY2 - height;
+        const y = groundY2 - height + Math.random() * boardWidth * 0.02;
         let object;
         object = new Entity(x, y, width, height, speed, img);
         this.entityManager.add(object, "background");
-        this.backgroundSpawnInterval = Math.random() * 100;
     }
 
 
