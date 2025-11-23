@@ -16,6 +16,9 @@ const entityManager = new EntityManager();
 let context;
 const spawnerManager = new SpawnerManager(entityManager, obstacleAssets, midgroundAssets, backgroundAssets);
 const scoreManager = new ScoreManager("9px 'Press Start 2P', monospace", "#333", 5, 20);
+const bgm = new Audio("./assets/sfx/background-music.mp3");
+bgm.loop = true;
+bgm.playbackRate = 1.0; // default
 
 
 // load frames
@@ -56,7 +59,8 @@ window.onload = function () {
 
     document.addEventListener('keydown', (e) => {
         if (gameState.waitingToStart && e.code === "Space") {
-            startGame();
+            bgm.play();      // 🎵 start background music
+            startGame();     // ▶️ start the game
             return;
         }
 
@@ -88,6 +92,14 @@ export function gameLoop() {
     spawnerManager.update();
     scoreManager.update();
     entityManager.updateAll();
+
+    // dynamic music
+    const minRate = 1.0;
+    const maxRate = 2.0;
+    bgm.playbackRate = Math.min(
+        maxRate,
+        minRate + (gameState.speedScale - 1) * 0.2
+    );
 
     context.clearRect(0, 0, boardWidth, boardHeight);
     entityManager.drawAll(context);
