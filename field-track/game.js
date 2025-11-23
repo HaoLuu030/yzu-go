@@ -45,9 +45,12 @@ window.onload = function () {
     context = board.getContext("2d");
 
     // Draw "Press Enter to Start" first frame
+    // Draw "Press Space to Start" centered
     context.fillStyle = "#333";
     context.font = "18px 'Press Start 2P'";
-    context.fillText("PRESS SPACE TO START", boardWidth / 10, boardHeight / 2);
+    context.textAlign = "center";      // horizontal center
+    context.textBaseline = "middle";   // vertical center
+    context.fillText("PRESS SPACE TO START", boardWidth / 2, boardHeight / 2);
 
     setupResetButtonEvents(board, context);
 

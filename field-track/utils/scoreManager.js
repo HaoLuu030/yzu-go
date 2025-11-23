@@ -60,6 +60,7 @@ export default class ScoreManager {
         context.save();
         context.font = this.font;
         context.textBaseline = "top";
+        context.textAlign = "left";
         context.fillStyle = this._shouldFlash() ? "#22aa22" : this.color;
 
         const scoreStr = this._pad(Math.floor(gameState.score), 5);
