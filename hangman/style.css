@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+}
+
+#score {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #222;
+    font-weight: bold;
+}
+
+#hint {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+#word {
+    font-size: 32px;
+    letter-spacing: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#alphabet button {
+    margin: 4px;
+    padding: 10px;
+    min-width: 35px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#status {
+    font-size: 20px;
+    margin-top: 20px;
+    height: 30px;
+}
+
+#alphabet {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    /* 8 per row */
+    gap: 6px;
+    max-width: 400px;
+    /* optional, keeps layout neat */
+    margin-top: 10px;
+}
+
+#alphabet button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
