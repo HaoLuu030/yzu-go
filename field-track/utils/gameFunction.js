@@ -52,21 +52,3 @@ export function startGame() {
     gameState.isRunning = true;
     gameState.animationId = requestAnimationFrame(gameLoop);
 }
-
-// ⛔ Reset button removed, but restartGame kept (optional)
-export function restartGame() {
-    gameState.gameOver = false;
-    gameState.isRunning = true;
-
-    entityManager.clear();
-    spawnerManager.reset();
-    player.reset();
-
-    gameState.reset();
-    gameState.animationId = requestAnimationFrame(gameLoop);
-}
-
-// ⛔ This function no longer does anything because reset button is removed
-export function setupResetButtonEvents(board, context) {
-    // intentionally empty
-}

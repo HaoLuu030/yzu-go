@@ -5,7 +5,7 @@ import EntityManager from "./entities/entityManager.js";
 import SpawnerManager from "./utils/spawnerManager.js";
 import { obstacleAssets, midgroundAssets, backgroundAssets } from "./config/assets.js";
 import createHitBox from "./utils/hitBox.js";
-import { pause, resume, gameOver, setupResetButtonEvents } from "./utils/gameFunction.js";
+import { pause, resume, gameOver} from "./utils/gameFunction.js";
 import { gameState } from "./config/gameState.js";
 import ScoreManager from "./utils/scoreManager.js";
 import { startGame } from "./utils/gameFunction.js";
@@ -55,12 +55,11 @@ window.onload = function () {
     context.textBaseline = "middle";   // vertical center
     context.fillText("PRESS SPACE TO START", boardWidth / 2, boardHeight / 2);
 
-    setupResetButtonEvents(board, context);
 
     document.addEventListener('keydown', (e) => {
         if (gameState.waitingToStart && e.code === "Space") {
-            bgm.play();      // 🎵 start background music
-            startGame();     // ▶️ start the game
+            bgm.play();
+            startGame();
             return;
         }
 
@@ -69,8 +68,7 @@ window.onload = function () {
                 if (gameState.isRunning) player.jump();
                 break;
             case 'KeyT':
-                console.log(gameState.testing);
-                gameState.testing = !(gameState.testing);
+                gameState.toggleTesting();
             case 'KeyP':
                 if (!gameState.waitingToStart) {
                     gameState.isRunning ? pause() : resume();

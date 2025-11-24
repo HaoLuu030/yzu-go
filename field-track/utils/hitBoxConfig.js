@@ -11,6 +11,12 @@ export const HITBOX_CONFIG = {
         widthFactor: 0.65,
         heightFactor: 1
     },
+     hurdle: {
+        offsetX: 0.1,
+        offsetY: 0.15,
+        widthFactor: 0.7,
+        heightFactor: 0.75
+    },
     shiba: {
         offsetX: 0.15,
         offsetY: 0.25,
@@ -25,13 +31,13 @@ export const HITBOX_CONFIG = {
     },
     dave: {
         offsetX: 0.2,
-        offsetY: 0,
+        offsetY: 0.02,
         widthFactor: 0.6,
         heightFactor: 1,
     },
     john: {
         offsetX: 0.2,
-        offsetY: 0,
+        offsetY: 0.02,
         widthFactor: 0.6,
         heightFactor: 1,
     },

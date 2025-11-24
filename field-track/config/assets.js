@@ -6,10 +6,14 @@ const shiba1 = new Image();
 const shiba2 = new Image();
 const shiba3 = new Image();
 const shiba4 = new Image();
+const shiba5 = new Image();
+const shiba6 = new Image();
 shiba1.src = '../assets/img/shiba-1.png';
 shiba2.src = '../assets/img/shiba-2.png';
 shiba3.src = '../assets/img/shiba-3.png';
 shiba4.src = '../assets/img/shiba-4.png';
+shiba5.src = '../assets/img/shiba-5.png';
+shiba6.src = '../assets/img/shiba-6.png';
 // corgi
 const corgi1 = new Image();
 const corgi2 = new Image();
@@ -32,6 +36,9 @@ basket_ball.src = '../assets/img/basket-ball.png';
 // volley
 const volley_ball = new Image();
 volley_ball.src = '../assets/img/volley-ball.png';
+// hurdle
+const hurdle = new Image();
+hurdle.src = '../assets/img/hurdle.png';
 // dave
 const dave1 = new Image();
 const dave2 = new Image();
@@ -114,6 +121,7 @@ export const obstacleAssets = {
     //     isAnimated: false,
     //     probability: 1,
     // },
+
     cone: {
         img: cone,
         width: boardWidth * SCALE.CONE_WIDTH_RATIO,
@@ -124,8 +132,18 @@ export const obstacleAssets = {
         isAnimated: false,
         probability: 0.2,
     },
+    hurdle: {
+        img: hurdle,
+        width: boardWidth * SCALE.HURDLE_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.HURDLE_ASPECT_RATIO;
+        },
+        speed: 4,
+        isAnimated: false,
+        probability: 1,
+    },
     shiba: {
-        frames: [shiba1, shiba2, shiba3, shiba4],
+        frames: [shiba1, shiba2, shiba3, shiba4, shiba5, shiba6],
         width: boardWidth * SCALE.SHIBA_WIDTH_RATIO,
         get height() {
             return this.width * SCALE.SHIBA_ASPECT_RATIO;
