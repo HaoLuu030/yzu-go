@@ -6,7 +6,17 @@ var score = 0;
 var currtile;
 var nextile;
 
-window.onload = function () {
+const bgm = document.getElementById("bgm");
+const musicBtn = document.getElementById("music-btn");
+let musicOn = false;  // initially off until user clicks start
+
+let timeLeft = 60;     // seconds
+let timerInterval = null;
+let gameStarted = false;
+
+
+
+function beginGame() {
     startGame();
     window.setInterval(function () {
         crushCandy();
@@ -16,6 +26,7 @@ window.onload = function () {
         generateCandy();
     }, 100);
 }
+
 function randomCandy() {
     return candies[Math.floor(Math.random() * candies.length)]; //0 - 5.99
 }
@@ -55,11 +66,220 @@ function startGame() {
     console.log(board);
 }
 
+function crushT() {
+    let created = false;
+
+    for (let i = 0; i < rows - 2; i++) {
+        for (let j = 0; j < columns - 2; j++) {
+
+            // local references for readability
+            let a = board[i][j].src;
+            let b = board[i][j + 1].src;
+            let c = board[i][j + 2].src;
+
+            let d = board[i + 1][j].src;
+            let e = board[i + 1][j + 1].src; // center tile
+            let f = board[i + 1][j + 2].src;
+
+            let g = board[i + 2][j].src;
+            let h = board[i + 2][j + 1].src;
+            let k = board[i + 2][j + 2].src;
+
+            if (e.includes("blank")) continue;
+
+            // ===========================
+            // 1. Upright T
+            //   XXX
+            //    X
+            //    X
+            // center = e
+            // ===========================
+            if (a == b && b == c && c == e && e == h) {
+                board[i][j].src = "./images/blank.gif";
+                board[i][j + 1].src = "./images/blank.gif";
+                board[i][j + 2].src = "./images/blank.gif";
+                board[i + 1][j + 1].src = "./images/luggage.png";
+                board[i + 2][j + 1].src = "./images/blank.gif";
+                created = true;
+                score += 25;
+            }
+
+            // ===========================
+            // 2. Upside-down T
+            //    X
+            //    X
+            //   XXX
+            // center = h
+            // ===========================
+            if (g == h && h == k && h == e && e == b) {
+                board[i + 2][j].src = "./images/blank.gif";
+                board[i + 2][j + 1].src = "./images/luggage.png";
+                board[i + 2][j + 2].src = "./images/blank.gif";
+                board[i + 1][j + 1].src = "./images/blank.gif";
+                board[i][j + 1].src = "./images/blank.gif";
+                created = true;
+                score += 25;
+            }
+
+            // ===========================
+            // 3. Left-facing T
+            //     X
+            //   XXX
+            //     X
+            // center = e
+            // ===========================
+            if (d == e && e == f && e == b && e == h) {
+                board[i + 1][j].src = "./images/blank.gif";
+                board[i + 1][j + 1].src = "./images/luggage.png";
+                board[i + 1][j + 2].src = "./images/blank.gif";
+                board[i][j + 1].src = "./images/blank.gif";
+                board[i + 2][j + 1].src = "./images/blank.gif";
+                created = true;
+                score += 25;
+            }
+
+            // ===========================
+            // 4. Right-facing T
+            //   X
+            // XXX
+            //   X
+            // center = e
+            // ===========================
+            if (a == e && e == g && e == b && e == f) {
+                board[i][j].src = "./images/blank.gif";
+                board[i + 1][j].src = "./images/blank.gif";
+                board[i + 2][j].src = "./images/blank.gif";
+                board[i][j + 1].src = "./images/blank.gif";
+                board[i + 2][j + 1].src = "./images/blank.gif";
+                board[i + 1][j + 1].src = "./images/luggage.png";
+                created = true;
+                score += 25;
+            }
+        }
+    }
+
+    if (created) {
+        const sound = new Audio("./sfx/shining.mp3");
+        sound.play();
+    }
+}
+
+
+
+
+function crushL() {
+    let created = false;
+
+    // We need a 3x3 scanning window (i = 0..rows-3, j = 0..cols-3)
+    for (let i = 0; i < rows - 2; i++) {
+        for (let j = 0; j < columns - 2; j++) {
+
+            // Names of each tile in the 3×3 window
+            let a = board[i][j].src;
+            let b = board[i][j + 1].src;
+            let c = board[i][j + 2].src;
+            let d = board[i + 1][j].src;
+            let e = board[i + 1][j + 1].src;
+            let f = board[i + 1][j + 2].src;
+            let g = board[i + 2][j].src;
+            let h = board[i + 2][j + 1].src;
+            let k = board[i + 2][j + 2].src; // bottom-right
+
+            // skip blanks
+            if (a.includes("blank")) continue;
+
+            // -------------------------
+            // 1. Normal L shape:
+            // X
+            // X
+            // XXX
+            // tiles: a, d, g, h, k
+            // -------------------------
+            if (a == d && d == g && g == h && h == k) {
+                board[i][j].src = "./images/blank.gif";
+                board[i + 1][j].src = "./images/blank.gif";
+                board[i + 2][j].src = "./images/blank.gif";
+                board[i + 2][j + 1].src = "./images/blank.gif";
+                board[i + 2][j + 2].src = "./images/blank.gif";
+
+                board[i + 2][j + 2].src = "./images/luggage.png"; // corner
+                score += 25;
+                created = true;
+            }
+
+            // -------------------------
+            // 2. Upside-down L:
+            // XXX
+            //   X
+            //   X
+            // tiles: a, b, c, f, k
+            // -------------------------
+            if (a == b && b == c && c == f && f == k) {
+                board[i][j].src = "./images/blank.gif";
+                board[i][j + 1].src = "./images/blank.gif";
+                board[i][j + 2].src = "./images/blank.gif";
+                board[i + 1][j + 2].src = "./images/blank.gif";
+                board[i + 2][j + 2].src = "./images/blank.gif";
+
+                board[i][j + 2].src = "./images/luggage.png"; // corner
+                score += 25;
+                created = true;
+            }
+
+            // -------------------------
+            // 3. Mirrored L:
+            //   X
+            //   X
+            // XXX
+            // tiles: c, f, k, h, g
+            // -------------------------
+            if (c == f && f == k && k == h && h == g) {
+                board[i][j + 2].src = "./images/blank.gif";
+                board[i + 1][j + 2].src = "./images/blank.gif";
+                board[i + 2][j + 2].src = "./images/blank.gif";
+                board[i + 2][j + 1].src = "./images/blank.gif";
+                board[i + 2][j].src = "./images/blank.gif";
+
+                board[i + 2][j].src = "./images/luggage.png"; // corner
+                score += 25;
+                created = true;
+            }
+
+            // -------------------------
+            // 4. Rotated L:
+            // XXX
+            // X
+            // X
+            // tiles: a, b, c, d, g
+            // -------------------------
+            if (a == b && b == c && c == d && d == g) {
+                board[i][j].src = "./images/blank.gif";
+                board[i][j + 1].src = "./images/blank.gif";
+                board[i][j + 2].src = "./images/blank.gif";
+                board[i + 1][j].src = "./images/blank.gif";
+                board[i + 2][j].src = "./images/blank.gif";
+
+                board[i][j].src = "./images/luggage.png"; // corner
+                score += 25;
+                created = true;
+            }
+        }
+    }
+
+    if (created) {
+        const sound = new Audio("./sfx/shining.mp3");
+        sound.play();
+    }
+}
+
+
 
 
 function crushCandy() {
     crushFive();
     crushFour();
+    crushT();
+    crushL();
     crushThree();
     document.getElementById("score").innerText = score;
 
@@ -83,7 +303,7 @@ function crushFive() {
                 candy4.src = "./images/blank.gif";
                 candy5.src = "./images/blank.gif";
                 score += 20;
-                const sound = new Audio("../sound effects/shining.mp3");
+                const sound = new Audio("./sfx/shining.mp3");
                 sound.play();
             }
         }
@@ -105,7 +325,7 @@ function crushFive() {
                 candy4.src = "./images/blank.gif";
                 candy5.src = "./images/blank.gif";
                 score += 20;
-                const sound = new Audio("../sound effects/shining.mp3");
+                const sound = new Audio("./sfx/shining.mp3");
                 sound.play();
             }
         }
@@ -128,7 +348,7 @@ function crushFour() {
                 candy3.src = "./images/blank.gif";
                 candy4.src = "./images/luggage.png";
                 score += 20;
-                const sound = new Audio("../sound effects/shining.mp3");
+                const sound = new Audio("./sfx/shining.mp3");
                 sound.play();
             }
         }
@@ -147,7 +367,7 @@ function crushFour() {
                 candy3.src = "./images/blank.gif";
                 candy4.src = "./images/luggage.png";
                 score += 20;
-                const sound = new Audio("../sound effects/shining.mp3");
+                const sound = new Audio("./sfx/shining.mp3");
                 sound.play();
             }
         }
@@ -169,7 +389,7 @@ function crushThree() {
                 candy2.src = "./images/blank.gif";
                 candy3.src = "./images/blank.gif";
                 score += 10;
-                const sound = new Audio("../sound effects/blink.mp3");
+                const sound = new Audio("./sfx/blink.mp3");
                 sound.play();
             }
         }
@@ -185,7 +405,7 @@ function crushThree() {
                 candy2.src = "./images/blank.gif";
                 candy3.src = "./images/blank.gif";
                 score += 10;
-                const sound = new Audio("../sound effects/blink.mp3");
+                const sound = new Audio("./sfx/blink.mp3");
                 sound.play();
             }
         }
@@ -256,7 +476,7 @@ function dragEnd() {
                     score += 5;
                 }
             }
-            const sound = new Audio("../sound effects/blink.mp3");
+            const sound = new Audio("./sfx/blink.mp3");
             sound.play();
             return;
         }
@@ -271,7 +491,7 @@ function dragEnd() {
                     }
                 }
             }
-            const sound = new Audio("../sound effects/blink.mp3");
+            const sound = new Audio("./sfx/blink.mp3");
             sound.play();
             currTile.src = "./images/blank.gif";
             otherTile.src = "./images/blank.gif";
@@ -288,7 +508,7 @@ function dragEnd() {
                     }
                 }
             }
-            const sound = new Audio("../sound effects/blink.mp3");
+            const sound = new Audio("./sfx/blink.mp3");
             sound.play();
             currTile.src = "./images/blank.gif";
             otherTile.src = "./images/blank.gif";
@@ -363,3 +583,115 @@ function generateCandy() {
         }
     }
 }
+
+// ==== MUSIC FUNCTIONS (top-level) ====
+
+function fadeInMusic(bgm, targetVolume = 0.6) {
+    bgm.volume = 0;
+    bgm.play();
+
+    let v = 0;
+    const fade = setInterval(() => {
+        v += 0.02;
+        if (v >= targetVolume) {
+            v = targetVolume;
+            clearInterval(fade);
+        }
+        bgm.volume = v;
+    }, 50);
+}
+
+function fadeOutMusic(bgm) {
+    let v = bgm.volume;
+    const fade = setInterval(() => {
+        v -= 0.02;
+        if (v <= 0) {
+            v = 0;
+            bgm.pause();
+            clearInterval(fade);
+        }
+        bgm.volume = v;
+    }, 50);
+}
+
+
+function startCountdown() {
+    timerInterval = setInterval(() => {
+
+        timeLeft--;
+        document.getElementById("timer").innerText = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            endGame();
+        }
+
+    }, 1000);
+}
+
+
+function endGame() {
+    // stop candy generation
+    gameStarted = false;
+
+    // show overlay
+    document.getElementById("gameover-overlay").style.display = "flex";
+}
+
+
+// ==== GAME STARTUP ====
+
+window.onload = function () {
+
+    // ==== DOM ELEMENTS ====
+    const bgm = document.getElementById("bgm");
+    const musicBtn = document.getElementById("music-btn");
+    const startOverlay = document.getElementById("overlay");
+    const gameOverOverlay = document.getElementById("gameover-overlay");
+
+    // ==== STATE ====
+    let musicOn = false;
+
+
+    // ===== MUSIC TOGGLE BUTTON =====
+    musicBtn.onclick = function () {
+        if (musicOn) {
+            fadeOutMusic(bgm);
+            document.getElementById("music-icon").src = "images/UI/volume_off.png";
+            musicOn = false;
+        } else {
+            fadeInMusic(bgm);
+            document.getElementById("music-icon").src = "images/UI/volume_on.png";
+            musicOn = true;
+        }
+    };
+
+
+    // ===== START OVERLAY CLICK =====
+    startOverlay.onclick = function () {
+
+        // hide start overlay
+        startOverlay.style.display = "none";
+
+        // auto play music on start
+        if (!musicOn) {
+            fadeInMusic(bgm);
+            document.getElementById("music-icon").src = "images/UI/volume_on.png";
+            musicOn = true;
+        }
+
+        // start game only once
+        if (!gameStarted) {
+            gameStarted = true;
+            beginGame();
+            startCountdown();
+        }
+    };
+
+
+    // ===== BACK TO MAP =====
+    document.getElementById("back-to-map").onclick = function () {
+        console.log("going back to map");
+        window.location.href = "../map/index.html";
+    };
+};

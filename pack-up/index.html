@@ -1,15 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pack up</title>
+    <title>Pack Up!</title>
     <link rel="stylesheet" href="style.css">
-    <script src="game.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
 </head>
-<body>
-        <h1 id="title">Score: <span id="score">0</span></h1>
-        <div id="board"></div>
-</body>
+
 </html>
+
+<body>
+    <!-- UI -->
+    <div id="gameover-overlay">
+        <div class="message">
+            <div class="left">
+                <div class="text">Level Finished !</div>
+                <div><button id="back-to-map">Back to Map &nbsp; <img class="map-icon" src="images/UI/map.png"></button></div>
+            </div>
+
+            <div class="right"><img class="dolphin" src="images/UI/dolphin.png"></div>
+        </div>
+    </div>
+    <!-- UI -->
+
+
+
+    <div class="container">
+        <!-- UI -->
+        <div id="title" class="title">
+            <div class="level"><button class="btn-level">1</button></div>
+            <div class="time">Time:&nbsp;<span id="timer">60</span>s</div>
+            <div class="score">Score:&nbsp;<span id="score">0</span></div>
+            <div class="btn">
+                <div><button class="music" id="music-btn"><img id="music-icon" src="images/UI/volume_off.png"></button>
+                </div>
+                <div><a href="../map.html"><button class="map"><img id="map-icon" src="images/UI/map.png"></button></a></div>
+            </div>
+        <!-- UI -->
+
+        </div>
+        <div id="board-container">
+            <div id="overlay">
+                <div id="overlay-text">Click to Start</div>
+            </div>
+            <div id="board"></div>
+        </div>
+        <audio id="bgm" src="./sfx/background-music.mp3" loop></audio>
+    </div>
+</body>
+<script src="game.js"></script>
+
 </html>
