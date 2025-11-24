@@ -213,6 +213,7 @@ body {
     height: 50vh;
     width: 50vw;
     grid-template-columns: 2fr 1fr;
+    gap: 5%;
 }
 
 .left {
