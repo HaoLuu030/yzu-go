@@ -68,6 +68,9 @@ window.onload = function () {
             case 'Space':
                 if (gameState.isRunning) player.jump();
                 break;
+            case 'KeyT':
+                console.log(gameState.testing);
+                gameState.testing = !(gameState.testing);
             case 'KeyP':
                 if (!gameState.waitingToStart) {
                     gameState.isRunning ? pause() : resume();
@@ -98,7 +101,7 @@ export function gameLoop() {
     const maxRate = 2.0;
     bgm.playbackRate = Math.min(
         maxRate,
-        minRate + (gameState.speedScale - 1) * 0.2
+        minRate + (gameState.speedScale - 1) * 0.1
     );
 
     context.clearRect(0, 0, boardWidth, boardHeight);

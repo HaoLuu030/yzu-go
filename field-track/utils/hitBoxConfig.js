@@ -29,6 +29,12 @@ export const HITBOX_CONFIG = {
         widthFactor: 0.6,
         heightFactor: 1,
     },
+    john: {
+        offsetX: 0.2,
+        offsetY: 0,
+        widthFactor: 0.6,
+        heightFactor: 1,
+    },
     volley_ball: {
         offsetX: 0.2,
         offsetY: 0.2,

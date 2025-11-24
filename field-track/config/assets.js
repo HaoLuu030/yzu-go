@@ -45,6 +45,19 @@ dave3.src = '../assets/img/dave-3.png';
 dave4.src = '../assets/img/dave-4.png';
 dave5.src = '../assets/img/dave-5.png';
 dave6.src = '../assets/img/dave-6.png';
+// john
+const john1 = new Image();
+const john2 = new Image();
+const john3 = new Image();
+const john4 = new Image();
+const john5 = new Image();
+const john6 = new Image();
+john1.src = '../assets/img/john-1.png';
+john2.src = '../assets/img/john-2.png';
+john3.src = '../assets/img/john-3.png';
+john4.src = '../assets/img/john-4.png';
+john5.src = '../assets/img/john-5.png';
+john6.src = '../assets/img/john-6.png';
 // cycling man
 const cyclingMan1 = new Image();
 const cyclingMan2 = new Image();
@@ -135,6 +148,17 @@ export const obstacleAssets = {
 
     dave: {
         frames: [dave1, dave2, dave3, dave4, dave5, dave6],
+        width: boardWidth * SCALE.HUMAN_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.HUMAN_ASPECT_RATIO;
+        },
+        speed: 6,
+        isAnimated: true,
+        probability: 0.45,
+    },
+
+    john: {
+        frames: [john1, john2, john3, john4, john5, john6],
         width: boardWidth * SCALE.HUMAN_WIDTH_RATIO,
         get height() {
             return this.width * SCALE.HUMAN_ASPECT_RATIO;
