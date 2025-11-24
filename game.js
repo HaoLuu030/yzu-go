@@ -2,7 +2,7 @@
 let board;
 const rowCount = 21;
 const columnCount = 19;
-const tileSize = 32;
+const tileSize = 30;
 const boardWidth = columnCount * tileSize;
 const boardHeight = rowCount * tileSize;
 let queuedDirection = null;
@@ -26,6 +26,7 @@ let frightenedImage3;
 
 let frightened = false;
 let frightenedTimer = 0;
+let gameStarted = true;
 const FRIGHTENED_DURATION = 8000;
 
 //X = wall, O = skip, P = pac man, ' ' = food
@@ -49,9 +50,9 @@ const tileMap = [
     "OOOOX    P    XOOOO",
     "OOOOOXXXXXXXXXOOOOO",
     "OOOOOOOOOOOOOOOOOOO",
-    "XXXXXXXXXXXXXXXXXXX",
-    "XXXXXXXXXXXXXXXXXXX",
-    "XXXXXXXXXXXXXXXXXXX"
+    "OOOOOOOOOOOOOOOOOOO",
+    "OOOOOOOOOOOOOOOOOOO",
+    "OOOOOOOOOOOOOOOOOOO"
 
 ];
 
@@ -86,31 +87,31 @@ window.onload = function () {
 
 function loadImages() {
     wallImage = new Image();
-    wallImage.src = "./image/wall.png";
+    wallImage.src = "./images/wall.png";
     blueGhostImage = new Image();
-    blueGhostImage.src = "./image/blueGhost.png";
+    blueGhostImage.src = "./images/blueGhost.png";
     orangeGhostImage = new Image();
-    orangeGhostImage.src = "./image/orangeGhost.png"
+    orangeGhostImage.src = "./images/orangeGhost.png"
     pinkGhostImage = new Image()
-    pinkGhostImage.src = "./image/pinkGhost.png";
+    pinkGhostImage.src = "./images/pinkGhost.png";
     pacmanUpImage = new Image();
-    pacmanUpImage.src = "./image/pacmanUp.png";
+    pacmanUpImage.src = "./images/pacmanUp.png";
     pacmanDownImage = new Image();
-    pacmanDownImage.src = "./image/pacmanDown.png";
+    pacmanDownImage.src = "./images/pacmanDown.png";
     pacmanLeftImage = new Image();
-    pacmanLeftImage.src = "./image/pacmanLeft.png";
+    pacmanLeftImage.src = "./images/pacmanLeft.png";
     pacmanRightImage = new Image();
-    pacmanRightImage.src = "./image/pacmanRight.png";
+    pacmanRightImage.src = "./images/pacmanRight.png";
     foodImage = new Image();
-    foodImage.src = "./image/food.png";
+    foodImage.src = "./images/food.png";
     specialFoodImage = new Image();
-    specialFoodImage.src = "./image/specialFood.png";
+    specialFoodImage.src = "./images/specialFood.png";
     frightenedImage1 = new Image();
-    frightenedImage1.src = "./image/frightened1.png";
+    frightenedImage1.src = "./images/frightened1.png";
     frightenedImage2 = new Image();
-    frightenedImage2.src = "./image/frightened2.png";
+    frightenedImage2.src = "./images/frightened2.png";
     frightenedImage3 = new Image();
-    frightenedImage3.src = "./image/frightened3.png";
+    frightenedImage3.src = "./images/frightened3.png";
 }
 
 function loadMap() {
@@ -178,6 +179,8 @@ function update() {
 
 function draw() {
     context.clearRect(0, 0, board.width, board.height);
+    document.getElementById("score").textContent = score;
+    document.getElementById("lives").textContent = "x" + lives;
 
     // 1. Walls
     for (let wall of walls.values()) {
@@ -208,30 +211,6 @@ function draw() {
     // 4. Pac-Man
     context.drawImage(pacman.image, pacman.x, pacman.y, pacman.width, pacman.height);
 
-    // 5. Score / lives
-    context.fillStyle = "white";
-    context.font = "14px sans-serif";
-    if (gameOver) {
-        context.fillText("Game Over: " + String(score), tileSize / 2, tileSize / 2);
-    } else {
-        context.fillText("x" + String(lives) + " " + String(score), tileSize / 2, tileSize / 2);
-    }
-
-    context.fillStyle = "white";
-    context.font = "14px sans-serif";
-
-    if (gameWin) {
-        context.font = "28px sans-serif";
-        context.fillStyle = "yellow";
-        context.fillText("YOU WIN!", boardWidth / 2 - 60, boardHeight / 2);
-        return;
-    }
-
-    if (gameOver) {
-        context.fillText("Game Over: " + String(score), tileSize / 2, tileSize / 2);
-    } else {
-        context.fillText("x" + String(lives) + " " + String(score), tileSize / 2, tileSize / 2);
-    }
 }
 
 
@@ -265,7 +244,11 @@ function move() {
             } else {
                 // Ghost kills Pac-Man
                 lives -= 1;
-                if (lives == 0) gameOver = true;
+                if (lives == 0) {
+                    gameOver = true;
+                    triggerGameOver();
+                }
+
                 resetPositions();
                 return;
             }
@@ -320,13 +303,10 @@ function move() {
     // WIN condition
     if (foods.size === 0 && !gameWin) {
         gameWin = true;
-
-        // Show the return button
-        const btn = document.getElementById("returnBtn");
-        btn.style.display = "block";
+        triggerGameOver();
     }
-
 }
+
 
 function activateFrightenedMode() {
     frightened = true;
@@ -335,6 +315,10 @@ function activateFrightenedMode() {
 
 
 function movePacman(e) {
+    if (gameStarted == false)
+    {
+        return;
+    }
     if (gameOver || gameWin) {
         loadMap();
         resetPositions();
@@ -462,6 +446,20 @@ class Block {
     }
 };
 
-document.getElementById("returnBtn").onclick = function () {
-    window.location.href = "hhello.html"; 
-};
+
+
+function triggerGameOver() {
+    document.getElementById("gameover-overlay").style.display = "flex";
+    gameStarted = false;
+    saveLevelProgress("level-5", score)
+}
+
+// Universal save function for all levels
+function saveLevelProgress(levelName, score) {
+    const data = {
+        score: score,
+        unlocked: true
+    };
+
+    localStorage.setItem(levelName, JSON.stringify(data));
+}
