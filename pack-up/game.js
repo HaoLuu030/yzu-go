@@ -159,7 +159,7 @@ function crushT() {
     }
 
     if (created) {
-        const sound = new Audio("./sfx/shining.mp3");
+        const sound = new Audio("./sound effects/shining.mp3");
         sound.play();
     }
 }
@@ -267,7 +267,7 @@ function crushL() {
     }
 
     if (created) {
-        const sound = new Audio("./sfx/shining.mp3");
+        const sound = new Audio("./sound effects/shining.mp3");
         sound.play();
     }
 }
@@ -303,7 +303,7 @@ function crushFive() {
                 candy4.src = "./images/blank.gif";
                 candy5.src = "./images/blank.gif";
                 score += 20;
-                const sound = new Audio("./sfx/shining.mp3");
+                const sound = new Audio("./sound effects/shining.mp3");
                 sound.play();
             }
         }
@@ -325,7 +325,7 @@ function crushFive() {
                 candy4.src = "./images/blank.gif";
                 candy5.src = "./images/blank.gif";
                 score += 20;
-                const sound = new Audio("./sfx/shining.mp3");
+                const sound = new Audio("./sound effects/shining.mp3");
                 sound.play();
             }
         }
@@ -348,7 +348,7 @@ function crushFour() {
                 candy3.src = "./images/blank.gif";
                 candy4.src = "./images/luggage.png";
                 score += 20;
-                const sound = new Audio("./sfx/shining.mp3");
+                const sound = new Audio("./sound effects/shining.mp3");
                 sound.play();
             }
         }
@@ -367,7 +367,7 @@ function crushFour() {
                 candy3.src = "./images/blank.gif";
                 candy4.src = "./images/luggage.png";
                 score += 20;
-                const sound = new Audio("./sfx/shining.mp3");
+                const sound = new Audio("./sound effects/shining.mp3");
                 sound.play();
             }
         }
@@ -389,7 +389,7 @@ function crushThree() {
                 candy2.src = "./images/blank.gif";
                 candy3.src = "./images/blank.gif";
                 score += 10;
-                const sound = new Audio("./sfx/blink.mp3");
+                const sound = new Audio("./sound effects/blink.mp3");
                 sound.play();
             }
         }
@@ -405,7 +405,7 @@ function crushThree() {
                 candy2.src = "./images/blank.gif";
                 candy3.src = "./images/blank.gif";
                 score += 10;
-                const sound = new Audio("./sfx/blink.mp3");
+                const sound = new Audio("./sound effects/blink.mp3");
                 sound.play();
             }
         }
@@ -476,7 +476,7 @@ function dragEnd() {
                     score += 5;
                 }
             }
-            const sound = new Audio("./sfx/blink.mp3");
+            const sound = new Audio("./sound effects/blink.mp3");
             sound.play();
             return;
         }
@@ -491,7 +491,7 @@ function dragEnd() {
                     }
                 }
             }
-            const sound = new Audio("./sfx/blink.mp3");
+            const sound = new Audio("./sound effects/blink.mp3");
             sound.play();
             currTile.src = "./images/blank.gif";
             otherTile.src = "./images/blank.gif";
@@ -508,7 +508,7 @@ function dragEnd() {
                     }
                 }
             }
-            const sound = new Audio("./sfx/blink.mp3");
+            const sound = new Audio("./sound effects/blink.mp3");
             sound.play();
             currTile.src = "./images/blank.gif";
             otherTile.src = "./images/blank.gif";
@@ -692,6 +692,6 @@ window.onload = function () {
     // ===== BACK TO MAP =====
     document.getElementById("back-to-map").onclick = function () {
         console.log("going back to map");
-        window.location.href = "../map/index.html";
+        window.location.href = "../map/map.html";
     };
 };
