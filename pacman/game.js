@@ -451,7 +451,7 @@ class Block {
 function triggerGameOver() {
     document.getElementById("gameover-overlay").style.display = "flex";
     gameStarted = false;
-    saveLevelProgress("level-5", score)
+    saveLevelProgress("level_5", score)
 }
 
 // Universal save function for all levels
