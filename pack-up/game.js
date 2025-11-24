@@ -691,6 +691,7 @@ window.onload = function () {
 
     // ===== BACK TO MAP =====
     document.getElementById("back-to-map").onclick = function () {
-        window.location.href = "map.html";
+        console.log("going back to map");
+        window.location.href = "../map/map.html";
     };
 };
