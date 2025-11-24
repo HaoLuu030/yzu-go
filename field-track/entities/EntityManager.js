@@ -1,7 +1,7 @@
 import { gameState } from "../config/gameState.js";
 import { detectCollision } from "../utils/detectCollision.js";
 
-let hitSfx = new Audio("../assets/sfx/collide.mp3");
+let hitSfx = new Audio("./assets/sfx/collide.mp3");
 
 export default class EntityManager {
     constructor() {

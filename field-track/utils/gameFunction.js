@@ -30,7 +30,7 @@ export function gameOver(context, board) {
 
     // draw game over image
     const gameOverImg = new Image();
-    gameOverImg.src = '../assets/img/game-over.png';
+    gameOverImg.src = './assets/img/game-over.png';
 
     gameOverImg.onload = () => {
         const gameOverImgWidth = boardWidth * SCALE.GAME_OVER_WIDTH_RATIO;

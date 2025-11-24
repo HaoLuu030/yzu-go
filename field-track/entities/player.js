@@ -4,13 +4,13 @@ import { gameState } from '../config/gameState.js';
 import drawHitBox from '../utils/drawHitBox.js';
 
 let jumpImg = new Image();
-jumpImg.src = "../assets/img/student-jump.png";
+jumpImg.src = "./assets/img/student-jump.png";   // ✅ FIXED
 
 let cryImg = new Image();
-cryImg.src = "../assets/img/student-cry.png";
+cryImg.src = "./assets/img/student-cry.png";     // ✅ FIXED
 
-let jumpSfx = new Audio("../assets/sfx/jump.mp3");
-jumpSfx.volume = 0.6; // optional
+let jumpSfx = new Audio("./assets/sfx/jump.mp3"); // ✅ FIXED
+jumpSfx.volume = 0.6;
 
 
 export default class Player extends Entity {
@@ -25,7 +25,7 @@ export default class Player extends Entity {
         this.velocityY = 0;
         this.jumping = false;
         this.isDead = false;
-        // if hitbox config is passed, use it - else use full box
+
         if (hitbox) {
             this.hitbox = {
                 offsetX: hitbox.offsetX ?? 0,
@@ -42,25 +42,25 @@ export default class Player extends Entity {
             };
         }
     }
+
     update() {
         this.frameDelay += gameState.speedScale;
-        // show frames
+
         if (!this.jumping && this.frameDelay >= this.frameInterval) {
             this.frameDelay = 0;
             this.currentFrame = (this.currentFrame + 1) % this.frames.length;
         }
-        // set y position
-        // Note: at the start of each redraw, gravity is added to velocityY making
-        // the player falls down (is it is jumping)
+
         this.velocityY += gravity;
         this.y += this.velocityY;
+
         if (this.y >= groundY - this.height) {
-            // player falls under the ground
             this.velocityY = 0;
             this.y = groundY - this.height;
             this.jumping = false;
         }
     }
+
     jump() {
         if (!this.jumping) {
             this.velocityY = -jumpForce;
@@ -70,25 +70,23 @@ export default class Player extends Entity {
             jumpSfx.play();
         }
     }
+
     draw(context) {
         let img;
-        if (this.isDead) {
-            img = cryImg;
-        }
-        else if (this.jumping) {
-            img = this.jumpImg;
-        }
-        else {
-            img = this.frames[this.currentFrame];
-        }
+        if (this.isDead) img = cryImg;
+        else if (this.jumping) img = this.jumpImg;
+        else img = this.frames[this.currentFrame];
+
         context.drawImage(img, this.x, this.y, this.width, this.height);
-        if (this.hitbox && gameState.testing) { drawHitBox(this.x, this.y, this.hitbox, 'white', context); }
+
+        if (this.hitbox && gameState.testing) {
+            drawHitBox(this.x, this.y, this.hitbox, 'white', context);
+        }
     }
 
     reset() {
-        // restore default state
         this.isDead = false;
-        this.x = this.initialX ?? this.x; // optional if you want fixed start position
+        this.x = this.initialX ?? this.x;
         this.y = groundY - this.height;
         this.velocityY = 0;
         this.jumping = false;

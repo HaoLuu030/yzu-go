@@ -23,7 +23,7 @@ export default class ScoreManager {
         // remove all high-score loading (no more localStorage read)
         gameState.score = 0;
 
-        this.milestoneSound = new Audio("../assets/sfx/mile-stone-sound.mp3");
+        this.milestoneSound = new Audio("./assets/sfx/mile-stone-sound.mp3");
     }
 
     reset() {

@@ -5,10 +5,9 @@ import { gameState } from "../config/gameState.js";
 import createHitBox from "./hitBox.js";
 
 export default class SpawnerManager {
-    constructor(entityManager, obstacleAssets, midgroundAssets, backgroundAssets) {
+    constructor(entityManager, obstacleAssets, backgroundAssets) {
         this.entityManager = entityManager;
         this.obstacleAssets = obstacleAssets;
-        this.midgroundAssets = midgroundAssets;
         this.backgroundAssets = backgroundAssets;
         // spawn period for obstacle
         this.obstacleframeCount = 0;
