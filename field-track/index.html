@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,53 @@
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="game.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <div class="canvas-wrapper">
-        <canvas id="board"></canvas>
+    <!-- UI -->
+    <div id="gameover-overlay">
+        <div class="message">
+            <div class="left">
+                <div class="text">Level Finished !</div>
+                <div><button id="back-to-map">Back to Map &nbsp; <img class="map-icon" src="images/UI/map.png"></button>
+                </div>
+            </div>
+
+            <div class="right"><img class="dolphin" src="images/UI/dolphin.png"></div>
+        </div>
     </div>
-</script>
+    <!-- UI -->
+
+
+
+    <div class="container">
+        <!-- UI -->
+        <div id="title" class="title">
+            <div class="level"><button class="btn-level">1</button></div>
+            <div class="time">Time:&nbsp;<span id="timer">60</span>s</div>
+            <div class="score">Score:&nbsp;<span id="score">0</span></div>
+            <div class="btn">
+                <div><button class="music" id="music-btn"><img id="music-icon" src="images/UI/volume_off.png"></button>
+                </div>
+                <div><a href="../map.html"><button class="map"><img id="map-icon" src="images/UI/map.png"></button></a>
+                </div>
+            </div>
+        </div>
+        <!-- UI -->
+         
+        <div id="board-container">
+            <div class="canvas-wrapper">
+                <canvas id="board"></canvas>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </script>
 </body>
+
 </html>
+Write to Yến Nhi
