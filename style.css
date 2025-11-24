@@ -33,8 +33,8 @@ body {
 
 #overlay {
     position: absolute;
-    width: 455px;
-    height: 455px;
+    width: 82vh;
+    height: 82vh;
     background-image: url(images/UI/dorm.png);
     background-size: cover;
     background-repeat: no-repeat;
@@ -63,8 +63,8 @@ body {
 
 
 #board {
-    width: 450px;
-    height: 450px;
+    width: 81vh;
+    height: 81vh;
     background-color: rgba(255, 255, 255, 0.349);
     border-radius: 10px;
     display: flex;
@@ -77,8 +77,8 @@ body {
 
 
 #board img {
-    height: 50px;
-    width: 50px;
+    height: 9vh;
+    width: 9vh;
 }
 
 
