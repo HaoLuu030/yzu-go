@@ -676,7 +676,7 @@ window.onload = function () {
         // auto play music on start
         if (!musicOn) {
             fadeInMusic(bgm);
-            document.getElementById("music-icon").src = "images/volume_on.png";
+            document.getElementById("music-icon").src = "images/UI/volume_on.png";
             musicOn = true;
         }
 
