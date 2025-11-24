@@ -2,7 +2,7 @@
 let board;
 const rowCount = 21;
 const columnCount = 19;
-const tileSize = 30;
+const tileSize = 35;
 const boardWidth = columnCount * tileSize;
 const boardHeight = rowCount * tileSize;
 let queuedDirection = null;
