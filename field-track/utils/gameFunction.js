@@ -2,7 +2,8 @@ import { gameState } from "../config/gameState.js";
 import { gameLoop } from "../game.js";
 import { SCALE } from "../config/scale.js";
 import { boardHeight, boardWidth } from "../entities/physics.js";
-import { scoreManager, entityManager, spawnerManager, player } from "../game.js";
+import { scoreManager, entityManager, player } from "../game.js";
+import { startStopwatch } from "../game.js";
 
 export function pause() {
     gameState.isRunning = false;
@@ -48,7 +49,11 @@ export function gameOver(context, board) {
 }
 
 export function startGame() {
+    gameState.timeElapsed = 0;
+    startStopwatch();
     gameState.waitingToStart = false;
     gameState.isRunning = true;
     gameState.animationId = requestAnimationFrame(gameLoop);
+
+    document.getElementById("gameover-overlay").style.display = "none";
 }

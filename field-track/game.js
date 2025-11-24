@@ -5,7 +5,7 @@ import EntityManager from "./entities/entityManager.js";
 import SpawnerManager from "./utils/spawnerManager.js";
 import { obstacleAssets, midgroundAssets, backgroundAssets } from "./config/assets.js";
 import createHitBox from "./utils/hitBox.js";
-import { pause, resume, gameOver} from "./utils/gameFunction.js";
+import { pause, resume, gameOver } from "./utils/gameFunction.js";
 import { gameState } from "./config/gameState.js";
 import ScoreManager from "./utils/scoreManager.js";
 import { startGame } from "./utils/gameFunction.js";
@@ -19,6 +19,9 @@ const scoreManager = new ScoreManager("9px 'Press Start 2P', monospace", "#333",
 const bgm = new Audio("./assets/sfx/background-music.mp3");
 bgm.loop = true;
 bgm.playbackRate = 1.0; // default
+let stopwatchInterval = null;
+let lastTickTime = null;
+
 
 
 // load frames
@@ -84,9 +87,16 @@ export function gameLoop() {
     if (gameState.waitingToStart) return;
 
     if (gameState.gameOver) {
+        clearInterval(stopwatchInterval);
         gameOver(context, document.getElementById("board"));
+
+        // ⭐ SHOW GAME OVER UI
+        const overlay = document.getElementById("gameover-overlay");
+        if (overlay) overlay.style.display = 'flex';
+
         return;
     }
+
 
     if (!gameState.isRunning) return;
 
@@ -107,6 +117,28 @@ export function gameLoop() {
     scoreManager.draw(context);
 
     gameState.animationId = requestAnimationFrame(gameLoop);
+}
+
+export function startStopwatch() {
+    const timerEl = document.getElementById("timer");
+    if (!timerEl) return;
+
+    clearInterval(stopwatchInterval);
+
+    gameState.timeElapsed = 0;
+    timerEl.textContent = "0";
+    lastTickTime = performance.now();
+
+    stopwatchInterval = setInterval(() => {
+        const now = performance.now();
+
+        // check if a real second passed
+        if (now - lastTickTime >= 1000) {
+            gameState.timeElapsed++;
+            timerEl.textContent = gameState.timeElapsed;
+            lastTickTime = now;
+        }
+    }, 50); // small interval, not frame-based
 }
 
 

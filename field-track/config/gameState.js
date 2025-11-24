@@ -11,6 +11,7 @@ export const gameState = {
     gameOver: false,
     score: 0,
     highScore: 0,
+    timeElapsed: 0,
     // track milestone
     _lastMileStone: 0,
     increase() {
