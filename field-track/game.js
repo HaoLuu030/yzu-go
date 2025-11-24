@@ -67,8 +67,8 @@ window.onload = function () {
             case 'Space':
                 if (gameState.isRunning) player.jump();
                 break;
-            case 'KeyT':
-                gameState.toggleTesting();
+            // case 'KeyT':
+            //     gameState.toggleTesting();
             case 'KeyP':
                 if (!gameState.waitingToStart) {
                     gameState.isRunning ? pause() : resume();

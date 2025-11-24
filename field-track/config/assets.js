@@ -132,16 +132,6 @@ export const obstacleAssets = {
         isAnimated: false,
         probability: 0.2,
     },
-    hurdle: {
-        img: hurdle,
-        width: boardWidth * SCALE.HURDLE_WIDTH_RATIO,
-        get height() {
-            return this.width * SCALE.HURDLE_ASPECT_RATIO;
-        },
-        speed: 4,
-        isAnimated: false,
-        probability: 1,
-    },
     shiba: {
         frames: [shiba1, shiba2, shiba3, shiba4, shiba5, shiba6],
         width: boardWidth * SCALE.SHIBA_WIDTH_RATIO,
@@ -206,6 +196,17 @@ export const obstacleAssets = {
         speed: 4,
         isAnimated: false,
         probability: 0.9,
+    },
+
+    hurdle: {
+        img: hurdle,
+        width: boardWidth * SCALE.HURDLE_WIDTH_RATIO,
+        get height() {
+            return this.width * SCALE.HURDLE_ASPECT_RATIO;
+        },
+        speed: 4,
+        isAnimated: false,
+        probability: 0.95,
     },
     cycling_man: {
         frames: [cyclingMan1, cyclingMan2, cyclingMan3, cyclingMan4, cyclingMan5, cyclingMan6],
