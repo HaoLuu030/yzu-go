@@ -694,3 +694,4 @@ window.onload = function () {
         window.location.href = "map.html";
     };
 };
+
