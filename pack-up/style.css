@@ -1,7 +1,5 @@
-/*set background fixed, Arial, Helvetica,
- sans-serif, text white and align text to center */
 body {
-    background: url(images/UI/background.png) no-repeat center center fixed;
+    background: url(images/background.png) no-repeat center bottom fixed;
     background-size: cover;
     font-family: "Concert One", sans-serif;
     font-weight: 400;
@@ -14,75 +12,129 @@ body {
     overflow: hidden;
 }
 
-.container {
+
+/* 1. BACKGROUND PART */
+.background {
     width: 100vw;
     height: 100vh;
-    margin: 0 0;
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-
-}
-
-#board-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-  
-
-}
-
-#overlay {
     position: absolute;
-    width: 82vh;
-    height: 82vh;
-    background-image: url(images/UI/dorm.png);
-    background-size: cover;
-    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+/* Bubbles animation */
+
+.bubbles img {
+    width: 10vh;
+    animation: bubble 15s linear infinite;
+}
+
+.bubbles img:hover {
+    animation: none;
+    filter: blur(150px);
+}
+
+.bubbles {
+    width: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 20;
-    cursor: pointer;
-    border-radius: 10px;
-    margin-left: 5%;
+    justify-content: space-around;
+    position: absolute;
+    bottom: -9%;
 }
 
-#board img {
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.25);
+@keyframes bubble {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    70% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-98vh);
+        opacity: 0;
+    }
+
 }
 
-#overlay-text {
-    color: white;
-    font-size: 32px;
-    text-shadow: 2px 2px 8px black;
-    padding: 15px 35px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 15px;
+.bubbles img:nth-child(1) {
+    animation-delay: 0.5s;
+    width: 30px;
+}
+
+.bubbles img:nth-child(2) {
+    width: 28px;
+}
+
+.bubbles img:nth-child(3) {
+    animation-delay: 8s;
+    width: 36px;
+}
+
+.bubbles img:nth-child(4) {
+    animation-delay: 8.2s;
+    width: 27px;
+}
+
+.bubbles img:nth-child(5) {
+    animation-delay: 2s;
+    width: 20px;
+}
+
+.bubbles img:nth-child(6) {
+    animation-delay: 4s;
+    width: 30px;
+}
+
+.bubbles img:nth-child(7) {
+    animation-delay: 5s;
+    width: 35px;
+}
+
+.bubbles img:nth-child(8) {
+    animation-delay: 1s;
+    width: 29px;
+}
+
+.bubbles img:nth-child(9) {
+    animation-delay: 7s;
+    width: 40px;
+}
+
+.whale img {
+    position: absolute;
+    height: 110vh;
+    animation: move 30s linear infinite;
+}
+
+@keyframes move {
+    from {
+        transform: translateX(-140vw);
+    }
+
+    to {
+        transform: translateX(50vw);
+    }
 }
 
 
-#board {
-    width: 81vh;
-    height: 81vh;
-    background-color: rgba(255, 255, 255, 0.349);
-    border-radius: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
-    z-index: 1;
-    margin-left: 5%;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
-}
+/* END: 1. BACKGROUND PART */
 
 
-#board img {
-    height: 9vh;
-    width: 9vh;
-}
 
 
-/* game over overlay */
+
+
+
+/* 2. THE OVERLAY DISPLAYS WHEN THE PLAYER FINISH THIS LEVEL*/
 
 #gameover-overlay {
     position: absolute;
@@ -96,13 +148,74 @@ body {
     align-items: center;
 }
 
-#gameover-text {
-    font-size: 40px;
+.message {
+    position: absolute;
+    display: grid;
+    height: 50vh;
+    width: 50vw;
+    grid-template-columns: 2fr 1fr;
+    gap: 5%;
+}
+
+.left {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
 }
 
 
+.text {
+    font-size: 9vh;
+}
+
+.dolphin {
+    height: 50vh;
+}
+
+#back-to-map img {
+    height: 40%;
+}
+
+#back-to-map {
+    background-image: url(images/UI/button.png);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Concert One", sans-serif;
+    font-size: 3vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: transparent;
+    width: 40vh;
+    height: 15vh;
+    margin-left: 20%;
+}
+
+/* END: 2. THE OVERLAY DISPLAYS WHEN THE PLAYER FINISH THIS LEVEL*/
 
 
+
+
+
+
+
+
+/* 3. THE CONTAINER CONTAINS ALL ELEMENTS */
+.container {
+    position: absolute;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    margin: 0 0;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+
+}
+
+/* a. The board contains all buttons */
 .title {
     background-color: rgba(255, 255, 255, 0.349);
     border: 0.3vw solid rgb(255, 255, 255);
@@ -197,60 +310,77 @@ body {
 
 }
 
-.map, .music, #back-to-map {
-  transition: transform 0.3s ease;
-}
-
-.map:hover, .music:hover, #back-to-map:hover{
-  cursor: pointer;
-  transform: scale(1.2)
-}
-
-
-.message {
-    position: absolute;
-    display: grid;
-    height: 50vh;
-    width: 50vw;
-    grid-template-columns: 2fr 1fr;
-    gap: 5%;
-}
-
-.left {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.text {
-    font-size: 9vh;
-}
-.dolphin {
-    height: 50vh;
-}
-
-#back-to-map img
-{
-    height: 40%;
-}
-
+.map,
+.music,
 #back-to-map {
-    background-image: url(images/UI/button.png);
-    color: white;
+    transition: transform 0.3s ease;
+}
+
+.map:hover,
+.music:hover,
+#back-to-map:hover {
+    cursor: pointer;
+    transform: scale(1.2)
+}
+
+
+
+
+
+/* b. The board contains the game part */
+#board-container {
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-family: "Concert One", sans-serif;
-    font-size: 3vh;
-    background-size: contain;
-    background-repeat: no-repeat;
-    border: none;
-    background-color: transparent;
-    width: 40vh;
-    height: 15vh;
-    margin-left: 20%;
 }
+
+/* The overlay with this building's background */
+#overlay {
+    position: absolute;
+    width: 82vh;
+    height: 82vh;
+    background-image: url(images/UI/dorm.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-left: 5%;
+}
+
+#overlay-text {
+    color: white;
+    font-size: 32px;
+    text-shadow: 2px 2px 8px black;
+    padding: 15px 35px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+}
+
+
+/* The game  */
+#board img {
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.25);
+    height: 9vh;
+    width: 9vh;
+}
+
+#board {
+    width: 81vh;
+    height: 81vh;
+    background-color: rgba(255, 255, 255, 0.349);
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+    margin-left: 5%;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+/* 3. END: THE CONTAINER CONTAINS ALL ELEMENTS */
 
 
