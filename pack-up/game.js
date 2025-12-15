@@ -1,10 +1,12 @@
+import { saveScore } from "../js/data/scoreRepository.js";
+
 var candies = ["Blue", "Orange", "Green", "Yellow", "Red", "Purple"];
 var board = [];
 var rows = 9;
 var columns = 9;
 var score = 0;
-var currtile;
-var nextile;
+var currTile;
+var otherTile;
 
 const bgm = document.getElementById("bgm");
 const musicBtn = document.getElementById("music-btn");
@@ -13,16 +15,23 @@ let musicOn = false;  // initially off until user clicks start
 let timeLeft = 60;     // seconds
 let timerInterval = null;
 let gameStarted = false;
+let gameLoop = null;
 
 
 
 function beginGame() {
+
+    score = 0;
+    timeLeft = 60;
+    document.getElementById("score").innerText = score;
+    document.getElementById("timer").innerText = timeLeft;
+
+    board = [];
+    document.getElementById("board").innerHTML = "";
     startGame();
-    window.setInterval(function () {
+    gameLoop = window.setInterval(function () {
         crushCandy();
-        setTimeout(() => {
-            slideCandy();
-        }, 100);
+        slideCandy()
         generateCandy();
     }, 100);
 }
@@ -63,7 +72,6 @@ function startGame() {
         // push row at the end of the board
         board.push(row);
     }
-    console.log(board);
 }
 
 function crushT() {
@@ -630,12 +638,36 @@ function startCountdown() {
 }
 
 
-function endGame() {
+async function endGame() {
     // stop candy generation
     gameStarted = false;
 
+    clearInterval(gameLoop);
+    clearInterval(timerInterval);
+
     // show overlay
     document.getElementById("gameover-overlay").style.display = "flex";
+
+    // save score
+    const levelKey = "level1";
+    await saveScore({ level: levelKey, score: score });
+
+    // mark complete level
+    localStorage.setItem(levelKey, JSON.stringify({
+        unlocked: true,
+        completed: true
+    }));
+
+    // unlock next level
+    const nextLevel = "level2";
+    localStorage.setItem(nextLevel, JSON.stringify({ unlocked: true }))
+
+    // tell map what story to play
+    localStorage.setItem("pendingStory", JSON.stringify({
+        phase: "postLevel",
+        level: levelKey,
+        score
+    }));
 }
 
 
@@ -691,7 +723,6 @@ window.onload = function () {
 
     // ===== BACK TO MAP =====
     document.getElementById("back-to-map").onclick = function () {
-        console.log("going back to map");
-        window.location.href = "../map/map.html";
+        window.location.href = "../map/index.html";
     };
 };
