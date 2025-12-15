@@ -6,12 +6,20 @@ export function getStoryLines({ phase, level, score, transition }) {
   }
 
   if (phase === "postLevel") {
-    const levelStory = storyData.postLevel[level];
-    if (!levelStory) return [];
+   const levelData = storyData.postLevel?.[level];
+   if(!levelData) return [];
 
-    if (score < 40) return levelStory.low ?? [];
-    if (score < 80) return levelStory.mid ?? [];
-    return levelStory.high ?? [];
+   const {thresholds, lines} = levelData;
+
+   let selectedKey = null;
+
+   for (const t of thresholds) {
+    if(score >= t.min) {
+        selectedKey = t.key;
+    } 
+   }
+
+   return lines[selectedKey] ?? [];
   }
 
   if (phase === "betweenLevels") {

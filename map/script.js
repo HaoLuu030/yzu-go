@@ -1,13 +1,68 @@
-import { lockAllLevels, setLevelButton, unlockLevelsByProgress } from "./js/helper.js";
+import { lockAllLevels, unlockLevelsByProgress } from "./js/helper.js";
 import { startGuide } from "./js/guideCharacter.js";
 
+/* =========================
+   STORY SELECTION (ONE ONLY)
+========================= */
 
-lockAllLevels();
-startGuide({ phase: "welcome" });
+let storyStarted = false;
 
+// 1️⃣ Highest priority: pending story from game
+const pendingStory = JSON.parse(localStorage.getItem("pendingStory"));
+
+if (pendingStory) {
+    lockAllLevels();
+
+    startGuide({
+        phase: pendingStory.phase,
+        level: pendingStory.level,
+        score: pendingStory.score
+    });
+
+    localStorage.removeItem("pendingStory");
+    storyStarted = true;
+}
+
+// 2️⃣ Fallback: legacy post-level score (optional)
+if (!storyStarted) {
+    const lastLevel = "level1";
+    const lastScore = JSON.parse(localStorage.getItem(`${lastLevel}_score`));
+
+    if (lastScore !== null) {
+        lockAllLevels();
+
+        startGuide({
+            phase: "postLevel",
+            level: lastLevel,
+            score: lastScore
+        });
+
+        localStorage.removeItem(`${lastLevel}_score`);
+        storyStarted = true;
+    }
+}
+
+// 3️⃣ Default: welcome story
+if (!storyStarted) {
+  const welcomeSeen = localStorage.getItem("welcomeSeen") === "true";
+
+  if (!welcomeSeen) {
+    lockAllLevels();
+    startGuide({ phase: "welcome" });
+    localStorage.setItem("welcomeSeen", "true");
+  } else {
+    // no welcome → just unlock normally
+    unlockLevelsByProgress();
+  }
+}
+
+
+/* =========================
+   UNLOCK AFTER STORY
+========================= */
 
 document.addEventListener("guide:finished", () => {
-  unlockLevelsByProgress();   // 🔓 now apply real unlock rules
+    unlockLevelsByProgress();
 });
 
 const frames = [
