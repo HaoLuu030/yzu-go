@@ -1,5 +1,5 @@
 body {
-    background: url(images/UI/background.png) no-repeat center center fixed;
+    background: url(../image/UI/background_fieldTrack.png) no-repeat center center fixed;
     background-size: cover;
     font-family: "Concert One", sans-serif;
     font-weight: 400;
@@ -27,6 +27,8 @@ body {
 }
 
 #board-container {
+    position: relative;
+    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -51,6 +53,8 @@ body {
     grid-template-columns: 1fr 3fr;
     justify-content: center;
     align-items: center;
+    position: relative;
+    z-index: 100;
 
 }
 
@@ -169,7 +173,7 @@ body {
     background: rgba(0, 0, 0, 0.6);
     margin: 0 0;
     display: none;
-    z-index: 25;
+    z-index: 101;
     justify-content: center;
     align-items: center;
 }
@@ -223,3 +227,121 @@ body {
     height: 15vh;
     margin-left: 20%;
 }
+
+/* 1. BACKGROUND PART */
+.background {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 0;
+}
+
+/* Bubbles animation */
+
+.bubbles img {
+    width: 10vh;
+    animation: bubble 15s linear infinite;
+}
+
+.bubbles img:hover {
+    animation: none;
+    filter: blur(150px);
+}
+
+.bubbles {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    bottom: -9%;
+}
+
+@keyframes bubble {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    70% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-98vh);
+        opacity: 0;
+    }
+
+}
+
+.bubbles img:nth-child(1) {
+    animation-delay: 0.5s;
+    width: 30px;
+}
+
+.bubbles img:nth-child(2) {
+    width: 28px;
+}
+
+.bubbles img:nth-child(3) {
+    animation-delay: 8s;
+    width: 36px;
+}
+
+.bubbles img:nth-child(4) {
+    animation-delay: 8.2s;
+    width: 27px;
+}
+
+.bubbles img:nth-child(5) {
+    animation-delay: 2s;
+    width: 20px;
+}
+
+.bubbles img:nth-child(6) {
+    animation-delay: 4s;
+    width: 30px;
+}
+
+.bubbles img:nth-child(7) {
+    animation-delay: 5s;
+    width: 35px;
+}
+
+.bubbles img:nth-child(8) {
+    animation-delay: 1s;
+    width: 29px;
+}
+
+.bubbles img:nth-child(9) {
+    animation-delay: 7s;
+    width: 40px;
+}
+
+.sunfish img {
+    position: absolute;
+    height: 120vh;
+    animation: move 40s linear infinite;
+    bottom: 0;
+    left: 0;
+}
+
+@keyframes move {
+    from {
+        transform: translateX(-200vh);
+    }
+
+    to {
+        transform: translateX(100vw);
+    }
+}
+
+
+/* END: 1. BACKGROUND PART */
+

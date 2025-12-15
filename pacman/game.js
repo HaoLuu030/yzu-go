@@ -26,7 +26,8 @@ let frightenedImage3;
 
 let frightened = false;
 let frightenedTimer = 0;
-let gameStarted = true;
+let gameStarted = false;
+
 const FRIGHTENED_DURATION = 8000;
 
 //X = wall, O = skip, P = pac man, ' ' = food
@@ -83,7 +84,21 @@ window.onload = function () {
     }
     update();
     document.addEventListener("keyup", movePacman);
+
+
+    // SHOW START OVERLAY
+    document.getElementById("overlay").style.display = "flex";
+    const startOverlay = document.getElementById("overlay");
+
+    startOverlay.onclick = function () {
+        startOverlay.style.display = "none";
+        gameStarted = true;
+    };
+
+
 }
+
+
 
 function loadImages() {
     wallImage = new Image();
@@ -166,16 +181,22 @@ function loadMap() {
 }
 
 function update() {
-    if (gameOver || gameWin) {
+    if (!gameStarted) {
         draw();
+        setTimeout(update, 80);
         return;
     }
+
+    if (gameOver || gameWin) {
+        return;
+    }
+
 
     move();
     draw();
     setTimeout(update, 80);
-
 }
+
 
 function draw() {
     context.clearRect(0, 0, board.width, board.height);
@@ -315,8 +336,7 @@ function activateFrightenedMode() {
 
 
 function movePacman(e) {
-    if (gameStarted == false)
-    {
+    if (gameStarted == false) {
         return;
     }
     if (gameOver || gameWin) {
@@ -449,10 +469,28 @@ class Block {
 
 
 function triggerGameOver() {
-    document.getElementById("gameover-overlay").style.display = "flex";
+    const overlay = document.getElementById("gameover-overlay");
+
+    overlay.style.display = "flex";
     gameStarted = false;
-    saveLevelProgress("level_5", score)
+
+    saveLevelProgress("level_5", score);
+
+    overlay.onclick = function () {
+        overlay.style.display = "none";
+
+        loadMap();
+        resetPositions();
+
+        score = 0;
+        lives = 3;
+        gameOver = false;
+        gameWin = false;
+
+        gameStarted = true;
+    };
 }
+
 
 // Universal save function for all levels
 function saveLevelProgress(levelName, score) {

@@ -3,7 +3,7 @@ html {
     margin: 0;
     padding: 0;
     overflow: hidden;
-   
+
 }
 
 body {
@@ -54,10 +54,9 @@ body {
 
 
 .island {
-    width: 90%;
+    width: 120%;
     position: absolute;
-    margin-top: -2%;
-    margin-left: 7%;
+    margin-top: 0;
     z-index: 1;
     animation: upDown 3.5s ease-in-out infinite alternate;
 }
@@ -66,8 +65,8 @@ body {
 
 .level {
     position: absolute;
-    width: 75vw;
-    height: 75vw;
+    width: 87vw;
+    height: 100vw;
     left: 0;
     top: 0;
     animation: upDown 3.5s ease-in-out infinite alternate;
@@ -98,9 +97,9 @@ body {
 
 
 .waterfall img {
-    width: 210%;
-    margin-top: -54.9%;
-    margin-left: -59%;
+    width: 235%;
+    margin-top: -55.5%;
+    margin-left: -63%;
     position: absolute;
     z-index: 4;
     animation: upDown 3.5s ease-in-out infinite alternate;
@@ -118,8 +117,8 @@ body {
 
 .button-unlocked {
     position: absolute;
-    height: 0.4vw;
-    width: 0.6vw;
+    height: 0.5vw;
+    width: 1vw;
     position: absolute;
     display: flex;
     justify-content: center;
@@ -130,7 +129,8 @@ body {
     vertical-align: middle;
     text-decoration: none;
     font-family: inherit;
-    font-size: 0.5vw;
+    font-size: 1vw;
+
 }
 
 .button-unlocked {
@@ -140,14 +140,14 @@ body {
     font-weight: 600;
     color: white;
     text-transform: uppercase;
-    padding: 1.25em 2em;
+    padding: 1em 1.75em;
     background: #28a20d;
     border: 0.2vw solid #ffffff;
     border-radius: 100%;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
     -webkit-transition: background 150ms cubic-bezier(0, 0, 0.58, 1), -webkit-transform 150ms cubic-bezier(0, 0, 0.58, 1);
-    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1), -webkit-transform 150ms cubic-bezier(0, 0, 0.58, 1);
+    transition: transform 170ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1), -webkit-transform 150ms cubic-bezier(0, 0, 0.58, 1);
 }
 
 .button-unlocked::before {
@@ -161,10 +161,9 @@ body {
     bottom: 0;
     background: #f8f9f8;
     border-radius: inherit;
-    -webkit-box-shadow: 0 0 0 0.18vw #ffffff, 0 0.1em 0 0 #ffffff;
-    box-shadow: 0 0 0 0.18vw #ffffff, 0 0.1em 0 0 #ffffffff;
-    -webkit-transform: translate3d(0, 0.75em, -1em);
-    transform: translate3d(0, 0.75em, -1em);
+    box-shadow: 0 0 0 0.15vw #ffffff, 0 0.2em 0 0 #ffffffff;
+    -webkit-transform: translate3d(0, 1em, -1.75em);
+    transform: translate3d(0, 0.8em, -1.1em);
     transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1), -webkit-transform 150ms cubic-bezier(0, 0, 0.58, 1), -webkit-box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
 }
 
@@ -195,8 +194,8 @@ body {
 .button-locked {
     pointer-events: none;
     position: absolute;
-    height: 0.4vw;
-    width: 0.6vw;
+    height: 0.5vw;
+    width: 1vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -205,13 +204,13 @@ body {
     vertical-align: middle;
     text-decoration: none;
     font-family: inherit;
-    font-size: 0.5vw;
+    font-size: 1vw;
     font-family: "Alfa Slab One", serif;
     font-weight: 400;
     font-style: normal;
     color: white;
     text-transform: uppercase;
-    padding: 1.25em 2em;
+    padding: 1em 1.75em;
     background: gray;
     border: 0.2vw solid #ffffff;
     border-radius: 100%;
@@ -240,7 +239,7 @@ body {
     margin-top: 5%;
     position: fixed;
     z-index: 100;
-    
+
 }
 
 
