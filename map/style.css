@@ -218,6 +218,12 @@ body {
 }
 
 
+.story-locked {
+    filter: grayscale(100%) brightness(0.75);
+    cursor: wait;
+}
+
+
 
 .dolphin img {
     margin-top: 20%;

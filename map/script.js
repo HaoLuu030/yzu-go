@@ -1,4 +1,13 @@
-import { setLevelButton } from "./js/helper.js";
+import { lockAllLevels, setLevelButton, unlockLevelsByProgress } from "./js/helper.js";
+import { startGuide } from "./js/guideCharacter.js";
+
+
+lockAllLevels();
+startGuide("level1", 0);
+
+document.addEventListener("guide:finished", () => {
+  unlockLevelsByProgress();   // 🔓 now apply real unlock rules
+});
 
 const frames = [
   "image/waterfall/1.png",
@@ -12,7 +21,6 @@ const frames = [
   "image/waterfall/9.png",
   "image/waterfall/10.png",
   "image/waterfall/11.png"
-
 ];
 
 let current = 0;
@@ -23,13 +31,3 @@ setInterval(() => {
   current = (current + 1) % frames.length;
   img.src = frames[current];
 }, 100);
-
-
-
-window.onload = function () {
-
-  for (let i = 1; i <= 8; i++) {
-    setLevelButton(i)
-  }
-  
-};
