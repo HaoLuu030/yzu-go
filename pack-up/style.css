@@ -1,5 +1,5 @@
 body {
-    background: url(images/background.png) no-repeat center bottom fixed;
+    background: url(../image/UI/background_pack-up.png) no-repeat center bottom fixed;
     background-size: cover;
     font-family: "Concert One", sans-serif;
     font-weight: 400;
@@ -111,17 +111,18 @@ body {
 
 .whale img {
     position: absolute;
-    height: 110vh;
-    animation: move 30s linear infinite;
+    height: 200vh;
+    animation: move 40s linear infinite;
+    margin-top: -10vh;
 }
 
 @keyframes move {
     from {
-        transform: translateX(-140vw);
+        transform: translateX(-210vw);
     }
 
     to {
-        transform: translateX(50vw);
+        transform: translateX(70vw);
     }
 }
 
@@ -178,7 +179,7 @@ body {
 }
 
 #back-to-map {
-    background-image: url(images/UI/button.png);
+    background-image: url(../image/UI/button.png);
     color: white;
     display: flex;
     align-items: center;
@@ -234,7 +235,7 @@ body {
 
 .time {
     font-size: 3vh;
-    background-image: url(images/UI/button.png);
+    background-image: url(../image/UI/button.png);
     background-size: contain;
     background-repeat: no-repeat;
     border: none;
@@ -249,7 +250,7 @@ body {
 
 .score {
     font-size: 3vh;
-    background-image: url(images/UI/button.png);
+    background-image: url(../image/UI/button.png);
     background-size: contain;
     background-repeat: no-repeat;
     border: none;
@@ -269,7 +270,7 @@ body {
     font-family: inherit;
     font-weight: 400;
     font-style: inherit;
-    background-image: url("images/UI/level.png");
+    background-image: url("../image/UI/level.png");
     background-size: contain;
     background-repeat: no-repeat;
     border: none;
@@ -286,7 +287,7 @@ body {
 }
 
 .music {
-    background-image: url(images/UI/button.png);
+    background-image: url(../image/UI/button.png);
     background-size: 8vh 8vh;
     background-repeat: no-repeat;
     border: none;
@@ -296,7 +297,7 @@ body {
 }
 
 .map {
-    background-image: url(images/UI/button.png);
+    background-image: url(../image/UI/button.png);
     background-size: 8vh 8vh;
     background-repeat: no-repeat;
     border: none;
@@ -339,7 +340,7 @@ body {
     position: absolute;
     width: 82vh;
     height: 82vh;
-    background-image: url(images/UI/dorm.png);
+    background-image: url(../image/UI/dorm.png);
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;

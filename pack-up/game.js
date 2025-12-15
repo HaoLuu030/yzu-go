@@ -657,11 +657,11 @@ window.onload = function () {
     musicBtn.onclick = function () {
         if (musicOn) {
             fadeOutMusic(bgm);
-            document.getElementById("music-icon").src = "images/UI/volume_off.png";
+            document.getElementById("music-icon").src = "../image/UI/volume_off.png";
             musicOn = false;
         } else {
             fadeInMusic(bgm);
-            document.getElementById("music-icon").src = "images/UI/volume_on.png";
+            document.getElementById("music-icon").src = "../image/UI/volume_on.png";
             musicOn = true;
         }
     };
@@ -676,7 +676,7 @@ window.onload = function () {
         // auto play music on start
         if (!musicOn) {
             fadeInMusic(bgm);
-            document.getElementById("music-icon").src = "images/UI/volume_on.png";
+            document.getElementById("music-icon").src = "../image/UI/volume_on.png";
             musicOn = true;
         }
 

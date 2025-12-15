@@ -20,7 +20,31 @@
 </head>
 
 <body>
+        <!-- 1. BACKGROUND PART -->
+    <div class="background">
 
+        <!-- a. Bubbles floating -->
+        <div class="bubbles">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+        </div>
+
+        <!-- b. Decoration -->
+       <div class="fish"><img src="../image/UI/smallfish.png"></div>
+        
+    </div>
+    <!-- 1. END: BACKGROUND PART -->
+
+
+
+    
 
     <!-- UI -->
     <div id="gameover-overlay">
@@ -53,6 +77,11 @@
         </div>
 
         <div id="game-container">
+             <!-- The overlay with this building's background -->
+            <div id="overlay">
+                <div id="overlay-text">Click to Start</div>
+            </div>
+            
             <div class="canvas-wrapper">
                 <canvas id="board"></canvas> <!-- Replace with the game for this level -->
             </div>
