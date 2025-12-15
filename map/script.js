@@ -1,3 +1,5 @@
+import { setLevelButton } from "./js/helper.js";
+
 const frames = [
   "image/waterfall/1.png",
   "image/waterfall/2.png",
@@ -67,64 +69,9 @@ typeLine();
 
 
 window.onload = function () {
+
+  for (let i = 1; i <= 8; i++) {
+    setLevelButton(i)
+  }
   
-  const level2 = JSON.parse(localStorage.getItem("level_2"));
-  const level3 = JSON.parse(localStorage.getItem("level_3"));
-  const level4 = JSON.parse(localStorage.getItem("level_4"));
-  const level5 = JSON.parse(localStorage.getItem("level_5"));
-  const level6 = JSON.parse(localStorage.getItem("level_6"));
-  const level7 = JSON.parse(localStorage.getItem("level_7"));
-  const level8 = JSON.parse(localStorage.getItem("level_8"));
-
-  document.getElementById("level1").classList.add("button-unlocked");
-
-  if (level2 && level2.unlocked === true) {
-    document.getElementById("level2").classList.add("button-unlocked");
-  }
-  else {
-    document.getElementById("level2").classList.add("button-locked");
-  }
-
-  if (level3 && level3.unlocked === true) {
-    document.getElementById("level3").classList.add("button-unlocked");
-  }
-  else {
-    document.getElementById("level3").classList.add("button-locked");
-  }
-
-
-  if (level4 && level4.unlocked === true) {
-    document.getElementById("level4").classList.add("button-unlocked");
-  }
-  else {
-    document.getElementById("level4").classList.add("button-locked");
-  }
-
-  if (level5 && level5.unlocked === true) {
-    document.getElementById("level5").classList.add("button-unlocked");
-  }
-  else {
-    document.getElementById("level5").classList.add("button-locked");
-  }
-
-  if (level6 && level6.unlocked === true) {
-    document.getElementById("level6").classList.add("button-unlocked");
-  }
-  else {
-    document.getElementById("level6").classList.add("button-locked");
-  }
-
-  if (level7 && level7.unlocked === true) {
-    document.getElementById("level7").classList.add("button-unlocked");
-  }
-  else {
-    document.getElementById("level7").classList.add("button-locked");
-  }
-
-  if (level8 && level8.unlocked === true) {
-    document.getElementById("level8").classList.add("button-unlocked");
-  }
-  else {
-    document.getElementById("level8").classList.add("button-locked");
-  }
 };
