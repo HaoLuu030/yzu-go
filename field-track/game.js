@@ -200,5 +200,10 @@ export function startStopwatch() {
     }, 50);
 }
 
+// ===== BACK TO MAP =====
+document.getElementById("back-to-map").onclick = function () {
+    window.location.href = "../map/index.html";
+};
+
 
 export { scoreManager, spawnerManager, entityManager, player };

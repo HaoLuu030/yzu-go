@@ -217,6 +217,38 @@ body {
 }
 
 
+.story-locked {
+    filter: grayscale(100%) brightness(0.75);
+    cursor: wait;
+}
+
+.button-completed {
+    font-size: 1vw;
+    height: 0.5vw;
+    width: 1vw;
+    position: absolute;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: "Alfa Slab One", serif;
+
+    text-transform: uppercase;
+
+    padding: 1em 1.75em;
+    border-radius: 100%;
+    pointer-events: none;
+
+    background: #7a7a7a;
+    border: 0.2vw solid gold;
+    color: #f5f5f5;
+
+    transform-style: preserve-3d;
+    opacity: 0.9;
+}
+
+
 
 .dolphin img {
     margin-top: 20%;
@@ -239,7 +271,10 @@ body {
     margin-top: 5%;
     position: fixed;
     z-index: 100;
+<<<<<<< HEAD
 
+=======
+>>>>>>> script
 }
 
 
