@@ -5,7 +5,7 @@ export const storyData = {
     "And then what—straight into unemployment?",
     "Not so fast. Before you’re allowed to leave, we need to make sure you actually meet YZU’s standards.",
     "There’s one last challenge waiting for you.",
-    "So go on—pack up your things. We’ll see if you’re really ready to graduate."
+    "So go on - pack up your things. We’ll see if you’re really ready to graduate."
   ],
 
   postLevel: {
