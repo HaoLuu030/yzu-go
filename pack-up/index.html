@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pack Up</title>
+    <link rel="stylesheet" href="style.css">
+
+        <!-- FONT STYLE -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
+        <!-- FONT STYLE -->
+
+
+</head>
+
+<body>
+    <!-- 1. BACKGROUND PART -->
+    <div class="background">
+
+        <!-- a. Bubbles floating -->
+        <div class="bubbles">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+        </div>
+
+        <!-- b. Decoration -->
+        <div class="whale"><img src="../image/UI/whale.gif"></div>
+        
+        
+    </div>
+    <!-- 1. END: BACKGROUND PART -->
+
+
+
+
+    <!-- 2. WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS -->
+    <div id="gameover-overlay">
+
+        <!-- The message when you finish the game -->
+        <div class="message">
+
+            <!-- The left part -->
+            <div class="left">
+                <div class="text">Level Finished !</div>
+                <div><button id="back-to-map">Back to Map &nbsp; <img class="map-icon" src="../image/UI/map.png"></button></div>
+            </div>
+
+            <!-- The right part -->
+            <div class="right"><img class="dolphin" src="../image/UI/dolphin.png"></div>
+        </div>
+    </div>
+    <!--2. END: WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS-->
+
+   
+
+
+    <!-- 3. THE CONTAINER CONTAINS ALL ELEMENTS -->
+   <div class="container">
+        
+        <!-- a. The board contains all buttons -->
+        <div id="title" class="title">
+            <div class="level">
+                <button class="btn-level">1</button>
+            </div>
+            <div class="time">Time:&nbsp;<span id="timer">60</span>s</div>
+            <div class="score">Score:&nbsp;<span id="score">0</span></div>
+            <div class="btn">
+                <div><button class="music" id="music-btn"><img id="music-icon" src="../image/UI/volume_off.png"></button>
+                </div>
+                <div><a href="../map/index.html"><button class="map"><img id="map-icon" src="../image/UI/map.png"></button></a></div>
+            </div>
+        </div>
+
+
+        <!-- b. The board contains the game part-->
+        <div id="board-container">
+
+            <!-- The overlay with this building's background -->
+            <div id="overlay">
+                <div id="overlay-text">Click to Start</div>
+            </div>
+            
+            <!-- The game -->
+            <div id="board"></div>
+        </div>
+
+        <!-- Music - my teammate specially chose for each game-->
+        <audio id="bgm" src="./sound effects/background-music.mp3" loop></audio>
+    </div>
+    <!-- END: 3. THE CONTAINER CONTAINS ALL ELEMENTS -->
+
+</body>
+
+
+<script src="game.js"></script>
+
+</html>
+
