@@ -45,7 +45,7 @@ export default class ScoreManager {
         }
 
         // ⭐ Only save CURRENT SCORE
-        saveLevelProgress("level_2", Math.floor(gameState.score));
+        saveLevelProgress("level2", Math.floor(gameState.score));
 
         // update external HTML score
         this._updateHtmlScore();

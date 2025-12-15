@@ -80,6 +80,10 @@ function crushT() {
     for (let i = 0; i < rows - 2; i++) {
         for (let j = 0; j < columns - 2; j++) {
 
+            // a b c
+            // d e f
+            // g h k
+
             // local references for readability
             let a = board[i][j].src;
             let b = board[i][j + 1].src;
@@ -104,9 +108,9 @@ function crushT() {
             // ===========================
             if (a == b && b == c && c == e && e == h) {
                 board[i][j].src = "./images/blank.gif";
-                board[i][j + 1].src = "./images/blank.gif";
+                board[i][j + 1].src = "./images/luggage.png";
                 board[i][j + 2].src = "./images/blank.gif";
-                board[i + 1][j + 1].src = "./images/luggage.png";
+                board[i + 1][j + 1].src = "./images/blank.gif";
                 board[i + 2][j + 1].src = "./images/blank.gif";
                 created = true;
                 score += 25;
@@ -119,7 +123,7 @@ function crushT() {
             //   XXX
             // center = h
             // ===========================
-            if (g == h && h == k && h == e && e == b) {
+            if (g == h && h == k && k == e && e == b) {
                 board[i + 2][j].src = "./images/blank.gif";
                 board[i + 2][j + 1].src = "./images/luggage.png";
                 board[i + 2][j + 2].src = "./images/blank.gif";
@@ -131,17 +135,17 @@ function crushT() {
 
             // ===========================
             // 3. Left-facing T
-            //     X
+            //   X  
             //   XXX
-            //     X
+            //   X  
             // center = e
             // ===========================
-            if (d == e && e == f && e == b && e == h) {
-                board[i + 1][j].src = "./images/blank.gif";
-                board[i + 1][j + 1].src = "./images/luggage.png";
+            if (a == d && d == g && g == e && e == f) {
+                board[i][j].src = "./images/blank.gif";
+                board[i + 1][j].src = "./images/luggage.png";
+                board[i + 2][j].src = "./images/blank.gif";
+                board[i + 1][j + 1].src = "./images/blank.gif";
                 board[i + 1][j + 2].src = "./images/blank.gif";
-                board[i][j + 1].src = "./images/blank.gif";
-                board[i + 2][j + 1].src = "./images/blank.gif";
                 created = true;
                 score += 25;
             }
@@ -153,13 +157,12 @@ function crushT() {
             //   X
             // center = e
             // ===========================
-            if (a == e && e == g && e == b && e == f) {
-                board[i][j].src = "./images/blank.gif";
+            if (d == e && e == f && f == c && c == k) {
                 board[i + 1][j].src = "./images/blank.gif";
-                board[i + 2][j].src = "./images/blank.gif";
-                board[i][j + 1].src = "./images/blank.gif";
-                board[i + 2][j + 1].src = "./images/blank.gif";
-                board[i + 1][j + 1].src = "./images/luggage.png";
+                board[i + 1][j + 1].src = "./images/blank.gif";
+                board[i + 1][j + 2].src = "./images/luggage.png";
+                board[i][j + 2].src = "./images/blank.gif";
+                board[i + 2][j + 2].src = "./images/blank.gif";
                 created = true;
                 score += 25;
             }
