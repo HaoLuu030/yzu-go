@@ -63,3 +63,5 @@ document.querySelector(".dialog-box").addEventListener("click", () => {
         document.dispatchEvent(new CustomEvent("guide:finished"));
     }
 });
+
+

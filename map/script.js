@@ -3,7 +3,8 @@ import { startGuide } from "./js/guideCharacter.js";
 
 
 lockAllLevels();
-startGuide("level1", 0);
+startGuide({ phase: "welcome" });
+
 
 document.addEventListener("guide:finished", () => {
   unlockLevelsByProgress();   // 🔓 now apply real unlock rules

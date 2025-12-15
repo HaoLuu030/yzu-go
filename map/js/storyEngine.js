@@ -1,9 +1,22 @@
 import { storyData } from "./storyData.js";
 
-export function getStoryLines(level, score) {
-  if (!storyData[level]) return [];
+export function getStoryLines({ phase, level, score, transition }) {
+  if (phase === "welcome") {
+    return storyData.welcome ?? [];
+  }
 
-  if (score < 40) return storyData[level].low || [];
-  if (score < 80) return storyData[level].mid || [];
-  return storyData[level].high || [];
+  if (phase === "postLevel") {
+    const levelStory = storyData.postLevel[level];
+    if (!levelStory) return [];
+
+    if (score < 40) return levelStory.low ?? [];
+    if (score < 80) return levelStory.mid ?? [];
+    return levelStory.high ?? [];
+  }
+
+  if (phase === "betweenLevels") {
+    return storyData.betweenLevels[transition] ?? [];
+  }
+
+  return [];
 }
