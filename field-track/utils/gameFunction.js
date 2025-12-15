@@ -17,16 +17,40 @@ export function resume() {
     }
 }
 
-export function gameOver(context, board) {
+export function gameOver(context) {
     cancelAnimationFrame(gameState.animationId);
 
     // show dead player
     player.isDead = true;
 
-    // clear and draw static frame
+    // draw final frame
     context.clearRect(0, 0, boardWidth, boardHeight);
     entityManager.drawAll(context);
     scoreManager.draw(context);
+
+    // progression hook
+    const levelKey = "level2";
+    const finalScore = gameState.score;
+
+    // mark level complete
+    localStorage.setItem(levelKey, JSON.stringify({
+        unlocked: true,
+        completed: true
+    }))
+
+    // unlock next level
+
+    localStorage.setItem("level3", JSON.stringify({
+        unlocked: true
+    }))
+
+    // queue post-level story
+
+    localStorage.setItem("pendingStory", JSON.stringify({
+        phase: "postLevel",
+        level: levelKey,
+        score: finalScore
+    }));
 
     // draw game over image
     const gameOverImg = new Image();
