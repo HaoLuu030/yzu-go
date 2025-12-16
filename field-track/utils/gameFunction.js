@@ -4,6 +4,7 @@ import { SCALE } from "../config/scale.js";
 import { boardHeight, boardWidth } from "../entities/physics.js";
 import { scoreManager, entityManager, player } from "../game.js";
 import { startStopwatch } from "../game.js";
+import { triggerPostLevelStory } from "../../js/utils/progress.js";
 
 export function pause() {
     gameState.isRunning = false;
@@ -45,12 +46,7 @@ export function gameOver(context) {
     }))
 
     // queue post-level story
-
-    localStorage.setItem("pendingStory", JSON.stringify({
-        phase: "postLevel",
-        level: levelKey,
-        score: finalScore
-    }));
+    triggerPostLevelStory(levelKey, finalScore);
 
     // draw game over image
     const gameOverImg = new Image();

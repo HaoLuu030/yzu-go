@@ -1,70 +1,78 @@
 import { lockAllLevels, unlockLevelsByProgress } from "./js/helper.js";
-import { startGuide } from "./js/guideCharacter.js";
+import { startGuide, showLastStoryLineIfAny} from "./js/guideCharacter.js";
 
 /* =========================
-   STORY SELECTION (ONE ONLY)
+   STATE
 ========================= */
-
 let storyStarted = false;
 
-// 1️⃣ Highest priority: pending story from game
-const pendingStory = JSON.parse(localStorage.getItem("pendingStory"));
+/* =========================
+   LOAD FLAGS (first-visit)
+========================= */
+const flags = JSON.parse(localStorage.getItem("storyFlags")) || {
+  mapVisited: false,
+  welcomeDone: false
+};
 
-if (pendingStory) {
-    lockAllLevels();
 
-    startGuide({
-        phase: pendingStory.phase,
-        level: pendingStory.level,
-        score: pendingStory.score
-    });
 
-    localStorage.removeItem("pendingStory");
-    storyStarted = true;
+
+/* =========================
+   1) RESUME ACTIVE STORY
+========================= */
+const saved = JSON.parse(localStorage.getItem("storyState"));
+
+if (saved && !saved.completed) {
+  lockAllLevels();
+  startGuide(saved);
+  storyStarted = true;
 }
 
-// 2️⃣ Fallback: legacy post-level score (optional)
+/* =========================
+   2) FIRST VISIT → WELCOME
+========================= */
+if (!storyStarted && !flags.mapVisited) {
+  lockAllLevels();
+  startGuide({
+    phase: "welcome",
+    level: null,
+    score: null,
+    lineIndex: 0
+  });
+
+  flags.mapVisited = true;
+  localStorage.setItem("storyFlags", JSON.stringify(flags));
+
+
+  storyStarted = true;
+}
+
+/* =========================
+   3) NORMAL FLOW
+========================= */
 if (!storyStarted) {
-    const lastLevel = "level1";
-    const lastScore = JSON.parse(localStorage.getItem(`${lastLevel}_score`));
-
-    if (lastScore !== null) {
-        lockAllLevels();
-
-        startGuide({
-            phase: "postLevel",
-            level: lastLevel,
-            score: lastScore
-        });
-
-        localStorage.removeItem(`${lastLevel}_score`);
-        storyStarted = true;
-    }
+  unlockLevelsByProgress();
+  showLastStoryLineIfAny();
+  
 }
-
-// 3️⃣ Default: welcome story
-if (!storyStarted) {
-  const welcomeSeen = localStorage.getItem("welcomeSeen") === "true";
-
-  if (!welcomeSeen) {
-    lockAllLevels();
-    startGuide({ phase: "welcome" });
-    localStorage.setItem("welcomeSeen", "true");
-  } else {
-    // no welcome → just unlock normally
-    unlockLevelsByProgress();
-  }
-}
-
 
 /* =========================
    UNLOCK AFTER STORY
 ========================= */
-
 document.addEventListener("guide:finished", () => {
-    unlockLevelsByProgress();
+  // mark welcome as done ONLY after completion
+  const active = JSON.parse(localStorage.getItem("storyState"));
+  if (active?.phase === "welcome") {
+    flags.welcomeDone = true;
+    localStorage.setItem("storyFlags", JSON.stringify(flags));
+  }
+
+  unlockLevelsByProgress();
 });
 
+/* =========================
+   WATERFALL ANIMATION
+========================= */
 const frames = [
   "image/waterfall/1.png",
   "image/waterfall/2.png",
@@ -82,7 +90,6 @@ const frames = [
 let current = 0;
 const img = document.getElementById("waterfall");
 
-// changing the image after 100ms ( = 1s changing 10 images)
 setInterval(() => {
   current = (current + 1) % frames.length;
   img.src = frames[current];

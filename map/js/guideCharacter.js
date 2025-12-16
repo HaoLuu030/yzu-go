@@ -6,43 +6,93 @@ let charIndex = 0;
 let typing = false;
 let currentLine = "";
 
+let phase = null;
+let level = null;
+let score = null;
+let storyActive = false;
+
+
 const textEl = document.getElementById("dialogText");
 const nextEl = document.getElementById("nextIndicator");
 
+/* =========================
+   SAVE / LOAD
+========================= */
+
+function saveStory() {
+    localStorage.setItem("storyState", JSON.stringify({
+        phase,
+        level,
+        score,
+        lineIndex,
+        completed: false
+    }));
+}
+
+
+/* =========================
+   CORE CONTROLS
+========================= */
+
 function advanceDialog() {
+    if (!storyActive) return;   // ✅ HARD STOP
+
     if (typing) {
         finishLineImmediately();
         return;
     }
 
-    nextEl.style.visibility = "hidden";
     lineIndex++;
-    charIndex = 0;
+    saveStory();
+
+    nextEl.style.visibility = "hidden";
 
     if (lineIndex < dialogLines.length) {
+        charIndex = 0;
         textEl.textContent = "";
         typeLine();
     } else {
-        // Keep last line visible
-        typing = false;
-        nextEl.style.visibility = "hidden";
-        document.dispatchEvent(new CustomEvent("guide:finished"));
+        finishStory();
     }
 }
 
-export function startGuide(levelKey, score) {
-    dialogLines = getStoryLines(levelKey, score);
-    lineIndex = 0;
+
+export function startGuide({
+    phase: p,
+    level: l,
+    score: s,
+    lineIndex: resumeIndex = 0
+}) {
+    phase = p;
+    level = l;
+    score = s;
+    storyActive = true;
+
+
+    dialogLines = getStoryLines({ phase, level, score });
+
+    lineIndex = resumeIndex;
     charIndex = 0;
     typing = false;
 
     textEl.textContent = "";
     nextEl.style.visibility = "hidden";
 
-    if (dialogLines.length > 0) {
-        typeLine();
-    }
+    saveStory();
+    typeLine();
 }
+
+export function showLastStoryLineIfAny() {
+  const saved = JSON.parse(localStorage.getItem("storyLastLine"));
+  if (!saved?.text) return;
+
+  textEl.textContent = saved.text;
+  nextEl.style.visibility = "hidden";
+}
+
+/* =========================
+   TYPING EFFECT
+========================= */
 
 function typeLine() {
     typing = true;
@@ -64,19 +114,44 @@ function finishLineImmediately() {
     nextEl.style.visibility = "visible";
 }
 
-document
-  .querySelector(".dialog-box")
-  .addEventListener("click", advanceDialog);
+/* =========================
+   FINISH STORY
+========================= */
+
+function finishStory() {
+    storyActive = false;
+    const existing = JSON.parse(localStorage.getItem("storyState"));
+    if (!existing || existing.completed) return;
+    // persist last sentence for display
+    const lastLine = dialogLines[dialogLines.length - 1];
+
+    localStorage.setItem("storyLastLine", JSON.stringify({
+        text: lastLine,
+        phase
+    }));
+
+    // mark story complete
+    localStorage.setItem("storyState", JSON.stringify({
+        phase,
+        level,
+        score,
+        lineIndex,
+        completed: true
+    }));
+
+    localStorage.removeItem("storyState");
+    document.dispatchEvent(new CustomEvent("guide:finished"));
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+document.querySelector(".dialog-box").addEventListener("click", advanceDialog);
 
 document.addEventListener("keydown", (e) => {
-    const allowedKeys = ["Space", "Enter", "ArrowRight"];
-    if (!allowedKeys.includes(e.code)) return;
-
-    // prevent spacebar scrolling
+    if (!["Space", "Enter", "ArrowRight"].includes(e.code)) return;
     e.preventDefault();
-
     advanceDialog();
 });
-
-
-

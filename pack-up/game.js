@@ -1,4 +1,5 @@
 import { saveScore } from "../js/data/scoreRepository.js";
+import { triggerPostLevelStory } from "../js/utils/progress.js";
 
 var candies = ["Blue", "Orange", "Green", "Yellow", "Red", "Purple"];
 var board = [];
@@ -22,7 +23,6 @@ let gameLoop = null;
 function beginGame() {
 
     score = 0;
-    timeLeft = 60;
     document.getElementById("score").innerText = score;
     document.getElementById("timer").innerText = timeLeft;
 
@@ -627,6 +627,8 @@ function fadeOutMusic(bgm) {
 
 
 function startCountdown() {
+    console.log("started count");
+    console.log(timeLeft);
     timerInterval = setInterval(() => {
 
         timeLeft--;
@@ -642,36 +644,37 @@ function startCountdown() {
 
 
 async function endGame() {
-    // stop candy generation
+    // stop game
     gameStarted = false;
-
     clearInterval(gameLoop);
     clearInterval(timerInterval);
 
     // show overlay
     document.getElementById("gameover-overlay").style.display = "flex";
 
-    // save score
+    // =========================
+    // 1️. SAVE SCORE (unchanged)
+    // =========================
     const levelKey = "level1";
-    await saveScore({ level: levelKey, score: score });
+    await saveScore({ level: levelKey, score });
 
-    // mark complete level
+    // =========================
+    // 2️. SAVE LEVEL PROGRESS
+    // =========================
     localStorage.setItem(levelKey, JSON.stringify({
         unlocked: true,
         completed: true
     }));
 
-    // unlock next level
     const nextLevel = "level2";
-    localStorage.setItem(nextLevel, JSON.stringify({ unlocked: true }))
+    localStorage.setItem(nextLevel, JSON.stringify({ unlocked: true }));
 
-    // tell map what story to play
-    localStorage.setItem("pendingStory", JSON.stringify({
-        phase: "postLevel",
-        level: levelKey,
-        score
-    }));
+    // =========================
+    // 3️. TRIGGER STORY (NEW)
+    // =========================
+    triggerPostLevelStory(levelKey, score);
 }
+
 
 
 // ==== GAME STARTUP ====
