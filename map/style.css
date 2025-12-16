@@ -262,12 +262,12 @@ body {
 /* Dialog box */
 .dialog-box {
     color: white;
-    width: 12%;
+    width: 20%;
     height: 5%;
     background: rgba(0, 0, 0, 0.7);
-    border: 3% solid #fff;
+    /* border: 3% solid #fff; */
     border-radius: 10px;
-    padding: 5%;
+    padding: 5% 2%;
     margin-top: 5%;
     position: fixed;
     z-index: 100;
@@ -276,7 +276,9 @@ body {
 
 /* Text */
 .text {
-    font-size: 80%;
+    width: 100%;
+    margin-top: -5vh;
+    font-size: 120%;
     line-height: 1.5;
     min-height: 10%;
 }
