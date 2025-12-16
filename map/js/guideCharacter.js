@@ -9,6 +9,27 @@ let currentLine = "";
 const textEl = document.getElementById("dialogText");
 const nextEl = document.getElementById("nextIndicator");
 
+function advanceDialog() {
+    if (typing) {
+        finishLineImmediately();
+        return;
+    }
+
+    nextEl.style.visibility = "hidden";
+    lineIndex++;
+    charIndex = 0;
+
+    if (lineIndex < dialogLines.length) {
+        textEl.textContent = "";
+        typeLine();
+    } else {
+        // Keep last line visible
+        typing = false;
+        nextEl.style.visibility = "hidden";
+        document.dispatchEvent(new CustomEvent("guide:finished"));
+    }
+}
+
 export function startGuide(levelKey, score) {
     dialogLines = getStoryLines(levelKey, score);
     lineIndex = 0;
@@ -43,25 +64,19 @@ function finishLineImmediately() {
     nextEl.style.visibility = "visible";
 }
 
-document.querySelector(".dialog-box").addEventListener("click", () => {
-    if (typing) {
-        finishLineImmediately();
-        return;
-    }
+document
+  .querySelector(".dialog-box")
+  .addEventListener("click", advanceDialog);
 
-    nextEl.style.visibility = "hidden";
-    lineIndex++;
-    charIndex = 0;
+document.addEventListener("keydown", (e) => {
+    const allowedKeys = ["Space", "Enter", "ArrowRight"];
+    if (!allowedKeys.includes(e.code)) return;
 
-    if (lineIndex < dialogLines.length) {
-        textEl.textContent = "";
-        typeLine();
-    } else {
-        // Keep last line visible
-        typing = false;
-        nextEl.style.visibility = "hidden";
-        document.dispatchEvent(new CustomEvent("guide:finished"));
-    }
+    // prevent spacebar scrolling
+    e.preventDefault();
+
+    advanceDialog();
 });
+
 
 
