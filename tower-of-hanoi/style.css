@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f5f5f5;
+}
+
+#game {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+}
+
+/* PEG CONTAINER (hidden box, used only for layout) */
+.peg {
+    width: 220px;   /* match the wider base */
+    height: 250px;
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: flex-start;
+    padding-bottom: 20px;
+    background: none;
+    border: none;
+    gap: 0;
+}
+
+
+
+/* THE VERTICAL POLE */
+.pole {
+    position: absolute;
+    bottom: 18px;              /* sits ON the base */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 220px;
+    background: #777;
+    border-radius: 6px;
+    z-index: 1;                /* behind disks */
+}
+
+/* THE BASE PLATFORM */
+.peg::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;   /* widened base */
+    height: 18px;
+    background: #ccc;
+    border: 2px solid #aaa;
+    border-radius: 10px;
+    z-index: -1;
+}
+
+
+/* DISKS */
+.disk {
+    z-index: 2;
+    height: 25px;
+    margin: 0;          /* remove extra space */
+    border-radius: 5px;
+    cursor: grab;
+}
+
+
+#message {
+    color: green;
+    font-weight: bold;
+    height: 20px;
+}
+
+#instructions {
+    background: #fff3cd;
+    color: #856404;
+    padding: 10px 20px;
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    display: inline-block;
+}
