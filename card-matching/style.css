@@ -1,0 +1,176 @@
+body {
+    text-align: center;
+    background-image: url(../image/background_card-matching.png)no-repeat bottom fixed;
+    background-size: cover;
+    font-family: "Concert One", sans-serif;
+    /* makes the image cover the whole screen */
+    background-repeat: no-repeat;
+    /* prevents tiling */
+    background-position: center;
+    /* keeps the image centered */
+    background-attachment: fixed;
+    /* optional: keeps background fixed on scroll */
+}
+
+#boardWrapper {
+    display: block;          /* block-level container */
+    width: fit-content;      /* shrink-to-fit the board */
+    margin: 0 auto;          /* center it */
+    position: relative;      /* canvas uses this */
+
+
+    padding: 15px;
+    border: 5px solid rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow:
+        0 0 10px rgba(255, 255, 255, 0.7),
+        0 0 25px rgba(255, 100, 100, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(8, 60px);
+    justify-content: center;
+    gap: 6px;
+    position: relative;
+}
+
+.cell {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cell img {
+    width: 48px;
+    height: auto;
+    pointer-events: none;
+}
+
+.cell.empty {
+    background: transparent;
+    border: none;
+    cursor: default;
+}
+
+/* Shade effect when selected */
+.cell.active {
+    filter: brightness(85%);
+    transition: filter 0.15s ease;
+}
+
+/* Canvas overlays the board */
+#lineCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+/* score board */
+#hud {
+    font-size: 20px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+
+#gameOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 50; /* sits above board & canvas */
+}
+
+#overlayBox {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 30px 50px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(255, 100, 100, 0.5);
+}
+
+
+#overlayBox h2 {
+    margin-bottom: 20px;
+}
+
+#startBtn {
+    font-size: 20px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 10px;
+    background: #ff6b6b;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#startBtn:hover {
+    transform: scale(1.06);
+    background: #ff4f4f;
+}
+
+/* overlay win */
+
+#winOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.55);
+    display: none; /* hidden at first */
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 60; /* above board, canvas, and start overlay */
+}
+
+#winBox {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 30px 50px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(255, 100, 100, 0.5);
+}
+
+#returnBtn {
+    margin-top: 15px;
+    padding: 12px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    background: #4aa3ff;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#returnBtn:hover {
+    transform: scale(1.06);
+    background: #3b8ae0;
+}
