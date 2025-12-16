@@ -5,6 +5,7 @@ import { boardHeight, boardWidth } from "../entities/physics.js";
 import { scoreManager, entityManager, player } from "../game.js";
 import { startStopwatch } from "../game.js";
 import { triggerPostLevelStory } from "../../js/utils/progress.js";
+import { saveScore } from "../../js/data/scoreRepository.js";
 
 export function pause() {
     gameState.isRunning = false;
@@ -18,7 +19,7 @@ export function resume() {
     }
 }
 
-export function gameOver(context) {
+export async function gameOver(context) {
     cancelAnimationFrame(gameState.animationId);
 
     // show dead player
@@ -31,7 +32,8 @@ export function gameOver(context) {
 
     // progression hook
     const levelKey = "level2";
-    const finalScore = gameState.score;
+    const finalScore = Math.floor(gameState.score);
+    await saveScore({ level: levelKey, score: finalScore });
 
     // mark level complete
     localStorage.setItem(levelKey, JSON.stringify({
