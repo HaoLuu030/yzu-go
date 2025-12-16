@@ -1,6 +1,6 @@
 //board
 let board;
-const rowCount = 21;
+const rowCount = 17;
 const columnCount = 19;
 const tileSize = 35;
 const boardWidth = columnCount * tileSize;
@@ -49,11 +49,7 @@ const tileMap = [
     "OOXX            XOO",
     "OOOXX XXXXXXX XXOOO",
     "OOOOX    P    XOOOO",
-    "OOOOOXXXXXXXXXOOOOO",
-    "OOOOOOOOOOOOOOOOOOO",
-    "OOOOOOOOOOOOOOOOOOO",
-    "OOOOOOOOOOOOOOOOOOO",
-    "OOOOOOOOOOOOOOOOOOO"
+    "OOOOOXXXXXXXXXOOOOO"
 
 ];
 
