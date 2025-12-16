@@ -12,6 +12,22 @@ let score = null;
 let storyActive = false;
 
 
+// audio
+const typingSound = new Audio("./sfx/typing.mp3");
+const clickSound = new Audio("./sfx/clicking.ogg");
+
+// tuning
+typingSound.volume = 0.3;
+clickSound.volume = 0.6;
+
+// prevent overlap stacking
+typingSound.loop = true;
+
+const bgm = document.getElementById("bgm");
+let bgmStarted = false;
+
+
+
 const textEl = document.getElementById("dialogText");
 const nextEl = document.getElementById("nextIndicator");
 
@@ -35,7 +51,13 @@ function saveStory() {
 ========================= */
 
 function advanceDialog() {
-    if (!storyActive) return;   // ✅ HARD STOP
+    if (!storyActive) return;
+
+    // 🔓 unlock & start music on FIRST interaction only
+    if (!bgmStarted) {
+        bgm.play().catch(() => {});
+        bgmStarted = true;
+    }
 
     if (typing) {
         finishLineImmediately();
@@ -55,6 +77,8 @@ function advanceDialog() {
         finishStory();
     }
 }
+
+
 
 
 export function startGuide({
@@ -95,7 +119,12 @@ export function showLastStoryLineIfAny() {
 ========================= */
 
 function typeLine() {
-    typing = true;
+    if (!typing) {
+        typing = true;
+        typingSound.currentTime = 0;
+        typingSound.play().catch(() => {}); // browser-safe
+    }
+
     currentLine = dialogLines[lineIndex];
 
     if (charIndex < currentLine.length) {
@@ -103,11 +132,13 @@ function typeLine() {
         setTimeout(typeLine, 40);
     } else {
         typing = false;
+        typingSound.pause();
         nextEl.style.visibility = "visible";
     }
 }
 
 function finishLineImmediately() {
+    typingSound.pause();
     textEl.textContent = currentLine;
     charIndex = currentLine.length;
     typing = false;
@@ -141,6 +172,8 @@ function finishStory() {
 
     localStorage.removeItem("storyState");
     document.dispatchEvent(new CustomEvent("guide:finished"));
+    typingSound.pause();
+
 }
 
 
