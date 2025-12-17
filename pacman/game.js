@@ -1,3 +1,5 @@
+
+const FRIGHTENED_TOUCH_BONUS = 20;
 //board
 let board;
 const rowCount = 17;
@@ -31,6 +33,8 @@ let gameStarted = false;
 
 let eatSound;
 let bigEatSound;
+let hitSound;
+let bigHit;
 let bgm;
 
 
@@ -132,6 +136,11 @@ function loadSounds() {
     bigEatSound = new Audio("./sfx/big-eat.mp3");
     bigEatSound.volume = 0.8;
 
+    hitSound = new Audio("./sfx/hit-sound.mp3");
+    hitSound.volume = 0.8;
+
+    bigHit = new Audio("./sfx/big-hit.mp3");
+    hitSound.volume = 1;
 }
 
 
@@ -297,9 +306,16 @@ function move() {
     for (let ghost of ghosts.values()) {
         if (collision(ghost, pacman)) {
             if (frightened) {
+                bigHit.pause();
+                bigHit.currentTime = 0;
+                bigHit.play().catch(() => { });
                 // Pac-Man eats ghost
                 score += 200;
             } else {
+
+                hitSound.pause();
+                hitSound.currentTime = 0;
+                hitSound.play().catch(() => { });
                 // Ghost kills Pac-Man
                 lives -= 1;
                 if (lives == 0) {

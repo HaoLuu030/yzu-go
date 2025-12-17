@@ -6,7 +6,7 @@ import { startLoader } from "../shared/loader/index.js";
 
 startLoader(
   {
-    text: "Loading",
+    text: "Wandering around YZU...",
     assets: [
       "./image/cloud.png",
       "./image/dolphin.png",
