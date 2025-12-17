@@ -1,3 +1,28 @@
+
+
+import { preloadAssets, hideLoader, setLoadingText } from "../shared/loader.js";
+
+setLoadingText("Loading game assets...");
+
+// Put the assets your page needs (paths are relative to THIS JS file)
+const assets = [
+  "./image/background.png",
+  "./image/bubble.png",
+  "./image/coral1.png",
+  "./image/coral2.png",
+  "./image/jellyfish.gif",
+  "./image/volume_off.png",
+  "./image/volume_on.png",
+  "./image/yzu_logo.png",
+  "./image/home_music.mp3"
+];
+
+await preloadAssets(assets);
+
+// ✅ Assets are ready, safe to start game + hide loader
+hideLoader();
+
+
 function Float(e)
 {
   e.classList.add("float-once");
