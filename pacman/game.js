@@ -28,6 +28,14 @@ let frightened = false;
 let frightenedTimer = 0;
 let gameStarted = false;
 
+
+let eatSound;
+let bigEatSound;
+let bgm;
+
+
+
+
 const FRIGHTENED_DURATION = 8000;
 
 //X = wall, O = skip, P = pac man, ' ' = food
@@ -64,12 +72,19 @@ let lives = 3;
 let gameOver = false;
 
 window.onload = function () {
+
+    // load background music
+    bgm = document.getElementById("bgm");
+    bgm.volume = 0.5;
+    bgm.loop = true;
+
     board = document.getElementById("board");
     board.height = boardHeight;
     board.width = boardWidth;
     context = board.getContext("2d"); //used for drawing on the board
 
     loadImages();
+    loadSounds();
     loadMap();
     // console.log(walls.size)
     // console.log(foods.size)
@@ -89,10 +104,36 @@ window.onload = function () {
     startOverlay.onclick = function () {
         startOverlay.style.display = "none";
         gameStarted = true;
+
+        // unlock normal eat
+        eatSound.play().then(() => {
+            eatSound.pause();
+            eatSound.currentTime = 0;
+        }).catch(() => { });
+
+        // unlock big eat
+        bigEatSound.play().then(() => {
+            bigEatSound.pause();
+            bigEatSound.currentTime = 0;
+        }).catch(() => { });
+
+        // play bgm
+        bgm.play();
     };
 
 
 }
+
+
+function loadSounds() {
+    eatSound = new Audio("./sfx/eat.mp3");
+    eatSound.volume = 0.7;
+
+    bigEatSound = new Audio("./sfx/big-eat.mp3");
+    bigEatSound.volume = 0.8;
+
+}
+
 
 
 
@@ -296,15 +337,24 @@ function move() {
         if (collision(pacman, food)) {
 
             if (food.isSpecial) {
+                bigEatSound.pause();
+                bigEatSound.currentTime = 0;
+                bigEatSound.play().catch(() => { });
+
                 activateFrightenedMode();
                 score += 50;
             } else {
+                eatSound.pause();
+                eatSound.currentTime = 0;
+                eatSound.play().catch(() => { });
+
                 score += 10;
             }
 
             foodEaten = food;
-            break; // eat only one per frame
+            break;
         }
+
     }
 
     if (foodEaten) {
@@ -465,6 +515,7 @@ class Block {
 
 
 function triggerGameOver() {
+    bgm.pause();
     const overlay = document.getElementById("gameover-overlay");
 
     overlay.style.display = "flex";
