@@ -7,6 +7,39 @@
     <script>
         document.documentElement.classList.add("loading");
     </script>
+    <style>
+        html.loading .app {
+            visibility: hidden;
+        }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -23,51 +56,51 @@
 
     <div class="app">
         <div class="main_view">
-        <div class="top">
-            <div class="left_top">
-                <img class="jellyfish_1" src="image/jellyfish.gif" onClick="Float(this)">
-            </div>
-            <div class="title">
-                <img class="yzu_logo" src="image/yzu_logo.png">
-                <a class="link" href="map/index.html">
-                    <div class="play_button"><button>Play</button></div>
-                </a>
-            </div>
-            <div class="right_top">
-                <div class="music">
-                    <button onclick="playMusic()" id="music_button" class="music_button">
-                        <img id="music_image" class="music_image" src="image/volume_on.png">
-                        <audio id="music_file" src="image/home_music.mp3" loop></audio>
-                    </button>
+            <div class="top">
+                <div class="left_top">
+                    <img class="jellyfish_1" src="image/jellyfish.gif" onClick="Float(this)">
                 </div>
-                <div class="jellyfish">
-                    <img class="jellyfish_2" src="image/jellyfish.gif" onClick="Float(this)">
+                <div class="title">
+                    <img class="yzu_logo" src="image/yzu_logo.png">
+                    <a class="link" href="map/index.html">
+                        <div class="play_button"><button>Play</button></div>
+                    </a>
+                </div>
+                <div class="right_top">
+                    <div class="music">
+                        <button onclick="playMusic()" id="music_button" class="music_button">
+                            <img id="music_image" class="music_image" src="image/volume_on.png">
+                            <audio id="music_file" src="image/home_music.mp3" loop></audio>
+                        </button>
+                    </div>
+                    <div class="jellyfish">
+                        <img class="jellyfish_2" src="image/jellyfish.gif" onClick="Float(this)">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="bottom">
-            <div class="left_bottom">
-                <img class="coral1" src="image/coral1.png">
+            <div class="bottom">
+                <div class="left_bottom">
+                    <img class="coral1" src="image/coral1.png">
+                </div>
+                <div class="right_bottom">
+                    <img class="coral2" src="image/coral2.png">
+                </div>
             </div>
-            <div class="right_bottom">
-                <img class="coral2" src="image/coral2.png">
+            <div class="bubbles">
+                <img src="image/bubble.png">
+                <img src="image/bubble.png">
+                <img src="image/bubble.png">
+                <img src="image/bubble.png">
+                <img src="image/bubble.png">
+                <img src="image/bubble.png">
+                <img src="image/bubble.png">
+                <img src="image/bubble.png">
+                <img src="image/bubble.png">
             </div>
         </div>
-        <div class="bubbles">
-            <img src="image/bubble.png">
-            <img src="image/bubble.png">
-            <img src="image/bubble.png">
-            <img src="image/bubble.png">
-            <img src="image/bubble.png">
-            <img src="image/bubble.png">
-            <img src="image/bubble.png">
-            <img src="image/bubble.png">
-            <img src="image/bubble.png">
-        </div>
-    </div>
     </div>
 
-    
+
 </body>
 <script type="module" src="script.js"></script>
 
