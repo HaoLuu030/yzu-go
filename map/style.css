@@ -264,6 +264,7 @@ body {
     width: 20%;
     height: 5%;
     background: rgba(0, 0, 0, 0.7);
+    font-family: "Concert One", sans-serif !important;
     /* border: 3% solid #fff; */
     border-radius: 10px;
     padding: 5% 2%;
