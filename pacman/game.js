@@ -1,5 +1,6 @@
-
-const FRIGHTENED_TOUCH_BONUS = 20;
+import { saveScore } from "../js/data/scoreRepository.js";
+import { triggerPostLevelStory } from "../js/utils/progress.js";
+const FRIGHTENED_TOUCH_BONUS = 10;
 //board
 let board;
 const rowCount = 17;
@@ -305,20 +306,30 @@ function move() {
     //check ghosts collision
     for (let ghost of ghosts.values()) {
         if (collision(ghost, pacman)) {
+
             if (frightened) {
                 bigHit.pause();
                 bigHit.currentTime = 0;
                 bigHit.play().catch(() => { });
-                // Pac-Man eats ghost
-                score += 200;
-            } else {
+                // Bonus for interacting during frightened mode
+                score += FRIGHTENED_TOUCH_BONUS;
 
+                // Reset ONLY the ghost
+                ghost.reset();
+
+                const newDirection = directions[Math.floor(Math.random() * 4)];
+                ghost.updateDirection(newDirection);
+
+                continue;
+            }
+            else {
                 hitSound.pause();
                 hitSound.currentTime = 0;
                 hitSound.play().catch(() => { });
-                // Ghost kills Pac-Man
-                lives -= 1;
-                if (lives == 0) {
+                // Real danger
+                lives--;
+
+                if (lives === 0) {
                     gameOver = true;
                     triggerGameOver();
                 }
@@ -327,6 +338,8 @@ function move() {
                 return;
             }
         }
+
+
 
 
         if (ghost.y == tileSize * 9 && ghost.direction != 'U' && ghost.direction != 'D') {
@@ -358,13 +371,13 @@ function move() {
                 bigEatSound.play().catch(() => { });
 
                 activateFrightenedMode();
-                score += 50;
+                score += 5;
             } else {
                 eatSound.pause();
                 eatSound.currentTime = 0;
                 eatSound.play().catch(() => { });
 
-                score += 10;
+                score += 1;
             }
 
             foodEaten = food;
@@ -530,14 +543,38 @@ class Block {
 
 
 
-function triggerGameOver() {
+async function triggerGameOver() {
     bgm.pause();
     const overlay = document.getElementById("gameover-overlay");
 
     overlay.style.display = "flex";
     gameStarted = false;
 
-    saveLevelProgress("level_5", score);
+    // =========================
+    // 1️. SAVE SCORE (unchanged)
+    // =========================
+    const levelKey = "level4";
+    await saveScore({ level: levelKey, score });
+
+    // =========================
+    // 2️. SAVE LEVEL PROGRESS
+    // =========================
+    localStorage.setItem(levelKey, JSON.stringify({
+        unlocked: true,
+        completed: true
+    }));
+
+    const nextLevel = "level5";
+    localStorage.setItem(nextLevel, JSON.stringify({ unlocked: true }));
+
+    // =========================
+    // 3️. TRIGGER STORY (NEW)
+    // =========================
+    triggerPostLevelStory(levelKey, score);
+
+
+    clearInterval(timerInterval);
+    gameOverOverlay.style.display = "flex";
 
     overlay.onclick = function () {
         overlay.style.display = "none";
@@ -552,15 +589,4 @@ function triggerGameOver() {
 
         gameStarted = true;
     };
-}
-
-
-// Universal save function for all levels
-function saveLevelProgress(levelName, score) {
-    const data = {
-        score: score,
-        unlocked: true
-    };
-
-    localStorage.setItem(levelName, JSON.stringify(data));
 }

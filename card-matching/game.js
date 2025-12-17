@@ -374,8 +374,6 @@ async function checkGameEnd() {
         for (let c = 1; c < COL - 1; c++)
             if (board[r][c]) return false;
 
-     console.log("saving score");
-
     // =========================
     // 1️. SAVE SCORE (unchanged)
     // =========================
