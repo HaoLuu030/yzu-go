@@ -18,6 +18,7 @@
             position: fixed;
             inset: 0;
             background: #000;
+            font-family: system-ui, sans-serif;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -35,6 +36,7 @@
             animation: spin 1s linear infinite;
             margin-bottom: 12px;
         }
+
         @keyframes spin {
             to {
                 transform: rotate(360deg);
@@ -55,6 +57,25 @@
 
 <body>
     <div id="loader-root"></div>
+
+    <!-- 2. WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS -->
+    <div id="gameover-overlay">
+
+        <!-- The message when you finish the game -->
+        <div class="message">
+
+            <!-- The left part -->
+            <div class="left">
+                <div class="text">Level Finished !</div>
+                <div><button id="back-to-map">Back to Map &nbsp; <img class="map-icon"
+                            src="../image/UI/map.png"></button></div>
+            </div>
+
+            <!-- The right part -->
+            <div class="right"><img class="dolphin" src="../image/UI/dolphin.png"></div>
+        </div>
+    </div>
+    <!--2. END: WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS-->
     <!-- 1. BACKGROUND PART -->
     <div class="app">
         <div class="background">
@@ -77,65 +98,42 @@
 
 
         </div>
-    </div>
-    <!-- 1. END: BACKGROUND PART -->
 
+        <!-- 3. THE CONTAINER CONTAINS ALL ELEMENTS -->
+        <div class="container">
 
-
-
-    <!-- 2. WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS -->
-    <div id="gameover-overlay">
-
-        <!-- The message when you finish the game -->
-        <div class="message">
-
-            <!-- The left part -->
-            <div class="left">
-                <div class="text">Level Finished !</div>
-                <div><button id="back-to-map">Back to Map &nbsp; <img class="map-icon"
-                            src="../image/UI/map.png"></button></div>
-            </div>
-
-            <!-- The right part -->
-            <div class="right"><img class="dolphin" src="../image/UI/dolphin.png"></div>
-        </div>
-    </div>
-    <!--2. END: WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS-->
-
-
-
-
-    <!-- 3. THE CONTAINER CONTAINS ALL ELEMENTS -->
-    <div class="container">
-
-        <!-- a. The board contains all buttons -->
-        <div id="title" class="title">
-            <div class="level">
-                <button class="btn-level">1</button>
-            </div>
-            <div class="time">Time:&nbsp;<span id="timer">60</span>s</div>
-            <div class="score">Score:&nbsp;<span id="score">0</span></div>
-            <div class="btn">
-                <div><button class="music" id="music-btn"><img id="music-icon"
-                            src="../image/UI/volume_off.png"></button>
+            <!-- a. The board contains all buttons -->
+            <div id="title" class="title">
+                <div class="level">
+                    <button class="btn-level">1</button>
                 </div>
-                <div><a href="../map/index.html"><button class="map"><img id="map-icon"
-                                src="../image/UI/map.png"></button></a></div>
-            </div>
-        </div>
-
-
-        <!-- b. The board contains the game part-->
-        <div id="board-container">
-
-            <!-- The overlay with this building's background -->
-            <div id="overlay">
-                <div id="overlay-text">Click to Start</div>
+                <div class="time">Time:&nbsp;<span id="timer">60</span>s</div>
+                <div class="score">Score:&nbsp;<span id="score">0</span></div>
+                <div class="btn">
+                    <div><button class="music" id="music-btn"><img id="music-icon"
+                                src="../image/UI/volume_off.png"></button>
+                    </div>
+                    <div><a href="../map/index.html"><button class="map"><img id="map-icon"
+                                    src="../image/UI/map.png"></button></a></div>
+                </div>
             </div>
 
-            <!-- The game -->
-            <div id="board"></div>
+
+            <!-- b. The board contains the game part-->
+            <div id="board-container">
+
+                <!-- The overlay with this building's background -->
+                <div id="overlay">
+                    <div id="overlay-text">Click to Start</div>
+                </div>
+
+                <!-- The game -->
+                <div id="board"></div>
+            </div>
         </div>
+        <!-- 1. END: BACKGROUND PART -->
+
+
 
         <!-- Music - my teammate specially chose for each game-->
         <audio id="bgm" src="./sfx/background-music.mp3" loop></audio>
