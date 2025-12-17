@@ -62,7 +62,7 @@
                     Score: &nbsp;<span id="score">0</span>
                 </div>
 
-                 <div class="questions">
+                <div class="questions">
                     Question &nbsp;<span id="question"></span>
                 </div>
 
@@ -94,7 +94,6 @@
                 <div id="quiz-word" class="quiz-word"></div>
 
                 <div id="quiz-alphabet" class="quiz-alphabet"></div>
-
                 <div id="quiz-status" class="quiz-status"></div>
 
             </div>
@@ -103,7 +102,11 @@
     </div>
 
     <!-- AUDIO -->
-    <audio id="bgm" src="../card-matching/sfx/soundtrack.mp3" loop></audio>
+    <audio id="bgm" src="./sfx/background-music.mp3" loop></audio>
+    <audio id="revealSound" src="./sfx/gong.mp3" preload="auto"></audio>
+    <audio id="correctSound" src="./sfx/correct.mp3" preload="auto"></audio>
+    <audio id="wrongSound" src="./sfx/incorrect.mp3" preload="auto"></audio>
+
 
     <script src="./game.js"></script>
 </body>

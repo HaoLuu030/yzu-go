@@ -66,9 +66,15 @@ const questions = document.getElementById("question");
 
 /* AUDIO (shared system) */
 const bgm = document.getElementById("bgm");
-const clickSound = document.getElementById("clickSound");
 const musicBtn = document.getElementById("music-btn");
 const musicIcon = document.getElementById("music-icon");
+
+
+// NEW
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+const revealSound = document.getElementById("revealSound");
+
 
 let isMusicOn = false;
 let bgmStarted = false;
@@ -171,6 +177,7 @@ function updateWord() {
     if (!display.includes("_")) {
         quizScore += 50;
         updateScoreDisplay();
+         playSound(revealSound);
         statusEl.textContent = phraseWinMessages[phraseIndex];
         phraseIndex++;
 
@@ -190,15 +197,20 @@ function guess(letter, btn) {
         correctLetters.push(letter);
         quizScore += 10;
         updateScoreDisplay();
+
+        playSound(correctSound); // ✅ RIGHT SOUND
         updateWord();
     } else {
         wrong++;
         quizScore = Math.max(0, quizScore - 10);
         updateScoreDisplay();
 
+        playSound(wrongSound); // ❌ WRONG SOUND
+
         statusEl.textContent = `Wrong: ${wrong} / ${maxWrong}`;
 
         if (wrong >= maxWrong) {
+            playSound(revealSound);
             statusEl.textContent = phraseFailMessages[phraseIndex];
             phraseIndex++;
 
@@ -210,6 +222,7 @@ function guess(letter, btn) {
         }
     }
 }
+
 
 function endGame() {
     disableAll();
@@ -271,7 +284,17 @@ function logScore(score) {
 }
 
 /* ============================================================
-   9. BOOT
+   9. sound
+============================================================ */
+function playSound(sound) {
+    if (!isMusicOn) return;
+    sound.currentTime = 0;
+    sound.play();
+}
+
+
+/* ============================================================
+   10. BOOT
 ============================================================ */
 
 createAlphabet();
