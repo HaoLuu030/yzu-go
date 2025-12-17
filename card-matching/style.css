@@ -411,6 +411,11 @@ body {
     width: 40vh;
     height: 15vh;
     margin-left: 20%;
+    cursor: pointer;
+}
+
+#back-to-map:hover {
+    transform: scale(1.2);
 }
 
 /* END: 2. THE OVERLAY DISPLAYS WHEN THE PLAYER FINISH THIS LEVEL*/

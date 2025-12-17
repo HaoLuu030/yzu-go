@@ -2,8 +2,8 @@
    1. CONSTANTS & GLOBAL GAME STATE
 ============================================================ */
 
-const ROW = 2 + 2;
-const COL = 2 + 2;
+const ROW = 8 + 2;
+const COL = 8 + 2;
 
 const board = [];
 
