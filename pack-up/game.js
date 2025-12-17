@@ -4,7 +4,7 @@ import { startLoader } from "../shared/loader/index.js";
 
 
 startLoader({
-    text: "Loading",
+    text: "Going through the luggage...",
     assets: [
         "./images/blank.gif",
         "./images/Blue.png",

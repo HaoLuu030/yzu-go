@@ -4,54 +4,99 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game Level</title>
-
-    <link rel="stylesheet" href="style.css" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>Building 7</title>
+    <!-- FONT STYLE -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet" />
-   
+    <!-- FONT STYLE -->
+
+    <!-- loading -->
+    <script>
+        document.documentElement.classList.add("loading");
+    </script>
+    <style>
+        html.loading .app {
+            visibility: hidden;
+        }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            font-family: "Concert One", sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../shared/loader/styles.css">
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-    <!-- BACKGROUND-->
-    <div class="background">
-        <div class="bubbles">
-            <img src="../image/UI/bubble.png" alt="">
-            <img src="../image/UI/bubble.png" alt="">
-            <img src="../image/UI/bubble.png" alt="">
-            <img src="../image/UI/bubble.png" alt="">
-        </div>
-        <div class="crownfish">
-            <img src="../image/UI/crownfish.gif" alt="">
-        </div>
-        <div class="seahorse">
-            <img src="../image/UI/seahorse.gif" alt="">
+    <div id="loader-root"></div>
+
+    <div class="app">
+        <!-- BACKGROUND-->
+        <div class="background">
+            <div class="bubbles">
+                <img src="../image/UI/bubble.png" alt="">
+                <img src="../image/UI/bubble.png" alt="">
+                <img src="../image/UI/bubble.png" alt="">
+                <img src="../image/UI/bubble.png" alt="">
+            </div>
+            <div class="crownfish">
+                <img src="../image/UI/crownfish.gif" alt="">
+            </div>
+            <div class="seahorse">
+                <img src="../image/UI/seahorse.gif" alt="">
+            </div>
         </div>
     </div>
 
 
     <div class="container">
-     <!-- 2. WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS -->
-    <div id="gameover-overlay">
+        <!-- 2. WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS -->
+        <div id="gameover-overlay">
 
-        <!-- The message when you finish the game -->
-        <div class="message">
+            <!-- The message when you finish the game -->
+            <div class="message">
 
-            <!-- The left part -->
-            <div class="left">
-                <div class="text">Level Finished !</div>
-                <div><button id="back-to-map">Back to Map &nbsp; <img class="map-icon" src="../image/UI/map.png"></button></div>
+                <!-- The left part -->
+                <div class="left">
+                    <div class="text">Level Finished !</div>
+                    <div><button id="back-to-map">Back to Map &nbsp; <img class="map-icon"
+                                src="../image/UI/map.png"></button></div>
+                </div>
+
+                <!-- The right part -->
+                <div class="right"><img class="dolphin" src="../image/UI/dolphin.png"></div>
             </div>
-
-            <!-- The right part -->
-            <div class="right"><img class="dolphin" src="../image/UI/dolphin.png"></div>
         </div>
-    </div>
-    <!--2. END: WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS-->
+        <!--2. END: WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS-->
 
 
         <!-- TOP HUD -->
@@ -73,7 +118,8 @@
                         fill="#FFFFFF">
                         <path
                             d="M560-160v-80h104L537-367l57-57 126 126v-102h80v240H560Zm-344 0-56-56 504-504H560v-80h240v240h-80v-104L216-160Zm151-377L160-744l56-56 207 207-56 56Z" />
-                    </svg></div>
+                    </svg>
+                </div>
 
                 <div class="btn">
 
@@ -100,7 +146,7 @@
     <audio id="clickSound" src="./sfx/click.wav"></audio>
     <audio id="matchSound" src="./sfx/match.mp3"></audio>
     <audio id="shuffleSound" src="./sfx/shuffle.mp3"></audio>
-     <script type="module" src="game.js"></script>
+    <script type="module" src="game.js"></script>
 </body>
 
 </html>
