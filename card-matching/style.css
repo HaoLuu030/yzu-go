@@ -67,7 +67,7 @@ body {
     font-family: inherit;
     font-weight: 400;
     font-style: inherit;
-    background-image: url("../image/UI/level.png");
+    background-image: url(../image/UI/level.png);
     background-size: contain;
     background-repeat: no-repeat;
     border: none;

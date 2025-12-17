@@ -26,7 +26,7 @@ export const storyData = {
                     "Oh - and watch out for others on the track, will you? You’re not the only one using it."
                 ],
                 mid: [
-                    "So, you got it done. Not exactly fast, but good enough.",
+                    "Well, you finished. Eventually.",
                     "Let’s move on to the next challenge.",
                     "Being a good student isn’t just about the mind - it’s about the body too. You know?",
                     "And nothing works the body like a good run.",
@@ -55,30 +55,54 @@ export const storyData = {
                     "Yeah... ",
                     "Maybe don’t mention this to your PE teacher. Let’s not break his heart.",
                     "Anyway, let's see...",
-                    "I heard that some flags in building 7 have gone missing",
-                    "Must be the Santa Claus!",
-                    "I have been seeing him all over campus recently.",
-                    "Doesn't matter. I will deal with that scoundrel myself later.",
-                    "So your job now is to go gather the flags, alright?"
+                    "See those flags hanging over the balconies?",
+                    "Yeah... absolute chaos.",
+                    "Figures. That old Santa again.",
+                    "First the boys’ dorm, then the food court, and now this?",
+                    "I swear I’ve seen him swinging around campus like an overcaffeinated gorilla.",
+                    "Whatever. I’ll deal with that red-suited menace later.",
+                    "You, on the other hand...",
+                    "Fix the flags.",
+                    "Match the identical ones and put them back where they belong.",
+                    "And remember: they need a little breathing room between them before they can connect.",
+                    "Also, don’t dawdle.",
+                    "Speed matters.",
+                    "Think of it as a very festive addition to your final performance review."
                 ],
                 mid: [
                     "Mediocer. Just like your GPA.",
                     "Anyway, let's see...",
-                    "I heard that some flags in building 7 have gone missing",
-                    "Must be the Santa Claus!",
-                    "I have been seeing him all over campus recently.",
-                    "Doesn't matter. I will deal with that scoundrel myself later.",
-                    "So your job now is to go gather the flags, alright?"
+                    "See those flags hanging over the balconies?",
+                    "Yeah... absolute chaos.",
+                    "Figures. That old Santa again.",
+                    "First the boys’ dorm, then the food court, and now this?",
+                    "I swear I’ve seen him swinging around campus like an overcaffeinated gorilla.",
+                    "Whatever. I’ll deal with that red-suited menace later.",
+                    "You, on the other hand...",
+                    "Fix the flags.",
+                    "Match the identical ones and put them back where they belong.",
+                    "And remember: they need a little breathing room between them before they can connect.",
+                    "Also, don’t dawdle.",
+                    "Speed matters.",
+                    "Think of it as a very festive addition to your final performance review."
                 ],
                 high: [
                     "Holy hell! You nearly turned that Shiba into a speed bump.",
-                    "Guess you are in a hurry to get out of here huh?",
+                    "Guess you are really in a hurry to get out of here huh?",
                     "Anyway, let's see...",
-                    "I heard that some flags in building 7 have gone missing",
-                    "Must be the Santa Claus!",
-                    "I have been seeing him all over campus recently.",
-                    "Doesn't matter. I will deal with that scoundrel myself later.",
-                    "So your job now is to go gather the flags, alright?"
+                    "See those flags hanging over the balconies?",
+                    "Yeah... absolute chaos.",
+                    "Figures. That old Santa again.",
+                    "First the boys’ dorm, then the food court, and now this?",
+                    "I swear I’ve seen him swinging around campus like an overcaffeinated gorilla.",
+                    "Whatever. I’ll deal with that red-suited menace later.",
+                    "You, on the other hand...",
+                    "Fix the flags.",
+                    "Match the identical ones and put them back where they belong.",
+                    "And remember: they need a little breathing room between them before they can connect.",
+                    "Also, don’t dawdle.",
+                    "Speed matters.",
+                    "Think of it as a very festive addition to your final performance review."
                 ]
             }
         },
@@ -92,42 +116,47 @@ export const storyData = {
             lines: {
                 low: [
                     "Those were flags, not grains of rice!",
-                    "Guess your eyesight’s even worse than that old Santa’s.",
-                    "Never mind.We’re running out of time, so let’s move straight to the next challenge.",
-                    "See Building 2 across the street ?",
-                    "Rumor has it there are ghosts over there after midnight.",
-                    "Probably just campus folklore, but rumors don’t chase themselves...",
-                    "Why don’t you go check if that’s true, alright ?",
-                    "Everyone keeps talking about critical thinking.",
-                    "Let’s see if you can actually use it."
+                    "Wow. Your eyesight might actually be worse than that old Santa’s.",
+                    "Never mind. We’re running out of time. Let’s move on to the next challenge.",
+                    "See Building 2 across the road?",
+                    "Word is, it’s haunted after midnight",
+                    "Probably just campus folklore, but rumors don’t investigate themselves.",
+                    "So why don’t you go check it out?",
+                    "And if those ‘ghosts’ turn out to be actual people, come say hi.",
+                    "They’ll probably give you something. Maybe. I don’t know. I’m not their manager.",
+                    "Now what are you waiting for? Get inside already!"
                 ],
                 mid: [
-                    "Barely acceptable. At this rate, Santa's still going to beat you to it.",
-                    "Never mind.We’re running out of time, so let’s move straight to the next challenge.",
-                    "See Building 2 across the street ?",
-                    "Rumor has it there are ghosts over there after midnight.",
-                    "Probably just campus folklore, but rumors don’t chase themselves...",
-                    "Why don’t you go check if that’s true, alright ?",
-                    "Everyone keeps talking about critical thinking.",
-                    "Let’s see if you can actually use it."
+                    "Barely acceptable.",
+                    "At this pace, that old Santa will mess up half the campus before you finish fixing the flags.",
+                    "Never mind. We’re running out of time. Let’s move on to the next challenge.",
+                    "See Building 2 across the road?",
+                    "Word is, it’s haunted after midnight",
+                    "Probably just campus folklore, but rumors don’t investigate themselves.",
+                    "So why don’t you go check it out?",
+                    "And if those ‘ghosts’ turn out to be actual people, come say hi.",
+                    "They’ll probably give you something. Maybe. I don’t know. I’m not their manager.",
+                    "Now what are you waiting for? Get inside already!"
                 ],
                 high: [
-                    "You managed to retrieve all the missing flags huh? Not half bad... I guess.",
-                    "Never mind.We’re running out of time, so let’s move straight to the next challenge.",
-                    "See Building 2 across the street ?",
-                    "Rumor has it there are ghosts over there after midnight.",
-                    "Probably just campus folklore, but rumors don’t chase themselves...",
-                    "Why don’t you go check if that’s true, alright ?",
-                    "Everyone keeps talking about critical thinking.",
-                    "Let’s see if you can actually use it."
+                    "Wait, you’re done already?",
+                    "Huh. That was… faster than expected.",
+                    "Never mind. We’re running out of time. Let’s move on to the next challenge.",
+                    "See Building 2 across the road?",
+                    "Word is, it’s haunted after midnight.",
+                    "Probably just campus folklore, but rumors don’t investigate themselves.",
+                    "So why don’t you go check it out?",
+                    "And if those ‘ghosts’ turn out to be actual people, come say hi.",
+                    "They’ll probably give you something. Maybe. I don’t know. I’m not their manager.",
+                    "Now what are you waiting for? Get inside already!"
                 ]
             }
         },
         level4: {
             thresholds: [
-                {min: 0, key: "low"},
-                {min: 100, key: "mid"},
-                {min: 300, key: "high"}
+                { min: 0, key: "low" },
+                { min: 100, key: "mid" },
+                { min: 300, key: "high" }
             ],
             lines: {
                 low: [
@@ -173,9 +202,9 @@ export const storyData = {
 
         level5: {
             thresholds: [
-                {min: 0, key: "low"},
-                {min: 100, key: "mid"},
-                {min: 200, key: "high"}
+                { min: 0, key: "low" },
+                { min: 100, key: "mid" },
+                { min: 200, key: "high" }
             ],
             lines: {
                 low: [
@@ -210,9 +239,9 @@ export const storyData = {
         },
         level6: {
             thresholds: [
-                {min: 0, key: "low"},
-                {min: 100, key: "mid"},
-                {min: 400, key: "high"}
+                { min: 0, key: "low" },
+                { min: 100, key: "mid" },
+                { min: 400, key: "high" }
             ],
             lines: {
                 low: [

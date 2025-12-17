@@ -7,7 +7,7 @@ startLoader({
     text: "Searching for the flags...",
     assets: [
         "../image/UI/background_card-matching.png",
-        ".../image/UI/building_7.png"
+        "../image/UI/building_7.png"
     ]
 })
 
