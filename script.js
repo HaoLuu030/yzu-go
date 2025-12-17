@@ -1,6 +1,6 @@
 
 
-import { preloadAssets, hideLoader, setLoadingText } from "../shared/loader.js";
+import { preloadAssets, hideLoader, setLoadingText } from "./shared/loader.js";
 
 setLoadingText("Loading game assets...");
 
