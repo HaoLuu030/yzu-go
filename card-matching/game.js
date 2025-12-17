@@ -1,5 +1,5 @@
-import { triggerPostLevelStory } from "../../js/utils/progress.js";
-import { saveScore } from "../../js/data/scoreRepository.js";
+import { saveScore } from "../js/data/scoreRepository.js";
+import { triggerPostLevelStory } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/index.js";
 
 
