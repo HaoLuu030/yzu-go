@@ -1,5 +1,28 @@
 import { saveScore } from "../js/data/scoreRepository.js";
 import { triggerPostLevelStory } from "../js/utils/progress.js";
+import { startLoader } from "../shared/loader/index.js";
+
+
+startLoader({
+    text: "Loading",
+    assets: [
+        "./images/blank.gif",
+        "./images/Blue.png",
+        "./images/Green.png",
+        "./images/luggage.png",
+        "./images/Orange.png",
+        "./images/Purple.png",
+        "./images/Red.png",
+        "./images/Yellow.png",
+        "./sfx/background-music.mp3",
+        "./sfx/blink.mp3",
+        "./sfx/perfect.mp3",
+        "./sfx/shining.mp3",
+        "../image/UI/bubble.png",
+        "../image/UI/whale.gif",
+        "../image/UI/background_pack-up.png",
+    ]
+})
 
 var candies = ["Blue", "Orange", "Green", "Yellow", "Red", "Purple"];
 var board = [];
@@ -170,7 +193,7 @@ function crushT() {
     }
 
     if (created) {
-        const sound = new Audio("./sound effects/shining.mp3");
+        const sound = new Audio("./sfx/shining.mp3");
         sound.play();
     }
 }
@@ -278,7 +301,7 @@ function crushL() {
     }
 
     if (created) {
-        const sound = new Audio("./sound effects/shining.mp3");
+        const sound = new Audio("./sfx/shining.mp3");
         sound.play();
     }
 }
@@ -314,7 +337,7 @@ function crushFive() {
                 candy4.src = "./images/blank.gif";
                 candy5.src = "./images/blank.gif";
                 score += 20;
-                const sound = new Audio("./sound effects/shining.mp3");
+                const sound = new Audio("./sfx/shining.mp3");
                 sound.play();
             }
         }
@@ -336,7 +359,7 @@ function crushFive() {
                 candy4.src = "./images/blank.gif";
                 candy5.src = "./images/blank.gif";
                 score += 20;
-                const sound = new Audio("./sound effects/shining.mp3");
+                const sound = new Audio("./sfx/shining.mp3");
                 sound.play();
             }
         }
@@ -359,7 +382,7 @@ function crushFour() {
                 candy3.src = "./images/blank.gif";
                 candy4.src = "./images/luggage.png";
                 score += 20;
-                const sound = new Audio("./sound effects/shining.mp3");
+                const sound = new Audio("./sfx/shining.mp3");
                 sound.play();
             }
         }
@@ -378,7 +401,7 @@ function crushFour() {
                 candy3.src = "./images/blank.gif";
                 candy4.src = "./images/luggage.png";
                 score += 20;
-                const sound = new Audio("./sound effects/shining.mp3");
+                const sound = new Audio("./sfx/shining.mp3");
                 sound.play();
             }
         }
@@ -400,7 +423,7 @@ function crushThree() {
                 candy2.src = "./images/blank.gif";
                 candy3.src = "./images/blank.gif";
                 score += 10;
-                const sound = new Audio("./sound effects/blink.mp3");
+                const sound = new Audio("./sfx/blink.mp3");
                 sound.play();
             }
         }
@@ -416,7 +439,7 @@ function crushThree() {
                 candy2.src = "./images/blank.gif";
                 candy3.src = "./images/blank.gif";
                 score += 10;
-                const sound = new Audio("./sound effects/blink.mp3");
+                const sound = new Audio("./sfx/blink.mp3");
                 sound.play();
             }
         }
@@ -487,7 +510,7 @@ function dragEnd() {
                     score += 5;
                 }
             }
-            const sound = new Audio("./sound effects/blink.mp3");
+            const sound = new Audio("./sfx/blink.mp3");
             sound.play();
             return;
         }
@@ -502,7 +525,7 @@ function dragEnd() {
                     }
                 }
             }
-            const sound = new Audio("./sound effects/blink.mp3");
+            const sound = new Audio("./sfx/blink.mp3");
             sound.play();
             currTile.src = "./images/blank.gif";
             otherTile.src = "./images/blank.gif";
@@ -519,7 +542,7 @@ function dragEnd() {
                     }
                 }
             }
-            const sound = new Audio("./sound effects/blink.mp3");
+            const sound = new Audio("./sfx/blink.mp3");
             sound.play();
             currTile.src = "./images/blank.gif";
             otherTile.src = "./images/blank.gif";
