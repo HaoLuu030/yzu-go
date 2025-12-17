@@ -157,7 +157,36 @@ window.onload = function () {
     };
 
 
+    setupMusicToggle();
+
+
+
 }
+
+let musicEnabled = true;
+
+function setupMusicToggle() {
+    const musicBtn = document.getElementById("music-btn");
+    const musicIcon = document.getElementById("music-icon");
+
+    if (!musicBtn || !musicIcon || !bgm) return;
+
+    // Initial icon
+    musicIcon.src = "../image/UI/volume_on.png";
+
+    musicBtn.addEventListener("click", () => {
+        musicEnabled = !musicEnabled;
+
+        if (musicEnabled) {
+            bgm.play().catch(() => { });
+            musicIcon.src = "../image/UI/volume_on.png";
+        } else {
+            bgm.pause();
+            musicIcon.src = "../image/UI/volume_off.png";
+        }
+    });
+}
+
 
 
 function loadSounds() {
