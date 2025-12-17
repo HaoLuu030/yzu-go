@@ -20,6 +20,14 @@ startLoader({
         "./sfx/shining.mp3",
         "../image/UI/whale.gif",
         "../image/UI/background_pack-up.png",
+        "./image/UI/bubble.png",
+        "./image/UI/dolphin.png",
+        "./image/UI/button.png",
+        "./image/UI/dolphin.png",
+        "./image/UI/level.png",
+        "./image/UI/map.png",
+        "./image/UI/volume_off.png",
+        "./image/UI/volume_on.png",
     ]
 })
 

@@ -65,7 +65,7 @@ a {
 
 #back-to-map {
 
-    background-image: url(images/UI/button.png);
+    background-image: url(../image/UI/button.png);
     color: white;
     display: flex;
     align-items: center;
@@ -118,7 +118,7 @@ a {
 
 .time {
     font-size: 3vh;
-    background-image: url(images/UI/button.png);
+    background-image: url(../image/UI/button.png);
     background-size: contain;
     background-repeat: no-repeat;
     border: none;
@@ -132,7 +132,7 @@ a {
 
 .score {
     font-size: 3vh;
-    background-image: url(images/UI/button.png);
+    background-image: url(../image/UI/button.png);
     background-size: contain;
     background-repeat: no-repeat;
     border: none;
@@ -152,7 +152,7 @@ a {
     font-family: inherit;
     font-weight: 400;
     font-style: inherit;
-    background-image: url("images/UI/level.png");
+    background-image: url(../image/UI/level.png);
     background-size: contain;
     background-repeat: no-repeat;
     border: none;
@@ -169,7 +169,7 @@ a {
 }
 
 .music {
-    background-image: url(images/UI/button.png);
+    background-image: url(../image/UI/button.png);
     background-size: 8vh 8vh;
     background-repeat: no-repeat;
     border: none;
@@ -179,7 +179,7 @@ a {
 }
 
 .map {
-    background-image: url(images/UI/button.png);
+    background-image: url(../image/UI/button.png);
     background-size: 8vh 8vh;
     background-repeat: no-repeat;
     border: none;

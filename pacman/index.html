@@ -4,88 +4,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" , content="width=device-width, initial-scale=1.0">
-    <title>Pac-Man</title>
-    <link rel="stylesheet" href="style.css">
-
-
-    <!--UI-->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>Building 2</title>
+    <!-- FONT STYLE -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
-    <!--UI-->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- FONT STYLE -->
 
+    <!-- loading -->
+    <script>
+        document.documentElement.classList.add("loading");
+    </script>
+    <style>
+        html.loading .app {
+            visibility: hidden;
+        }
 
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            font-family: "Concert One", sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../shared/loader/styles.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
+    <div id="loader-root"></div>
+
+    <div class="app">
         <!-- 1. BACKGROUND PART -->
-    <div class="background">
+        <div class="background">
 
-        <!-- a. Bubbles floating -->
-        <div class="bubbles">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
+            <!-- a. Bubbles floating -->
+            <div class="bubbles">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+            </div>
+
+            <!-- b. Decoration -->
+            <div class="fish"><img src="../image/UI/smallfish.png"></div>
+
         </div>
+        <!-- 1. END: BACKGROUND PART -->
 
-        <!-- b. Decoration -->
-       <div class="fish"><img src="../image/UI/smallfish.png"></div>
-        
+        <!-- Game container -->
+        <div class="container">
+            <div id="board-container">
+                <div class="score-board">
+                    <div class="level"><button class="btn-level">5</button></div>
+                    <div class="score">Score:&nbsp;<span id="score">0</span></div>
+                    <div class="time">Lives:&nbsp;<span id="lives">3</span></div>
+                    <div class="btn">
+                        <div><button class="music" id="music-btn"><img id="music-icon"
+                                    src="../image/UI/volume_off.png"></button>
+                        </div>
+                        <div><a href="../map.html"><button class="map"><img id="map-icon"
+                                        src="../image/UI/map.png"></button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="game-container">
+                <!-- The overlay with this building's background -->
+                <div id="overlay">
+                    <div id="overlay-text">Click to Start</div>
+                </div>
+
+                <div class="canvas-wrapper">
+                    <canvas id="board"></canvas> <!-- Replace with the game for this level -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- 1. END: BACKGROUND PART -->
 
 
 
-    
+
+
 
     <!-- UI -->
     <div id="gameover-overlay">
         <div class="message">
             <div class="left">
                 <div class="text">Level Finished !</div>
-                <a href="../map/index.html"><div><button id="back-to-map">Back to Map &nbsp; <img class="map-icon" src="images/UI/map.png"></button></a>
-                </div>
+                <a href="../map/index.html">
+                    <div><button id="back-to-map">Back to Map &nbsp; <img class="map-icon"
+                                src="../image/UI/map.png"></button>
+                </a>
             </div>
-
-            <div class="right"><img class="dolphin" src="images/UI/dolphin.png"></div>
         </div>
+
+        <div class="right"><img class="dolphin" src="../image/UI/dolphin.png"></div>
     </div>
-
-    <div class="container">
-        <div id="board-container">
-            <div class="score-board">
-                <div class="level"><button class="btn-level">5</button></div>
-                <div class="score">Score:&nbsp;<span id="score">0</span></div>
-                <div class="time">Lives:&nbsp;<span id="lives">3</span></div>
-                <div class="btn">
-                    <div><button class="music" id="music-btn"><img id="music-icon"
-                                src="images/UI/volume_off.png"></button>
-                    </div>
-                    <div><a href="../map.html"><button class="map"><img id="map-icon"
-                                    src="images/UI/map.png"></button></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="game-container">
-             <!-- The overlay with this building's background -->
-            <div id="overlay">
-                <div id="overlay-text">Click to Start</div>
-            </div>
-            
-            <div class="canvas-wrapper">
-                <canvas id="board"></canvas> <!-- Replace with the game for this level -->
-            </div>
-        </div>
     </div>
     <!-- UI -->
     <audio id="bgm" src="./sfx/background-music.mp3" loop></audio>

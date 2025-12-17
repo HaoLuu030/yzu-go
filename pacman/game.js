@@ -1,5 +1,35 @@
 import { saveScore } from "../js/data/scoreRepository.js";
 import { triggerPostLevelStory } from "../js/utils/progress.js";
+import { startLoader } from "../shared/loader/index.js";
+
+
+startLoader({
+    text: "Seeking the truth...",
+    assets: [
+        "images/blueGhost.png",
+        "images/food.png",
+        "images/frightened1.png",
+        "images/frightened2.png",
+        "images/frightened3.png",
+        "images/orangeGhost.png",
+        "images/pacmanDown.png",
+        "images/pacmanLeft.png",
+        "images/pacmanRight.png",
+        "images/pacmanUp.png",
+        "images/pinkGhost.png",
+        "images/specialFood.png",
+        "./images/wall.png",
+        "sfx/background-music.mp3",
+        "sfx/big-eat.mp3",
+        "sfx/big-hit.mp3",
+        "sfx/eat.mp3",
+        "sfx/hit-sound.mp3",
+        "../image/UI/background_pacman.png"
+    ]
+})
+
+
+
 const FRIGHTENED_TOUCH_BONUS = 10;
 //board
 let board;
