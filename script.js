@@ -13,7 +13,9 @@ startLoader({
     "./image/volume_off.png",
     "./image/volume_on.png",
     "./image/yzu_logo.png",
-    "./image/home_music.mp3"
+    "./image/home_music.mp3",
+    "./image/UI/bubble.png",
+    "./image/UI/dolphin.png"
   ],
   text: "loading",
 });

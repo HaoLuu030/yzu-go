@@ -18,7 +18,6 @@ startLoader({
         "./sfx/blink.mp3",
         "./sfx/perfect.mp3",
         "./sfx/shining.mp3",
-        "../image/UI/bubble.png",
         "../image/UI/whale.gif",
         "../image/UI/background_pack-up.png",
     ]

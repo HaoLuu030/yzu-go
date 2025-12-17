@@ -5,10 +5,79 @@ import EntityManager from "./entities/entityManager.js";
 import SpawnerManager from "./utils/spawnerManager.js";
 import { obstacleAssets, backgroundAssets } from "./config/assets.js";
 import createHitBox from "./utils/hitBox.js";
-import { pause, resume, gameOver } from "./utils/gameFunction.js";
+import { pause, resume, gameOver, startGame } from "./utils/gameFunction.js";
 import { gameState } from "./config/gameState.js";
 import ScoreManager from "./utils/scoreManager.js";
-import { startGame } from "./utils/gameFunction.js";
+import { startLoader } from "../shared/loader/index.js";
+
+
+
+const loaderPromise  = startLoader({
+    text: "Getting into position",
+    assets: [
+        "./assets/img/backdrop.png",
+        "./assets/img/background.png",
+        "./assets/img/basket-ball.png",
+        "./assets/img/cloud-1.png",
+        "./assets/img/cloud-2.png",
+        "./assets/img/cloud-3.png",
+        "./assets/img/cloud-4.png",
+        "./assets/img/cloud-5.png",
+        "./assets/img/cloud-6.png",
+        "./assets/img/cloud-8.png",
+        "./assets/img/cone.png",
+        "./assets/img/corgi-1.png",
+        "./assets/img/corgi-2.png",
+        "./assets/img/corgi-3.png",
+        "./assets/img/corgi-4.png",
+        "./assets/img/corgi-5.png",
+        "./assets/img/corgi-6.png",
+        "./assets/img/cycling-man-1.png",
+        "./assets/img/cycling-man-2.png",
+        "./assets/img/cycling-man-3.png",
+        "./assets/img/cycling-man-4.png",
+        "./assets/img/cycling-man-5.png",
+        "./assets/img/cycling-man-6.png",
+        "./assets/img/dave-1.png",
+        "./assets/img/dave-2.png",
+        "./assets/img/dave-3.png",
+        "./assets/img/dave-4.png",
+        "./assets/img/dave-5.png",
+        "./assets/img/dave-6.png",
+        "./assets/img/game-over.png",
+        "./assets/img/hurdle.png",
+        "./assets/img/john-1.png",
+        "./assets/img/john-2.png",
+        "./assets/img/john-3.png",
+        "./assets/img/john-4.png",
+        "./assets/img/john-5.png",
+        "./assets/img/john-6.png",
+        "./assets/img/reset.png",
+        "./assets/img/shiba-1.png",
+        "./assets/img/shiba-2.png",
+        "./assets/img/shiba-3.png",
+        "./assets/img/shiba-4.png",
+        "./assets/img/shiba-5.png",
+        "./assets/img/shiba-6.png",
+        "./assets/img/student-1.png",
+        "./assets/img/student-2.png",
+        "./assets/img/student-3.png",
+        "./assets/img/student-4.png",
+        "./assets/img/student-5.png",
+        "./assets/img/student-6.png",
+        "./assets/img/student-7.png",
+        "./assets/img/student-8.png",
+        "./assets/img/student-cry.png",
+        "./assets/img/student-jump.png",
+        "./assets/img/volley-ball.png",
+        "../image/UI/sunFish.gif",
+        "./assets/sfx/background-music.mp3",
+        "./assets/sfx/collide.mp3",
+        "./assets/sfx/jump.mp3",
+        "./assets/sfx/mile-stone-sound.mp3",
+        "../image/UI/background_fieldTrack.png"
+    ]
+})
 
 
 // setup
@@ -46,13 +115,17 @@ let playerHitBox = createHitBox("player", playerWidth, playerHeight);
 let player = new Player(playerX, playerY, playerWidth, playerHeight, 0, playerFrames, playerHitBox);
 entityManager.add(player, "player");
 
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", async () => {
+
+    await loaderPromise;
+
     let board = document.getElementById('board');
     board.width = boardWidth;
     board.height = boardHeight;
     context = board.getContext("2d");
 
     context.fillStyle = "#333";
+    await document.fonts.load("18px 'Press Start 2P'");
     context.font = "18px 'Press Start 2P'";
     context.textAlign = "center";
     context.textBaseline = "middle";
@@ -132,7 +205,7 @@ window.onload = function () {
                 break;
         }
     });
-};
+});
 
 
 
