@@ -225,9 +225,10 @@ a {
     position: absolute;
     width: 68vw;
     height: 100vh;
-    background-image: url(../image/UI/dorm.png);
+    background-image: url(../image/UI/building_2.png);
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;

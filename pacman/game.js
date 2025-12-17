@@ -248,7 +248,7 @@ function update() {
 function draw() {
     context.clearRect(0, 0, board.width, board.height);
     document.getElementById("score").textContent = score;
-    document.getElementById("lives").textContent = "x" + lives;
+    document.getElementById("lives").textContent = lives;
 
     // 1. Walls
     for (let wall of walls.values()) {
