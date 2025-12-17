@@ -1,7 +1,4 @@
 // Hide page ASAP (must be imported early)
-export function hidePageImmediately() {
-  // document.documentElement.classList.add("loading");
-}
 
 // Inject loader HTML
 export function injectLoader() {
