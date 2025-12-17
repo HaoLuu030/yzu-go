@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower of Hanoi</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- 1. BACKGROUND PART -->
+    <div class="background">
+
+        <!--Optional floating decoration -->
+        <div class="bubbles">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            <img src="../image/UI/bubble.png">
+            
+        </div>
+
+        <!--Optional character / decoration -->
+        <div class="diver">
+            <img src="../image/UI/diver1.gif">
+            <img src="../image/UI/diver2.gif">
+        </div>
+        <div class="starfish">
+             <img src="../image/UI/starfish.gif">
+             <img src="../image/UI/starfish.gif">
+        </div>
+
+    </div>
+    <!-- END BACKGROUND -->
+
+
+
+    <!-- 2. GAME OVER OVERLAY -->
+    <div id="gameover-overlay">
+
+        <div class="message">
+
+            <div class="left">
+                <div class="text">Level Finished!</div>
+                <div>
+                    <button id="back-to-map">
+                        Back to Map
+                        <img class="map-icon" src="../image/UI/map.png">
+                    </button>
+                </div>
+            </div>
+
+            <div class="right">
+                <img class="dolphin" src="../image/UI/dolphin.png">
+            </div>
+
+        </div>
+
+    </div>
+    <!-- END GAME OVER -->
+
+
+
+    <!-- 3. MAIN CONTAINER -->
+    <div class="container">
+
+        <!-- a. TOP BAR -->
+        <div id="title" class="title">
+
+            <div class="level">
+                <button class="btn-level">1</button>
+            </div>
+
+            <div class="time">
+                Moves:&nbsp;<span id="moveCount">0</span>
+            </div>
+
+            <div class="score">
+                Score:&nbsp;<span id="score">500</span>
+            </div>
+
+            <div class="btn">
+                <div>
+                    <button class="music" id="music-btn">
+                        <img id="music-icon" src="../image/UI/volume_off.png">
+                    </button>
+                </div>
+                <div>
+                    <a href="../map/index.html">
+                        <button class="map">
+                            <img id="map-icon" src="../image/UI/map.png">
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <!-- b. GAME BOARD -->
+        <div id="board-container">
+
+            <!-- START OVERLAY -->
+            <div id="overlay">
+                <div id="overlay-text">
+                    Goal: Move all disks from Peg 1 to Peg 3
+                </div>
+            </div> 
+
+            <!-- GAME AREA -->
+            <div id="board">
+
+                <h3 id="message"></h3>
+
+                <div id="game">
+                    <div class="peg" id="peg1">
+                        <div class="pole"></div>
+                    </div>
+
+                    <div class="peg" id="peg2">
+                        <div class="pole"></div>
+                    </div>
+
+                    <div class="peg" id="peg3">
+                        <div class="pole"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- OPTIONAL MUSIC -->
+        <audio id="bgm" src="./sound effects/background-music.mp3" loop></audio>
+
+    </div>
+    <!-- END CONTAINER -->
+
+    <script src="script.js"></script>
+</body>
+
+</html>
