@@ -1,29 +1,32 @@
 body {
-    background: url(../image/UI/background_fieldTrack.png) no-repeat center center fixed;
-    background-size: cover;
     font-family: "Concert One", sans-serif;
     font-weight: 400;
     font-style: normal;
     color: white;
     text-align: center;
-    width: 100vw;
-    height: 100vh;
     margin: 0 0;
     overflow: hidden;
-} 
+}
+
+.app {
+    background: url(../image/UI/background_fieldTrack.png) no-repeat center center fixed;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+}
 
 .canvas-wrapper {
     display: inline-block;
     padding: 12px;
 
-    border: 1px solid rgba(0,0,0,0.35);
+    border: 1px solid rgba(0, 0, 0, 0.35);
     border-radius: 10px;
 
-    background: rgba(255,255,255,0.85);
+    background: rgba(255, 255, 255, 0.85);
 
-    box-shadow: 
-        0 4px 12px rgba(0,0,0,0.25),
-        0 0 0 4px rgba(255,255,255,0.7) inset;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.25),
+        0 0 0 4px rgba(255, 255, 255, 0.7) inset;
 }
 
 #board-container {
@@ -40,7 +43,8 @@ body {
     background-repeat: repeat;
     background-position: center;
 
-    display: block;   /* removes unwanted inline spacing */
+    display: block;
+    /* removes unwanted inline spacing */
 }
 
 
@@ -153,13 +157,17 @@ body {
 
 }
 
-.map, .music, #back-to-map {
-  transition: transform 0.3s ease;
+.map,
+.music,
+#back-to-map {
+    transition: transform 0.3s ease;
 }
 
-.map:hover, .music:hover, #back-to-map:hover{
-  cursor: pointer;
-  transform: scale(1.2)
+.map:hover,
+.music:hover,
+#back-to-map:hover {
+    cursor: pointer;
+    transform: scale(1.2)
 }
 
 
@@ -202,12 +210,12 @@ body {
 .text {
     font-size: 9vh;
 }
+
 .dolphin {
     height: 50vh;
 }
 
-#back-to-map img
-{
+#back-to-map img {
     height: 40%;
 }
 
@@ -344,4 +352,3 @@ body {
 
 
 /* END: 1. BACKGROUND PART */
-

@@ -9,15 +9,14 @@ html {
 body {
     margin: 0;
     padding: 0;
-    height: 210vh;
-    background: url(image/sea.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: scroll;
-    background-position: center;
     overflow: hidden;
 }
 
+.app {
+    min-height: 210vh;
+    background: url(image/sea.png) no-repeat center center;
+    background-size: cover;
+}
 
 /*Divide the screen into 2 parts: map and chat*/
 .container {

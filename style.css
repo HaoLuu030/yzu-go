@@ -1,9 +1,9 @@
-:root
-{
-  --blue:#70C7F1
+:root {
+  --blue: #70C7F1
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -12,13 +12,17 @@ html, body {
 
 body {
   font-family: 'Uncial Antiqua';
+  overflow: hidden;
+}
+
+.app {
   background: url(image/background.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
-  overflow: hidden;
 }
+
 
 .main_view {
   margin: 0;
@@ -35,8 +39,7 @@ body {
   grid-template-columns: 30vw 40vw 40vw;
 }
 
-.right_top
-{
+.right_top {
   display: grid;
   grid-template-rows: 10vh 40vh;
 }
@@ -58,8 +61,7 @@ body {
 
 
 
-.music
-{
+.music {
   margin-top: 1%;
   margin-left: auto;
   margin-right: 26%;
@@ -67,24 +69,22 @@ body {
 }
 
 
-.music_button
-{
+.music_button {
   background-color: var(--blue);
   border: none;
   border-radius: 50%;
   height: 6vh;
-  width: 6vh; 
+  width: 6vh;
   padding-top: 0.8vh;
 }
 
-.music_button:hover
-{
+.music_button:hover {
   cursor: pointer;
 }
 
 
 
-.float-once{
+.float-once {
   animation: floatOnce 6s ease;
 }
 
@@ -93,26 +93,24 @@ body {
   0% {
     transform: translateY(0);
   }
-  
+
   40% {
-    transform: translateY(-70vh); 
+    transform: translateY(-70vh);
   }
-  
+
   100% {
-    transform: translateY(0); 
+    transform: translateY(0);
   }
 }
 
 
 
-.title
-{
+.title {
   display: grid;
   grid-template-rows: 50vh 10vh;
 }
 
-.yzu_logo
-{
+.yzu_logo {
   display: block;
   height: 40vh;
   margin-left: 15%;
@@ -124,18 +122,17 @@ body {
 }
 
 
-.play_button button
-{
+.play_button button {
   display: block;
   font-family: "Original Surfer", sans-serif;
   font-weight: 400;
   font-style: normal;
   background: none;
   position: absolute;
-  color: white; 
+  color: white;
   border-radius: 80vh;
-  border: 1.4vh solid white;           
-  font-size: 4vh;   
+  border: 1.4vh solid white;
+  font-size: 4vh;
   margin-top: 0;
   margin-left: 9%;
   height: 10%;
@@ -143,7 +140,7 @@ body {
   transition: transform 0.3s ease;
 }
 
-.play_button button:hover{
+.play_button button:hover {
   cursor: pointer;
   transform: scale(1.1)
 }
@@ -159,12 +156,11 @@ body {
   grid-template-columns: 50vw 50vw;
 }
 
-.left_bottom
-{
+.left_bottom {
   height: 50vh;
 }
-.right_bottom
-{
+
+.right_bottom {
   height: 50vh;
 }
 
@@ -177,7 +173,7 @@ body {
 
 .coral2 {
   display: block;
-  margin-left: auto; 
+  margin-left: auto;
   height: 120%;
   padding-right: -2%;
   margin-bottom: 0;
@@ -192,12 +188,12 @@ body {
   animation: bubble 15s linear infinite;
 }
 
-.bubbles img:hover{
+.bubbles img:hover {
   animation: none;
   filter: blur(150px);
 }
 
-.bubbles{
+.bubbles {
   width: 100%;
   display: flex;
   align-items: center;
@@ -274,4 +270,3 @@ body {
   animation-delay: 7s;
   width: 40px;
 }
-

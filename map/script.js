@@ -8,7 +8,7 @@ startLoader(
   {
     text: "Loading",
     assets: [
-      "./image/cloudd.png",
+      "./image/cloud.png",
       "./image/dolphin.png",
       "./image/island.png",
       "./image/sea.png",

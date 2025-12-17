@@ -1,15 +1,18 @@
 body {
-    background: url(../image/UI/background_pack-up.png) no-repeat center bottom fixed;
-    background-size: cover;
     font-family: "Concert One", sans-serif;
     font-weight: 400;
     font-style: normal;
     color: white;
     text-align: center;
-    width: 100vw;
-    height: 100vh;
     margin: 0 0;
     overflow: hidden;
+}
+
+.app {
+    background: url(../image/UI/background_pack-up.png) no-repeat center bottom fixed;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
 }
 
 
@@ -382,6 +385,5 @@ body {
     margin-left: 5%;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
 }
+
 /* 3. END: THE CONTAINER CONTAINS ALL ELEMENTS */
-
-
