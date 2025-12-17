@@ -2,6 +2,7 @@ html.loading .app {
   visibility: hidden;
 }
 #loader {
+  font-size: xx-large;
   position: fixed;
   inset: 0;
   background: #000;
