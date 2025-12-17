@@ -1,5 +1,32 @@
 import { lockAllLevels, unlockLevelsByProgress } from "./js/helper.js";
-import { startGuide, showLastStoryLineIfAny} from "./js/guideCharacter.js";
+import { startGuide, showLastStoryLineIfAny } from "./js/guideCharacter.js";
+import { startLoader } from "../shared/loader/index.js";
+
+
+
+startLoader(
+  {
+    text: "Loading",
+    assets: [
+      "./image/cloudd.png",
+      "./image/dolphin.png",
+      "./image/island.png",
+      "./image/sea.png",
+      "./image/waterfall/1.png",
+      "./image/waterfall/2.png",
+      "./image/waterfall/3.png",
+      "./image/waterfall/4.png",
+      "./image/waterfall/5.png",
+      "./image/waterfall/6.png",
+      "./image/waterfall/7.png",
+      "./image/waterfall/8.png",
+      "./image/waterfall/9.png",
+      "./image/waterfall/10.png",
+      "./image/waterfall/11.png",
+
+    ]
+  }
+)
 
 /* =========================
    STATE
@@ -53,7 +80,7 @@ if (!storyStarted && !flags.mapVisited) {
 if (!storyStarted) {
   unlockLevelsByProgress();
   showLastStoryLineIfAny();
-  
+
 }
 
 /* =========================

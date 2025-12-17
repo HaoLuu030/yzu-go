@@ -4,6 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        document.documentElement.classList.add("loading");
+    </script>
+    <link rel="stylesheet" href="../shared/loader/styles.css">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,44 +19,47 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="map">
-            <div>
-                <img class="island" src="image/island.png">
-            </div>
+    <div id="loader-root"></div>
+    <div class="app">
+        <div class="container">
+            <div class="map">
+                <div>
+                    <img class="island" src="image/island.png">
+                </div>
 
-            <div class="cloud">
-                <img class="cloud_top" src="image/cloud.png">
-                <img class="cloud_bottom" src="image/cloud.png">
-            </div>
+                <div class="cloud">
+                    <img class="cloud_top" src="image/cloud.png">
+                    <img class="cloud_bottom" src="image/cloud.png">
+                </div>
 
-            <div class="waterfall">
-                <img id="waterfall" src="image/waterfall/1.png" alt="Changing image" />
-            </div>
+                <div class="waterfall">
+                    <img id="waterfall" src="image/waterfall/1.png" alt="Changing image" />
+                </div>
 
-            <div class="level">
-                <a href="../pack-up/index.html"><button id="level1" class="button"
-                        style="margin-top: 13%; margin-left: 63%">1</button></a>
-                <a href="../field-track/index.html"><button id="level2" class="button"
-                        style="margin-top: 10%; margin-left: 54%">2</button></a>
-                <button id="level3" class="button" style="margin-top: 21%; margin-left: 46%">3</button>
-                <button id="level4" class="button" style="margin-top: 21%; margin-left: 40%">4</button>
-                <a href="../pacman/index.html"><button id="level5" class="button"
-                        style="margin-top: 11%; margin-left: 39%">5</button></a>
-                <button id="level6" class="button" style="margin-top: 12%; margin-left: 32%">6</button>
-                <button id="level7" class="button" style="margin-top: 13%; margin-left: 26%">7</button>
-                <button id="level8" class="button" style="margin-top: 20%; margin-left: 29%">8</button>
+                <div class="level">
+                    <a href="../pack-up/index.html"><button id="level1" class="button"
+                            style="margin-top: 13%; margin-left: 63%">1</button></a>
+                    <a href="../field-track/index.html"><button id="level2" class="button"
+                            style="margin-top: 10%; margin-left: 54%">2</button></a>
+                    <button id="level3" class="button" style="margin-top: 21%; margin-left: 46%">3</button>
+                    <button id="level4" class="button" style="margin-top: 21%; margin-left: 40%">4</button>
+                    <a href="../pacman/index.html"><button id="level5" class="button"
+                            style="margin-top: 11%; margin-left: 39%">5</button></a>
+                    <button id="level6" class="button" style="margin-top: 12%; margin-left: 32%">6</button>
+                    <button id="level7" class="button" style="margin-top: 13%; margin-left: 26%">7</button>
+                    <button id="level8" class="button" style="margin-top: 20%; margin-left: 29%">8</button>
+                </div>
             </div>
-        </div>
-        <div class="chat">
-            <div class="dialog-box">
-                <div class="text" id="dialogText"></div>
-                <div class="next" id="nextIndicator">▶</div>
-            </div>
-            <div class="dolphin">
-                <img src="image/dolphin.png">
-            </div>
+            <div class="chat">
+                <div class="dialog-box">
+                    <div class="text" id="dialogText"></div>
+                    <div class="next" id="nextIndicator">▶</div>
+                </div>
+                <div class="dolphin">
+                    <img src="image/dolphin.png">
+                </div>
 
+            </div>
         </div>
     </div>
 
