@@ -1,10 +1,12 @@
-import { saveLevelProgress } from "../utils/logScore.js";
+import { triggerPostLevelStory } from "../../js/utils/progress.js";
+import { saveScore } from "../../js/data/scoreRepository.js";
+
 /* ============================================================
    1. CONSTANTS & GLOBAL GAME STATE
 ============================================================ */
 
-const ROW = 8 + 2;
-const COL = 12 + 2;
+const ROW = 1 + 2;
+const COL = 2 + 2;
 
 const board = [];
 
@@ -42,69 +44,68 @@ const icons = [
     "https://flagcdn.com/w80/id.png",
 ];
 
-const gameBoard = document.getElementById("board");
-const canvas = document.getElementById("lineCanvas");
+/* ============================================================
+   DOM REFERENCES (FIXED NAMES)
+============================================================ */
+
+const gameBoard = document.getElementById("game-board");
+const boardWrapper = document.getElementById("game-board-container");
+
+const canvas = document.getElementById("fx-canvas");
 const ctx = canvas.getContext("2d");
 
 const scoreDisplay = document.getElementById("score");
-const timeDisplay = document.getElementById("time");
+const timeDisplay = document.getElementById("timer");
 
-const startBtn = document.getElementById("startBtn");
-const gameOverlay = document.getElementById("gameOverlay");
+const startOverlay = document.getElementById("start-overlay");
+const endOverlay = document.getElementById("end-overlay");
 
-let gameStarted = false;
 
-const winOverlay = document.getElementById("winOverlay");
+const shuffleBtn = document.getElementById("shuffle-btn");
+const musicBtn = document.getElementById("music-btn");
+const musicIcon = document.getElementById("music-icon");
+const mapBtn = document.getElementById("map-btn");
+
 const winMessage = document.getElementById("winMessage");
-const returnBtn = document.getElementById("returnBtn");
 
-
-// ⭐ ADDED FOR BGM
+/* AUDIO */
 const bgm = document.getElementById("bgm");
-const musicToggle = document.getElementById("musicToggle");
+const clickSound = document.getElementById("clickSound");
+const matchSound = document.getElementById("matchSound");
+const shuffleSound = document.getElementById("shuffleSound");
+
+clickSound.volume = 0.35;
+matchSound.volume = 0.45;
+
+/* STATE */
+let gameStarted = false;
 let isMusicOn = false;
 let bgmStarted = false;
 
-// click sound
-const clickSound = document.getElementById("clickSound");
-clickSound.volume = 0.35;   // adjust volume here
-
-// match sound
-const matchSound = document.getElementById("matchSound");
-matchSound.volume = 0.45; // adjust volume to taste
-
 let first = null;
-
 let baseScore = 10;
 let score = 0;
 let time = 0;
 let timerInterval = null;
 
-// shuffle sound
-const shuffleSound = document.getElementById("shuffleSound");
-
-
 /* ============================================================
-   2. RANDOMIZATION HELPERS
+   2. RANDOMIZATION
 ============================================================ */
 
 function getRandomIconSet(count) {
-    const shuffled = [...icons].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, count);
+    return [...icons].sort(() => Math.random() - 0.5).slice(0, count);
 }
-
 
 /* ============================================================
    3. GAME INITIALIZATION
 ============================================================ */
 
 function init() {
-    let items = [];
-
+    const items = [];
     const gameIcons = getRandomIconSet(12);
-    const PAIR_COUNT = ((ROW - 2) * (COL - 2)) / 2;
+    const PAIRS = ((ROW - 2) * (COL - 2)) / 2;
 
-    for (let i = 0; i < PAIR_COUNT; i++) {
+    for (let i = 0; i < PAIRS; i++) {
         items.push(
             gameIcons[i % gameIcons.length],
             gameIcons[i % gameIcons.length]
@@ -125,12 +126,10 @@ function init() {
 
     render();
     resizeCanvas();
-
 }
 
-
 /* ============================================================
-   4. RENDERING SYSTEM
+   4. RENDERING
 ============================================================ */
 
 function render() {
@@ -139,7 +138,6 @@ function render() {
 
     for (let r = 1; r < ROW - 1; r++) {
         for (let c = 1; c < COL - 1; c++) {
-
             const div = document.createElement("div");
             div.className = board[r][c] ? "cell" : "cell empty";
 
@@ -147,7 +145,6 @@ function render() {
                 div.innerHTML = `<img src="${board[r][c]}">`;
                 div.addEventListener("click", () => select(r, c));
             }
-
             gameBoard.appendChild(div);
         }
     }
@@ -157,45 +154,41 @@ function resizeCanvas() {
     const rect = boardWrapper.getBoundingClientRect();
     canvas.width = rect.width;
     canvas.height = rect.height;
-
-    canvas.style.top = "0px";
-    canvas.style.left = "0px";
 }
 
 window.addEventListener("resize", resizeCanvas);
-
 
 function cellCenter(r, c) {
     const cells = document.getElementsByClassName("cell");
     const index = (r - 1) * (COL - 2) + (c - 1);
     const rect = cells[index].getBoundingClientRect();
+    const canvasRect = canvas.getBoundingClientRect();
 
     return {
-        x: rect.left - canvas.getBoundingClientRect().left + rect.width / 2,
-        y: rect.top - canvas.getBoundingClientRect().top + rect.height / 2
+        x: rect.left - canvasRect.left + rect.width / 2,
+        y: rect.top - canvasRect.top + rect.height / 2
     };
 }
 
+
 function drawPath(points) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "red";
+    ctx.strokeStyle = "#00e5ff";
+    ctx.shadowColor = "#00bcd4";
+    ctx.shadowBlur = 10;
+
     ctx.lineWidth = 4;
 
     ctx.beginPath();
     ctx.moveTo(points[0].x, points[0].y);
-
-    for (let i = 1; i < points.length; i++) {
-        ctx.lineTo(points[i].x, points[i].y);
-    }
-
+    points.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
     ctx.stroke();
 
     setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), 300);
 }
 
-
 /* ============================================================
-   5. INPUT HANDLING (CLICK LOGIC)
+   5. INPUT
 ============================================================ */
 
 function select(r, c) {
@@ -203,7 +196,6 @@ function select(r, c) {
 
     playClickSound();
 
-    // ⭐ ADDED FOR BGM — play music on first interaction
     if (!bgmStarted && isMusicOn) {
         bgm.play();
         bgmStarted = true;
@@ -217,33 +209,24 @@ function select(r, c) {
         return;
     }
 
-    if (first.r !== r || first.c !== c) {
+    if ((first.r !== r || first.c !== c) && first.val === val) {
+        const path = getPath(first, { r, c });
+        if (path) {
+            board[first.r][first.c] = "";
+            board[r][c] = "";
 
-        if (first.val === val) {
-            const path = getPath(first, { r, c });
+            playMatchSound();
+            drawPath(path.map(p => cellCenter(p.r, p.c)));
+            addScore(baseScore);
 
-            if (path) {
-                board[first.r][first.c] = "";
-                board[r][c] = "";
-
-                playMatchSound();
-
-                drawPath(path.map(p => cellCenter(p.r, p.c)));
-                addScore(baseScore);
-
-                setTimeout(() => {
+            setTimeout(() => {
+                render();
+                if (!checkGameEnd() && !hasAnyMovesLeft()) {
+                    alert("⚠️ No moves left! Shuffling board.");
+                    shuffleBoard();
                     render();
-
-                    if (checkGameEnd()) return;
-
-                    if (!hasAnyMovesLeft()) {
-                        alert("⚠️ No moves left! The board will shuffle.");
-                        shuffleBoard();
-                        render();
-                    }
-
-                }, 300);
-            }
+                }
+            }, 300);
         }
     }
 
@@ -251,16 +234,14 @@ function select(r, c) {
     first = null;
 }
 
-
 function highlight(r, c, on) {
     const idx = (r - 1) * (COL - 2) + (c - 1);
     document.getElementsByClassName("cell")[idx]
         .classList.toggle("active", on);
 }
 
-
 /* ============================================================
-   6. PATHFINDING (CLEARLINE, L-TURN, Z-TURN)
+   6. PATHFINDING
 ============================================================ */
 
 function inBounds(p) {
@@ -284,44 +265,38 @@ function clearLine(a, b) {
 
     if (a.r === b.r) {
         for (let c = Math.min(a.c, b.c) + 1; c < Math.max(a.c, b.c); c++)
-            if (board[a.r][c] !== "") return false;
+            if (board[a.r][c]) return false;
         return true;
     }
 
     if (a.c === b.c) {
         for (let r = Math.min(a.r, b.r) + 1; r < Math.max(a.r, b.r); r++)
-            if (board[r][a.c] !== "") return false;
+            if (board[r][a.c]) return false;
         return true;
     }
-
     return false;
 }
 
 function oneTurnPoint(a, b) {
-    const candidates = [
+    const points = [
         { r: a.r, c: b.c },
         { r: b.r, c: a.c }
     ];
 
-    for (const p of candidates) {
+    for (const p of points) {
         if (!inBounds(p)) continue;
-        if (board[p.r][p.c] !== "") continue;
+        if (board[p.r][p.c]) continue;
         if (clearLine(a, p) && clearLine(p, b)) return p;
     }
-
     return null;
 }
 
 function twoTurnPoints(a, b) {
     for (let r = 1; r < ROW - 1; r++) {
         for (let c = 1; c < COL - 1; c++) {
-
-            if (board[r][c] !== "") continue;
-
+            if (board[r][c]) continue;
             const p = { r, c };
-
             if (!clearLine(a, p)) continue;
-
             const corner = oneTurnPoint(p, b);
             if (corner) return [p, corner];
         }
@@ -329,224 +304,185 @@ function twoTurnPoints(a, b) {
     return null;
 }
 
-
 /* ============================================================
-   7. SCORE & TIMER SYSTEM
+   7. SCORE & TIMER
 ============================================================ */
 
 function startTimer() {
     timerInterval = setInterval(() => {
         time++;
-        timeDisplay.textContent = `Time: ${time}s`;
-
-        if (time % 30 === 0 && baseScore > 2) {
-            baseScore -= 2;
-        }
-
+        timeDisplay.textContent = time;
+        if (time % 30 === 0 && baseScore > 2) baseScore -= 2;
     }, 1000);
 }
 
 function addScore(points) {
     score += points;
-    scoreDisplay.textContent = `Score: ${score}`;
+    scoreDisplay.textContent = score;
 }
 
-
 /* ============================================================
-   8. BOARD UTILITIES (RESET, SHUFFLE)
+   8. BOARD UTILITIES
 ============================================================ */
 
 function shuffleBoard() {
-    let tiles = [];
-
+    const tiles = [];
     for (let r = 1; r < ROW - 1; r++)
         for (let c = 1; c < COL - 1; c++)
-            if (board[r][c] !== "") tiles.push(board[r][c]);
+            if (board[r][c]) tiles.push(board[r][c]);
 
     tiles.sort(() => Math.random() - 0.5);
 
     let i = 0;
     for (let r = 1; r < ROW - 1; r++)
         for (let c = 1; c < COL - 1; c++)
-            if (board[r][c] !== "") board[r][c] = tiles[i++];
+            if (board[r][c]) board[r][c] = tiles[i++];
 }
-
-
-function resetGame() {
-    clearInterval(timerInterval);
-
-    score = 0;
-    time = 0;
-    baseScore = 10;
-    scoreDisplay.textContent = "Score: 0";
-    timeDisplay.textContent = "Time: 0s";
-
-    init();
-}
-
-function applyShufflePenalty() {
-    if(score < 20) return;
-    // cost 20 points, never below 0
-    score = Math.max(0, score - 20);
-    scoreDisplay.textContent = `Score: ${score}`;
-
-    playShuffleSound();
-
-    shuffleBoard();
-    render();
-
-    // Optional: play a shuffle sound later
-    // playShuffleSound();
-}
-
 
 
 /* ============================================================
-   9. MOVE DETECTION (DEAD BOARD / GAME END)
+   9. GAME END
 ============================================================ */
 
-function canConnect(a, b) {
-    return getPath(a, b) !== null;
-}
-
 function hasAnyMovesLeft() {
-    for (let r1 = 1; r1 < ROW - 1; r1++) {
-        for (let c1 = 1; c1 < COL - 1; c1++) {
-
-            if (!board[r1][c1]) continue;
-
-            for (let r2 = 1; r2 < ROW - 1; r2++) {
-                for (let c2 = 1; c2 < COL - 1; c2++) {
-
-                    if (!board[r2][c2]) continue;
-                    if (r1 === r2 && c1 === c2) continue;
-                    if (board[r1][c1] !== board[r2][c2]) continue;
-
-                    if (canConnect({ r: r1, c: c1 }, { r: r2, c: c2 }))
-                        return true;
-                }
-            }
-        }
-    }
+    for (let r1 = 1; r1 < ROW - 1; r1++)
+        for (let c1 = 1; c1 < COL - 1; c1++)
+            for (let r2 = 1; r2 < ROW - 1; r2++)
+                for (let c2 = 1; c2 < COL - 1; c2++)
+                    if (
+                        board[r1][c1] &&
+                        board[r1][c1] === board[r2][c2] &&
+                        !(r1 === r2 && c1 === c2) &&
+                        getPath({ r: r1, c: c1 }, { r: r2, c: c2 })
+                    ) return true;
     return false;
 }
 
-
-function checkGameEnd() {
+async function checkGameEnd() {
+    const gameOverOverlay = document.getElementById("gameover-overlay");
     for (let r = 1; r < ROW - 1; r++)
         for (let c = 1; c < COL - 1; c++)
-            if (board[r][c] !== "") return false;
+            if (board[r][c]) return false;
+
+     console.log("saving score");
+
+    // =========================
+    // 1️. SAVE SCORE (unchanged)
+    // =========================
+    const levelKey = "level3";
+    await saveScore({ level: levelKey, score });
+
+    // =========================
+    // 2️. SAVE LEVEL PROGRESS
+    // =========================
+    localStorage.setItem(levelKey, JSON.stringify({
+        unlocked: true,
+        completed: true
+    }));
+
+    const nextLevel = "level4";
+    localStorage.setItem(nextLevel, JSON.stringify({ unlocked: true }));
+
+    // =========================
+    // 3️. TRIGGER STORY (NEW)
+    // =========================
+    triggerPostLevelStory(levelKey, score);
+    
 
     clearInterval(timerInterval);
-    saveLevelProgress("level_3", score);
-
-    setTimeout(() => {
-        winMessage.innerHTML = `🎉 You Win!<br>Score: ${score}<br>Time: ${time}s`;
-        winOverlay.style.display = "flex";
-    }, 300);
+    gameOverOverlay.style.display = "flex";
 
     return true;
-}
 
+}
 
 /* ============================================================
-   10. EVENT LISTENERS & GAME START
+   10. EVENTS
 ============================================================ */
 
-/* ============================================================
-   MUSIC SYSTEM — Smooth Fade In / Fade Out
-============================================================ */
-
-musicToggle.addEventListener("click", () => {
-    if (!isMusicOn) {
-        isMusicOn = true;
-        musicToggle.textContent = "🔈 Music Off";
-        fadeInMusic();
-    } else {
-        isMusicOn = false;
-        musicToggle.textContent = "🔊 Music On";
-        fadeOutMusic();
-    }
-});
-
-function fadeInMusic() {
-    bgm.volume = 0;
-    bgm.play();
-
-    let target = 0.4;         // final volume
-    let duration = 1500;      // 1.5 seconds
-    let step = target / (duration / 50);
-
-    let fade = setInterval(() => {
-        if (!isMusicOn) {
-            clearInterval(fade);
-            return;
-        }
-
-        bgm.volume = Math.min(target, bgm.volume + step);
-
-        if (bgm.volume >= target) {
-            clearInterval(fade);
-        }
-    }, 50);
+function updateMusicIcon() {
+    musicIcon.src = isMusicOn
+        ? "../image/UI/volume_on.png"
+        : "../image/UI/volume_off.png";
+    console.log(isMusicOn);
 }
 
-function fadeOutMusic() {
-    let duration = 1000;      // 1 second
-    let step = bgm.volume / (duration / 50);
+musicBtn.onclick = () => {
+    isMusicOn = !isMusicOn;
 
-    let fade = setInterval(() => {
-        bgm.volume = Math.max(0, bgm.volume - step);
+    if (isMusicOn) fadeInMusic();
+    else fadeOutMusic();
 
-        if (bgm.volume <= 0) {
-            clearInterval(fade);
-            bgm.pause();
-        }
-    }, 50);
-}
-
-function playClickSound() {
-    clickSound.currentTime = 0; // rewind to avoid stacking
-    clickSound.play();
-}
-
-function playMatchSound() {
-    matchSound.currentTime = 0;
-    matchSound.play();
-}
-
-function playShuffleSound() {
-    shuffleSound.currentTime = 0;
-    shuffleSound.play();
-}
+    updateMusicIcon();
+};
 
 
-
-
-document.getElementById("resetBtn").addEventListener("click", resetGame);
-
-// Shuffle button
-document.getElementById("shuffleBtn").addEventListener("click", () => {
-    applyShufflePenalty();
-});
-
-init(); // Prepare the tiles, but do NOT start timer/music yet
-
-// Wait until player clicks Start
-startBtn.addEventListener("click", () => {
-    gameOverlay.style.display = "none";
+startOverlay.onclick = () => {
+    startOverlay.style.display = "none";
 
     if (!gameStarted) {
         gameStarted = true;
         startTimer();
-
-        isMusicOn = true;
-        musicToggle.textContent = "🔈 Music Off";
-        fadeInMusic();
-
     }
-});
 
-returnBtn.addEventListener("click", () => {
-    window.location.href = "../map/map.html"; // change to your real map page
-});
+    if (!isMusicOn) {
+        isMusicOn = true;
+        updateMusicIcon();
+        fadeInMusic();
+    }
+};
+
+
+
+shuffleBtn.onclick = () => {
+    if (score >= 20) {
+        shuffleBoard();
+        render();
+        playShuffleSound();
+        score -= 20;
+        scoreDisplay.textContent = score;
+    }
+
+};
+
+mapBtn.onclick = () => window.location.href = "../map/index.html";
+
+/* ============================================================
+   AUDIO HELPERS
+============================================================ */
+
+
+function fadeInMusic() {
+    bgm.volume = 0;
+    bgm.play();
+    const fade = setInterval(() => {
+        bgm.volume += 0.02;
+        if (bgm.volume >= 0.4) clearInterval(fade);
+    }, 50);
+}
+
+function fadeOutMusic() {
+    const fade = setInterval(() => {
+        bgm.volume -= 0.02;
+        if (bgm.volume <= 0) {
+            bgm.pause();
+            clearInterval(fade);
+        }
+    }, 50);
+}
+
+function playClickSound() { clickSound.currentTime = 0; clickSound.play(); }
+function playMatchSound() { matchSound.currentTime = 0; matchSound.play(); }
+function playShuffleSound() { shuffleSound.currentTime = 0; shuffleSound.play(); }
+
+/* ============================================================
+   BOOT
+============================================================ */
+
+init();
+
+
+// ===== BACK TO MAP =====
+document.getElementById("back-to-map").onclick = function () {
+    window.location.href = "../map/index.html";
+};

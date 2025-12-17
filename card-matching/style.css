@@ -1,56 +1,162 @@
 body {
-    font-family: sans-serif;
     text-align: center;
+    background: url(../image/UI/background_card-matching.png) no-repeat center bottom;
     background-size: cover;
-    background-image: url(./img/background.png);
-    /* makes the image cover the whole screen */
+    font-family: "Concert One", sans-serif;
     background-repeat: no-repeat;
-    /* prevents tiling */
     background-position: center;
-    /* keeps the image centered */
     background-attachment: fixed;
-    /* optional: keeps background fixed on scroll */
+    color: white;
+    overflow: hidden;
 }
 
-#boardWrapper {
-    display: block;          /* block-level container */
-    width: fit-content;      /* shrink-to-fit the board */
-    margin: 0 auto;          /* center it */
-    position: relative;      /* canvas uses this */
+.container {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+}
+
+.title-p {
+    width: 15vw;
+    height: 60vh;
+}
+
+.title {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.349);
+    border: 0.3vw solid rgb(255, 255, 255);
+    width: 15vw;
+    height: 60vh;
+    border-radius: 30px;
+    top: 15vh;
+    left: 10vw;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5%;
+}
+
+.time,
+.score,
+#shuffle-btn {
+    font-size: 3vh;
+    background-image: url(../image/UI/button.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: transparent;
+    width: 10vw;
+    height: 9vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
 
 
-    padding: 15px;
-    border: 5px solid rgba(255, 255, 255, 0.8);
+
+
+.btn-level {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    color: white;
+    font-size: 3vw;
+    font-family: inherit;
+    font-weight: 400;
+    font-style: inherit;
+    background-image: url("../image/UI/level.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: transparent;
+    margin-top: -50%;
+    width: 6vw;
+    height: 6vw;
+}
+
+.btn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2vw;
+}
+
+.music,
+
+#map-btn {
+    color: white;
+    background-image: url(../image/UI/button.png);
+    background-size: 8vh 8vh;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: transparent;
+    width: 8vh;
+    height: 8vh;
+    transition: transform 0.3s ease;
+}
+
+#map-btn img,
+.music img {
+    height: 5vh;
+}
+
+
+
+
+.music:hover,
+#map-btn:hover,
+#shuffle-btn:hover {
+    cursor: pointer;
+    transform: scale(1.2)
+}
+
+
+
+/* BOARD CONTAINER */
+#game-board-container {
+    display: block;
+    position: relative;
+    z-index: 4;
+    width: fit-content;
+    height: fit-content;
+    margin: 0 auto;
+    background: rgba(0,0,0,0.2)  url(../image/UI/dorm.png) center no-repeat;
+    background-size: cover;
+    padding: 5vh 3vh;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     border-radius: 15px;
-    box-shadow:
-        0 0 10px rgba(255, 255, 255, 0.7),
-        0 0 25px rgba(255, 100, 100, 0.5);
-    backdrop-filter: blur(4px);
+
 }
 
 
-#board {
+
+/* GAME BOARD */
+#game-board {
     display: grid;
     grid-template-columns: repeat(8, 60px);
     justify-content: center;
-    gap: 6px;
+    gap: 1vh;
     position: relative;
+    width: 40vw;
+    height: 80vh;
 }
 
 .cell {
-    width: 60px;
-    height: 60px;
-    border: 2px solid #aaa;
+    width: 4vw;
+    height: 9vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fff;
+    background: white;
+    border-radius: 10px;
     cursor: pointer;
     user-select: none;
 }
 
 .cell img {
-    width: 48px;
+    width: 2.6vw;
     height: auto;
     pointer-events: none;
 }
@@ -61,22 +167,22 @@ body {
     cursor: default;
 }
 
-/* Shade effect when selected */
+/* selection effect */
 .cell.active {
     filter: brightness(85%);
     transition: filter 0.15s ease;
 }
 
-/* Canvas overlays the board */
-#lineCanvas {
+/* FX CANVAS */
+#fx-canvas {
     position: absolute;
     top: 0;
     left: 0;
     pointer-events: none;
 }
 
-/* score board */
-#hud {
+/* HUD */
+.hud {
     font-size: 20px;
     margin-top: 10px;
     display: flex;
@@ -84,93 +190,233 @@ body {
     gap: 40px;
 }
 
-
-#gameOverlay {
+/* START OVERLAY */
+#start-overlay {
+    background: url(../image/UI/dorm.png) center no-repeat;
+    background-size: cover;
     position: absolute;
     top: 0;
     left: 0;
-
     width: 100%;
     height: 100%;
-
-    background: rgba(0, 0, 0, 0.55);
-
     display: flex;
     justify-content: center;
     align-items: center;
-
-    z-index: 50; /* sits above board & canvas */
+    z-index: 50;
+    font-size: 6vh;
+    cursor: pointer;
+    border-radius: 15px;
 }
 
-#overlayBox {
-    background: rgba(255, 255, 255, 0.85);
+/* SHARED OVERLAY BOX */
+.overlay-box {
+    background: rgba(255, 255, 255, 0.373);
     padding: 30px 50px;
     border-radius: 15px;
     text-align: center;
-    box-shadow: 0 0 15px rgba(255, 100, 100, 0.5);
+
 }
 
-
-#overlayBox h2 {
+.overlay-box h2 {
     margin-bottom: 20px;
 }
 
-#startBtn {
-    font-size: 20px;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 10px;
-    background: #ff6b6b;
-    color: white;
-    cursor: pointer;
-    transition: 0.2s;
+
+
+
+
+/* Bubbles animation */
+
+.bubbles img {
+    width: 10vh;
+    animation: bubble 15s linear infinite;
 }
 
-#startBtn:hover {
-    transform: scale(1.06);
-    background: #ff4f4f;
+.bubbles img:hover {
+    animation: none;
+    filter: blur(150px);
 }
 
-/* overlay win */
-
-#winOverlay {
+.bubbles {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     position: absolute;
+    bottom: -20%;
+}
+
+@keyframes bubble {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    70% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-98vh);
+        opacity: 0;
+    }
+
+}
+
+.bubbles img:nth-child(1) {
+    animation-delay: 0.5s;
+    width: 30px;
+}
+
+.bubbles img:nth-child(2) {
+    width: 28px;
+}
+
+.bubbles img:nth-child(3) {
+    animation-delay: 8s;
+    width: 36px;
+}
+
+.bubbles img:nth-child(4) {
+    animation-delay: 8.2s;
+    width: 27px;
+}
+
+.bubbles img:nth-child(5) {
+    animation-delay: 2s;
+    width: 20px;
+}
+
+.bubbles img:nth-child(6) {
+    animation-delay: 4s;
+    width: 30px;
+}
+
+.bubbles img:nth-child(7) {
+    animation-delay: 5s;
+    width: 35px;
+}
+
+.bubbles img:nth-child(8) {
+    animation-delay: 1s;
+    width: 29px;
+}
+
+.bubbles img:nth-child(9) {
+    animation-delay: 7s;
+    width: 40px;
+}
+
+
+.crownfish img {
+    position: absolute;
+    height: 20vh;
+    animation: move 40s linear infinite;
+    margin-top: 50vh;
+}
+
+.seahorse img {
+    position: absolute;
+    height: 30vh;
+    animation: moveTop 50s linear infinite;
+    top: 20vh;
+    left: -4vw;
+}
+
+
+
+
+@keyframes move {
+    from {
+        transform: translateX(-70vw);
+    }
+
+    to {
+        transform: translateX(50vw);
+    }
+}
+
+@keyframes moveTop {
+    from {
+        transform: translate(-10vw, 80vh);
+    }
+
+    to {
+        transform: translate(40vw, -50vh);
+    }
+}
+
+/* 2. THE OVERLAY DISPLAYS WHEN THE PLAYER FINISH THIS LEVEL*/
+
+#gameover-overlay {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
     top: 0;
     left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.55);
-    display: none; /* hidden at first */
-
+    display: none;
+    z-index: 25;
     justify-content: center;
     align-items: center;
-
-    z-index: 60; /* above board, canvas, and start overlay */
 }
 
-#winBox {
-    background: rgba(255, 255, 255, 0.85);
-    padding: 30px 50px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 0 15px rgba(255, 100, 100, 0.5);
+.message {
+    position: absolute;
+    display: grid;
+    height: 50vh;
+    width: 50vw;
+    grid-template-columns: 2fr 1fr;
+    gap: 5%;
 }
 
-#returnBtn {
-    margin-top: 15px;
-    padding: 12px 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 10px;
-    background: #4aa3ff;
+.left {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.text {
+    font-size: 9vh;
+}
+
+.dolphin {
+    height: 50vh;
+}
+
+#back-to-map img {
+    height: 40%;
+}
+
+#back-to-map {
+    background-image: url(../image/UI/button.png);
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Concert One", sans-serif;
+    font-size: 3vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: transparent;
+    width: 40vh;
+    height: 15vh;
+    margin-left: 20%;
     cursor: pointer;
-    transition: 0.2s;
 }
 
-#returnBtn:hover {
-    transform: scale(1.06);
-    background: #3b8ae0;
+#back-to-map:hover {
+    transform: scale(1.2);
 }
+
+/* END: 2. THE OVERLAY DISPLAYS WHEN THE PLAYER FINISH THIS LEVEL*/
+
