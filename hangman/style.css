@@ -129,7 +129,7 @@ body {
 
 /* START OVERLAY */
 #start-overlay {
-    background: url(../image/UI/dorm.png) center no-repeat;
+    background: url(../image/UI/building_5.png) center no-repeat;
     background-size: cover;
     position: absolute;
     top: 0;

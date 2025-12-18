@@ -1,5 +1,15 @@
 import { triggerPostLevelStory, completeLevel } from "../js/utils/progress.js";
 import { saveScore } from "../js/data/scoreRepository.js";
+import { startLoader } from "../shared/loader/index.js";
+
+
+startLoader({
+    text: "Receiving answer sheets...",
+    assets: [
+        "../image/UI/background_card-matching.png",
+        "../image/UI/building_5.png"
+    ]
+})
 /* ============================================================
    1. DATA
 ============================================================ */
