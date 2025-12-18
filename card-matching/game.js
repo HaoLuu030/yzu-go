@@ -15,8 +15,8 @@ startLoader({
    1. CONSTANTS & GLOBAL GAME STATE
 ============================================================ */
 
-const ROW = 8 + 2;
-const COL = 8 + 2;
+const ROW = 4 + 2;
+const COL = 4 + 2;
 
 const board = [];
 
@@ -399,6 +399,7 @@ async function checkGameEnd() {
 
     clearInterval(timerInterval);
     gameOverOverlay.style.display = "flex";
+    localStorage.setItem("progress", 3);
 
     return true;
 

@@ -55,7 +55,7 @@ function advanceDialog() {
 
     // 🔓 unlock & start music on FIRST interaction only
     if (!bgmStarted) {
-        bgm.play().catch(() => {});
+        bgm.play().catch(() => { });
         bgmStarted = true;
     }
 
@@ -107,11 +107,11 @@ export function startGuide({
 }
 
 export function showLastStoryLineIfAny() {
-  const saved = JSON.parse(localStorage.getItem("storyLastLine"));
-  if (!saved?.text) return;
+    const saved = JSON.parse(localStorage.getItem("storyLastLine"));
+    if (!saved?.text) return;
 
-  textEl.textContent = saved.text;
-  nextEl.style.visibility = "hidden";
+    textEl.textContent = saved.text;
+    nextEl.style.visibility = "hidden";
 }
 
 /* =========================
@@ -122,7 +122,7 @@ function typeLine() {
     if (!typing) {
         typing = true;
         typingSound.currentTime = 0;
-        typingSound.play().catch(() => {}); // browser-safe
+        typingSound.play().catch(() => { }); // browser-safe
     }
 
     currentLine = dialogLines[lineIndex];
@@ -171,7 +171,14 @@ function finishStory() {
     }));
 
     localStorage.removeItem("storyState");
-    document.dispatchEvent(new CustomEvent("guide:finished"));
+    document.dispatchEvent(
+        new CustomEvent("guide:finished", {
+            detail: {
+                completedAt: Date.now()
+            }
+        })
+    );
+
     typingSound.pause();
 
 }

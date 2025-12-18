@@ -7,3 +7,9 @@ export function triggerPostLevelStory(level, score) {
     completed: false
   }));
 }
+
+const PROGRESS_KEY = "playerProgress";
+
+export function setPlayerProgress(level) {
+  localStorage.setItem(PROGRESS_KEY, level);
+}

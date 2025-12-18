@@ -452,6 +452,7 @@ function movePacman(e) {
         gameOver = false;
         gameWin = false;
         update();
+        localStorage.setItem("progress", 4);
         return;
     }
 
