@@ -53,7 +53,7 @@ function saveStory() {
 function advanceDialog() {
     if (!storyActive) return;
 
-    // 🔓 unlock & start music on FIRST interaction only
+    // unlock & start music on FIRST interaction only
     if (!bgmStarted) {
         bgm.play().catch(() => {});
         bgmStarted = true;
@@ -173,7 +173,6 @@ function finishStory() {
     localStorage.removeItem("storyState");
     document.dispatchEvent(new CustomEvent("guide:finished"));
     typingSound.pause();
-
 }
 
 

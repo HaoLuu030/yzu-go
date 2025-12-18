@@ -1,17 +1,19 @@
-function setLevelButton(levelNumber) {
-    const data = JSON.parse(localStorage.getItem(`level${levelNumber}`));
-    const button = document.getElementById(`level${levelNumber}`);
+function updateButtonState(levelNumber) {
+    const progress = JSON.parse(localStorage.getItem("progress")) || { levels: {} };
+    const levelKey = `level${levelNumber}`;
+    const data = progress.levels[levelKey];
 
+    const button = document.getElementById(levelKey);
     if (!button) return;
 
-    // If story is locking the map, do nothing
+    // Story lock still has highest priority
     if (button.classList.contains("story-locked")) {
         button.classList.add("button-locked");
         button.style.pointerEvents = "none";
         return;
     }
 
-    // reset state
+    // Reset visual state
     button.classList.remove(
         "button-unlocked",
         "button-locked",
@@ -19,23 +21,24 @@ function setLevelButton(levelNumber) {
     );
     button.style.pointerEvents = "";
 
-    // 1️⃣ Completed → locked permanently
+    // 1. Completed → permanently locked
     if (data?.completed) {
         button.classList.add("button-completed");
         button.style.pointerEvents = "none";
         return;
     }
 
-    // 2️⃣ Unlocked → playable
+    // 2. Unlocked → playable
     if (levelNumber === 1 || data?.unlocked) {
         button.classList.add("button-unlocked");
         return;
     }
 
-    // 3️⃣ Locked
+    // 3. Locked
     button.classList.add("button-locked");
     button.style.pointerEvents = "none";
 }
+
 
 
 
@@ -60,9 +63,9 @@ function unlockLevelsByProgress() {
         const btn = document.getElementById(`level${i}`);
         if (!btn) continue;
         btn.classList.remove("story-locked");
-        setLevelButton(i);
+        updateButtonState(i);
     }
 }
 
 
-export { setLevelButton, lockAllLevels, unlockLevelsByProgress }
+export { updateButtonState, lockAllLevels, unlockLevelsByProgress }

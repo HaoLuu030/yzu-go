@@ -1,14 +1,4 @@
 import { gameState } from "../config/gameState.js";
-import { boardWidth } from "../entities/physics.js";
-
-function saveLevelProgress(levelName, score) {
-    const data = {
-        score: score,     // only current score
-        unlocked: true
-    };
-
-    localStorage.setItem(levelName, JSON.stringify(data));
-}
 
 export default class ScoreManager {
     constructor(font = "100px monospace", color = "#333", x = 5, y = 40) {
@@ -43,9 +33,6 @@ export default class ScoreManager {
             if (this.milestoneSound) this.milestoneSound.play();
             this._flashUntil = performance.now() + 1000;
         }
-
-        // ⭐ Only save CURRENT SCORE
-        saveLevelProgress("level2", Math.floor(gameState.score));
 
         // update external HTML score
         this._updateHtmlScore();

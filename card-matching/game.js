@@ -1,5 +1,5 @@
 import { saveScore } from "../js/data/scoreRepository.js";
-import { triggerPostLevelStory } from "../js/utils/progress.js";
+import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/index.js";
 
 
@@ -378,24 +378,19 @@ async function checkGameEnd() {
     // 1️. SAVE SCORE (unchanged)
     // =========================
     const levelKey = "level3";
+    const nextLevel = "level4";
     await saveScore({ level: levelKey, score });
 
     // =========================
     // 2️. SAVE LEVEL PROGRESS
     // =========================
-    localStorage.setItem(levelKey, JSON.stringify({
-        unlocked: true,
-        completed: true
-    }));
-
-    const nextLevel = "level4";
-    localStorage.setItem(nextLevel, JSON.stringify({ unlocked: true }));
+    completeLevel(levelKey, nextLevel);
 
     // =========================
     // 3️. TRIGGER STORY (NEW)
     // =========================
     triggerPostLevelStory(levelKey, score);
-    
+
 
     clearInterval(timerInterval);
     gameOverOverlay.style.display = "flex";

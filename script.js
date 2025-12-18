@@ -15,7 +15,7 @@ startLoader({
     "./image/yzu_logo.png",
     "./image/home_music.mp3",
   ],
-  text: "loading",
+  text: "Walking down the Hero Slope...",
 });
 
 

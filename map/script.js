@@ -1,6 +1,7 @@
 import { lockAllLevels, unlockLevelsByProgress } from "./js/helper.js";
 import { startGuide, showLastStoryLineIfAny } from "./js/guideCharacter.js";
 import { startLoader } from "../shared/loader/index.js";
+import { setCurrentLevel } from "../js/utils/progress.js";
 
 
 
@@ -41,9 +42,6 @@ const flags = JSON.parse(localStorage.getItem("storyFlags")) || {
   welcomeDone: false
 };
 
-
-
-
 /* =========================
    1) RESUME ACTIVE STORY
 ========================= */
@@ -72,6 +70,7 @@ if (!storyStarted && !flags.mapVisited) {
 
 
   storyStarted = true;
+  setCurrentLevel("level1");
 }
 
 /* =========================
@@ -80,7 +79,6 @@ if (!storyStarted && !flags.mapVisited) {
 if (!storyStarted) {
   unlockLevelsByProgress();
   showLastStoryLineIfAny();
-
 }
 
 /* =========================
@@ -93,7 +91,6 @@ document.addEventListener("guide:finished", () => {
     flags.welcomeDone = true;
     localStorage.setItem("storyFlags", JSON.stringify(flags));
   }
-
   unlockLevelsByProgress();
 });
 

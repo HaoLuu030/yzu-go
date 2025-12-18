@@ -1,5 +1,5 @@
 import { saveScore } from "../js/data/scoreRepository.js";
-import { triggerPostLevelStory } from "../js/utils/progress.js";
+import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/index.js";
 
 
@@ -43,7 +43,7 @@ const bgm = document.getElementById("bgm");
 const musicBtn = document.getElementById("music-btn");
 let musicOn = false;  // initially off until user clicks start
 
-let timeLeft = 60;     // seconds
+let timeLeft = 2;     // seconds
 let timerInterval = null;
 let gameStarted = false;
 let gameLoop = null;
@@ -686,18 +686,13 @@ async function endGame() {
     // 1️. SAVE SCORE (unchanged)
     // =========================
     const levelKey = "level1";
+    const nextLevel = "level2";
     await saveScore({ level: levelKey, score });
 
     // =========================
     // 2️. SAVE LEVEL PROGRESS
     // =========================
-    localStorage.setItem(levelKey, JSON.stringify({
-        unlocked: true,
-        completed: true
-    }));
-
-    const nextLevel = "level2";
-    localStorage.setItem(nextLevel, JSON.stringify({ unlocked: true }));
+    completeLevel(levelKey, nextLevel);
 
     // =========================
     // 3️. TRIGGER STORY (NEW)

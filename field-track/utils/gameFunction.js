@@ -4,7 +4,7 @@ import { SCALE } from "../config/scale.js";
 import { boardHeight, boardWidth } from "../entities/physics.js";
 import { scoreManager, entityManager, player } from "../game.js";
 import { startStopwatch } from "../game.js";
-import { triggerPostLevelStory } from "../../js/utils/progress.js";
+import { completeLevel, triggerPostLevelStory } from "../../js/utils/progress.js";
 import { saveScore } from "../../js/data/scoreRepository.js";
 
 export function pause() {
@@ -32,21 +32,12 @@ export async function gameOver(context) {
 
     // progression hook
     const levelKey = "level2";
+    const nextLevel = "level3";
     const finalScore = Math.floor(gameState.score);
     await saveScore({ level: levelKey, score: finalScore });
 
-    // mark level complete
-    localStorage.setItem(levelKey, JSON.stringify({
-        unlocked: true,
-        completed: true
-    }))
-
-    // unlock next level
-
-    localStorage.setItem("level3", JSON.stringify({
-        unlocked: true
-    }))
-
+    // mark complete and unlock next
+    completeLevel(levelKey, nextLevel);
     // queue post-level story
     triggerPostLevelStory(levelKey, finalScore);
 
