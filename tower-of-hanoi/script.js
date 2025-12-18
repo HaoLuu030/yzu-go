@@ -1,4 +1,5 @@
-import { setCurrentLevel, triggerPostLevelStory } from "../js/utils/progress.js";
+import { saveScore } from "../js/data/scoreRepository.js";
+import { completeLevel, setCurrentLevel, triggerPostLevelStory } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/index.js";
 
 
@@ -120,7 +121,8 @@ function endGame() {
     const levelKey = "level6";
 
     // save progression + score
-    setCurrentLevel(levelKey);
+    completeLevel(levelKey);
+    saveScore({level: levelKey, score});
     triggerPostLevelStory(levelKey, score);
 
     // lock UI
