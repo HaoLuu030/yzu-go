@@ -7,7 +7,11 @@ startLoader({
     text: "Receiving answer sheets...",
     assets: [
         "../image/UI/background_card-matching.png",
-        "../image/UI/building_5.png"
+        "../image/UI/building_5.png",
+        "sfx/background-music.mp3",
+        "sfx/correct.mp3",
+        "sfx/gong.mp3",
+        "sfx/incorrect.mp3"
     ]
 })
 /* ============================================================
@@ -139,7 +143,6 @@ startOverlay.onclick = () => {
     startOverlay.style.display = "none";
     quizStarted = true;
     loadPhrase();
-    console.log(isMusicOn);
 
 
     if (!isMusicOn) {
@@ -257,7 +260,6 @@ function unlockInput() {
 
 
 async function endGame() {
-    console.log("hello");
     // progression hook
     const levelKey = "level5";
     const nextLevel = "level6";
@@ -267,7 +269,6 @@ async function endGame() {
     completeLevel(levelKey, nextLevel);
     // queue post-level story
     triggerPostLevelStory(levelKey, quizScore);
-    console.log("bye bye")
     disableAll();
     gameOverOverlay.style.display = "flex";
 }

@@ -4,150 +4,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tower of Hanoi</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <!-- FONT -->
+    <title>Buidling 1</title>
+    <!-- FONT STYLE -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- FONT STYLE -->
+
+    <!-- loading -->
+    <script>
+        document.documentElement.classList.add("loading");
+    </script>
+    <style>
+        html.loading .app {
+            visibility: hidden;
+        }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            font-family: "Concert One", sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../shared/loader/styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- 1. BACKGROUND PART -->
-    <div class="background">
+    <div id="loader-root"></div>
 
-        <!--Optional floating decoration -->
-        <div class="bubbles">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
-            <img src="../image/UI/bubble.png">
+    <div class="app">
+        <!-- 1. BACKGROUND PART -->
+        <div class="background">
+
+            <!--Optional floating decoration -->
+            <div class="bubbles">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+
+            </div>
+
+            <!--Optional character / decoration -->
+            <div class="diver">
+                <img src="../image/UI/diver1.gif">
+                <img src="../image/UI/diver2.gif">
+            </div>
+            <div class="starfish">
+                <img src="../image/UI/starfish.gif">
+                <img src="../image/UI/starfish.gif">
+            </div>
 
         </div>
-
-        <!--Optional character / decoration -->
-        <div class="diver">
-            <img src="../image/UI/diver1.gif">
-            <img src="../image/UI/diver2.gif">
-        </div>
-        <div class="starfish">
-            <img src="../image/UI/starfish.gif">
-            <img src="../image/UI/starfish.gif">
-        </div>
-
-    </div>
-    <!-- END BACKGROUND -->
+        <!-- END BACKGROUND -->
 
 
 
-    <!-- 2. GAME OVER OVERLAY -->
-    <div id="gameover-overlay">
+        <!-- 2. GAME OVER OVERLAY -->
+        <div id="gameover-overlay">
 
-        <div class="message">
+            <div class="message">
 
-            <div class="left">
-                <div class="text">Level Finished!</div>
-                <div>
-                    <a style="text-decoration: none;" href="../map/index.html"><button id="back-to-map">
-                            Back to Map
-                            <img class="map-icon" src="../image/UI/map.png">
-                        </button></a>
+                <div class="left">
+                    <div class="text">Level Finished!</div>
+                    <div>
+                        <a style="text-decoration: none;" href="../map/index.html"><button id="back-to-map">
+                                Back to Map
+                                <img class="map-icon" src="../image/UI/map.png">
+                            </button></a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="right">
-                <img class="dolphin" src="../image/UI/dolphin.png">
+                <div class="right">
+                    <img class="dolphin" src="../image/UI/dolphin.png">
+                </div>
+
             </div>
 
         </div>
-
-    </div>
-    <!-- END GAME OVER -->
+        <!-- END GAME OVER -->
 
 
 
-    <!-- 3. MAIN CONTAINER -->
-    <div class="container">
+        <!-- 3. MAIN CONTAINER -->
+        <div class="container">
 
-        <!-- a. TOP BAR -->
-        <div id="title" class="title">
+            <!-- a. TOP BAR -->
+            <div id="title" class="title">
 
-            <div class="level">
-                <button class="btn-level">6</button>
-            </div>
-
-            <div class="time">
-                Moves:&nbsp;<span id="moveCount">0</span>
-            </div>
-
-            <div class="score">
-                Score:&nbsp;<span id="score">1000</span>
-            </div>
-
-            <div class="btn">
-                <div>
-                    <button class="music" id="music-btn">
-                        <img id="music-icon" src="../image/UI/volume_off.png">
-                    </button>
+                <div class="level">
+                    <button class="btn-level">6</button>
                 </div>
-                <div>
-                    <a href="../map/index.html">
-                        <button class="map">
-                            <img id="map-icon" src="../image/UI/map.png">
+
+                <div class="time">
+                    Moves:&nbsp;<span id="moveCount">0</span>
+                </div>
+
+                <div class="score">
+                    Score:&nbsp;<span id="score">1000</span>
+                </div>
+
+                <div class="btn">
+                    <div>
+                        <button class="music" id="music-btn">
+                            <img id="music-icon" src="../image/UI/volume_off.png">
                         </button>
-                    </a>
+                    </div>
+                    <div>
+                        <a href="../map/index.html">
+                            <button class="map">
+                                <img id="map-icon" src="../image/UI/map.png">
+                            </button>
+                        </a>
+                    </div>
                 </div>
+
             </div>
 
+
+
+            <!-- b. GAME BOARD -->
+            <div id="board-container">
+
+                <!-- START OVERLAY -->
+                <div id="overlay">
+                    <div id="overlay-text">
+                        Goal: Move all disks from Peg 1 to Peg 3
+                    </div>
+                </div>
+
+                <!-- GAME AREA -->
+                <div id="board">
+
+                    <h3 id="message"></h3>
+
+                    <div id="game">
+                        <div class="peg" id="peg1">
+                            <div class="pole"></div>
+                        </div>
+
+                        <div class="peg" id="peg2">
+                            <div class="pole"></div>
+                        </div>
+
+                        <div class="peg" id="peg3">
+                            <div class="pole"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- OPTIONAL MUSIC -->
+            <audio id="bgm" src="./sfx/background-music.ogg" loop></audio>
         </div>
-
-
-
-        <!-- b. GAME BOARD -->
-        <div id="board-container">
-
-            <!-- START OVERLAY -->
-            <div id="overlay">
-                <div id="overlay-text">
-                    Goal: Move all disks from Peg 1 to Peg 3
-                </div>
-            </div>
-
-            <!-- GAME AREA -->
-            <div id="board">
-
-                <h3 id="message"></h3>
-
-                <div id="game">
-                    <div class="peg" id="peg1">
-                        <div class="pole"></div>
-                    </div>
-
-                    <div class="peg" id="peg2">
-                        <div class="pole"></div>
-                    </div>
-
-                    <div class="peg" id="peg3">
-                        <div class="pole"></div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- OPTIONAL MUSIC -->
-        <audio id="bgm" src="./sfx/background-music.ogg" loop></audio>
+        <!-- END CONTAINER -->
     </div>
-    <!-- END CONTAINER -->
 
     <script type="module" src="script.js"></script>
 </body>

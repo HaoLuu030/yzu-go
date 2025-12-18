@@ -1,4 +1,16 @@
 import { setCurrentLevel, triggerPostLevelStory } from "../js/utils/progress.js";
+import { startLoader } from "../shared/loader/index.js";
+
+
+startLoader({
+    text: "Stacking the dishes...",
+    assets: [
+        "../image/UI/background_tower-of-hanoi.png",
+        "../image/UI/building_1.png",
+        "./sfx/background-music.ogg",
+        "sfx/place.mp3",
+    ]
+})
 
 const pegs = document.querySelectorAll('.peg');
 
@@ -14,7 +26,7 @@ const placeSound = new Audio("./sfx/place.mp3");
 
 const colors = ["#8B5A2B", "#A97458", "#C19A6B", "#D2B48C"];
 
-let numberOfDisks = 3;
+let numberOfDisks = 4;
 let gameEnded = false;
 
 

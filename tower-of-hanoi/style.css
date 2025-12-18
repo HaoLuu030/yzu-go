@@ -361,7 +361,7 @@ body {
     position: absolute;
     width: 50vw;
     height: 82vh;
-    background-image: url(../image/UI/dorm.png);
+    background-image: url(../image/UI/building_1.png);
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
@@ -392,7 +392,7 @@ body {
 
 #board {
     width: 50vw;
-    height: 50vh;
+    height: 40vh;
     background-color: rgba(255, 255, 255, 0.349);
     border-radius: 10px;
     display: flex;
