@@ -4,11 +4,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet" />
-  <title>Who are you?</title>
+  <title>Building 2</title>
+  <!-- FONT STYLE -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <!-- FONT STYLE -->
+
+  <!-- loading -->
+  <script>
+    document.documentElement.classList.add("loading");
+  </script>
+  <style>
+    html.loading .app {
+      visibility: hidden;
+    }
+
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      font-family: "Concert One", sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      color: white;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-top: 5px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 12px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="../shared/loader/styles.css">
 
 
   <link rel="stylesheet" href="./style.css">
@@ -20,28 +62,32 @@
 
 <body>
 
-  <div class="panel">
-    <h1>Choose Your Avatar</h1>
+  <div id="loader-root"></div>
 
-    <div class="content">
-      <!-- LEFT: BIG AVATAR -->
-      <div class="left">
-        <div class="big-avatar">
-          <img id="bigAvatar" src="" alt="Avatar preview">
+  <div class="app">
+    <div class="panel">
+      <h1>Choose Your Avatar</h1>
+
+      <div class="content">
+        <!-- LEFT: BIG AVATAR -->
+        <div class="left">
+          <div class="big-avatar">
+            <img id="bigAvatar" src="" alt="Avatar preview">
+          </div>
+
+          <input id="playerName" placeholder="Enter your name">
+
+          <button id="finishBtn" disabled>Go!</button>
         </div>
 
-        <input id="playerName" placeholder="Enter your name">
-
-        <button id="finishBtn" disabled>Go</button>
+        <!-- RIGHT: AVATAR GRID -->
+        <div class="right" id="avatarGrid"></div>
       </div>
-
-      <!-- RIGHT: AVATAR GRID -->
-      <div class="right" id="avatarGrid"></div>
     </div>
   </div>
 
-  <script src="./script.js">
-    
+  <script type="module" src="./script.js">
+
   </script>
 
 </body>
