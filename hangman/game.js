@@ -1,3 +1,5 @@
+import { triggerPostLevelStory, completeLevel } from "../js/utils/progress.js";
+import { saveScore } from "../js/data/scoreRepository.js";
 /* ============================================================
    1. DATA
 ============================================================ */
@@ -46,6 +48,7 @@ let wrong = 0;
 const maxWrong = 6;
 let quizScore = 0;
 let quizStarted = false;
+let inputLocked = false;
 let number = 0;
 
 
@@ -132,7 +135,7 @@ startOverlay.onclick = () => {
     if (!isMusicOn) {
         isMusicOn = true;
         updateMusicIcon();
-        
+
         fadeInMusic();
     }
 };
@@ -175,22 +178,26 @@ function updateWord() {
 
     // WIN
     if (!display.includes("_")) {
+        lockInput();
         quizScore += 50;
         updateScoreDisplay();
-         playSound(revealSound);
+        playSound(revealSound);
         statusEl.textContent = phraseWinMessages[phraseIndex];
         phraseIndex++;
 
         if (phraseIndex >= words.length) {
-            endGame();
+            setTimeout(endGame, 2000);
         } else {
-            setTimeout(loadPhrase, 2000);
+            setTimeout(() => {
+                unlockInput();
+                loadPhrase();
+            }, 2000);
         }
     }
 }
 
 function guess(letter, btn) {
-    if (!quizStarted) return;
+    if (!quizStarted || inputLocked) return;
     btn.disabled = true;
 
     if (chosen.includes(letter)) {
@@ -210,23 +217,48 @@ function guess(letter, btn) {
         statusEl.textContent = `Wrong: ${wrong} / ${maxWrong}`;
 
         if (wrong >= maxWrong) {
+            lockInput();
             playSound(revealSound);
             statusEl.textContent = phraseFailMessages[phraseIndex];
             phraseIndex++;
 
             if (phraseIndex >= words.length) {
-                endGame();
+                setTimeout(endGame, 2000);
             } else {
-                setTimeout(loadPhrase, 2000);
+                setTimeout(() => {
+                    unlockInput();
+                    loadPhrase();
+                }, 2000);
             }
         }
     }
 }
 
-
-function endGame() {
+function lockInput() {
+    inputLocked = true;
     disableAll();
-    logScore(quizScore);
+}
+
+function unlockInput() {
+    inputLocked = false;
+    updateAlphabetButtons();
+}
+
+
+
+async function endGame() {
+    console.log("hello");
+    // progression hook
+    const levelKey = "level5";
+    const nextLevel = "level6";
+    await saveScore({ level: levelKey, score: quizScore });
+
+    // mark complete and unlock next
+    completeLevel(levelKey, nextLevel);
+    // queue post-level story
+    triggerPostLevelStory(levelKey, quizScore);
+    console.log("bye bye")
+    disableAll();
     gameOverOverlay.style.display = "flex";
 }
 
