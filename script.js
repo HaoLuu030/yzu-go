@@ -18,6 +18,8 @@ startLoader({
   text: "Walking down the Hero Slope...",
 });
 
+const startBtn = document.getElementById("start");
+
 
 function Float(e) {
   e.classList.add("float-once");
@@ -56,3 +58,10 @@ function playMusic() {
 
 
 
+startBtn.onclick = () => {
+  if (localStorage.getItem("playerId")) {
+    window.location.href = "./map/index.html";
+  } else {
+    window.location.href = "./avatar/index.html";
+  }
+}
