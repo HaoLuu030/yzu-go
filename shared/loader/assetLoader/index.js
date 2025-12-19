@@ -1,10 +1,12 @@
-import { injectLoader, setLoadingText } from "../base/dom.js";
+import { injectLoader } from "../base/dom.js";
 import { preloadAssets } from "./preload.js";
 
 export async function startLoader({ assets = [], text = "Loading..." }) {
-  // 1. Create loader DOM immediately
+  const root = document.getElementById("loader-root");
+
+  // 1. Show loader immediately with correct text
   injectLoader(text);
-  setLoadingText(text);
+  if (root) root.style.display = "flex";
 
   try {
     // 2. Wait for assets + fonts
@@ -13,10 +15,9 @@ export async function startLoader({ assets = [], text = "Loading..." }) {
       document.fonts.ready
     ]);
   } finally {
-    // 3. CLEANUP (this is the missing part)
+    // 3. Reveal app + hide loader
     document.documentElement.classList.remove("loading");
 
-    const root = document.getElementById("loader-root");
-    if (root) root.remove();
+    if (root) root.style.display = "none";
   }
 }

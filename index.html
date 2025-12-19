@@ -8,41 +8,6 @@
     <script>
         document.documentElement.classList.add("loading");
     </script>
-    <style>
-        html.loading .app {
-            visibility: hidden;
-        }
-
-        #loader {
-            font-size: xx-large;
-            position: fixed;
-            font-family: "Concert One", sans-serif;
-            inset: 0;
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            color: white;
-        }
-
-        .spinner {
-            width: 48px;
-            height: 48px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-top: 5px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 12px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -55,7 +20,12 @@
 
 <body>
 
-    <div id="loader-root"></div>
+    <div id="loader-root">
+        <div id="loader">
+            <div class="spinner"></div>
+            <div id="loader-text">Loading...</div>
+        </div>
+    </div>
 
     <div class="app">
         <div class="main_view">

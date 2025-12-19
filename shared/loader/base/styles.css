@@ -1,19 +1,31 @@
+/* Hide app during initial load */
 html.loading .app {
   visibility: hidden;
 }
-#loader {
-  font-size: xx-large;
+
+/* Loader root = fullscreen overlay */
+#loader-root {
   position: fixed;
   inset: 0;
+  z-index: 9999;
+  display: none; /* JS controls visibility */
+}
+
+/* Loader box */
+#loader {
+  position: absolute;
+  inset: 0;
   background: #000;
+  font-family: "Concert One", sans-serif;
+  font-size: xx-large;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
   color: white;
 }
 
+/* Spinner */
 .spinner {
   width: 48px;
   height: 48px;
@@ -26,4 +38,14 @@ html.loading .app {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+
+/* Save loader visual variant */
+#loader-root.save-loader #loader {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+#loader-root.save-loader {
+  backdrop-filter: blur(2px);
 }

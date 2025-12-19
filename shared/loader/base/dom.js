@@ -1,39 +1,25 @@
-// Hide page ASAP (must be imported early)
+// dom.js
+// Loader DOM is owned by HTML. JS only controls state.
 
-// Inject loader HTML
-export function injectLoader(defaultText = "Loading...") {
-  let root = document.getElementById("loader-root");
+export function injectLoader(text = "Loading...") {
+  const root = document.getElementById("loader-root");
+  const textEl = document.getElementById("loader-text");
 
-  // Create if missing
-  if (!root) {
-    root = document.createElement("div");
-    root.id = "loader-root";
+  if (!root) return;
 
-    root.innerHTML = `
-      <div id="loader">
-        <div class="spinner"></div>
-        <div id="loader-text"></div>
-      </div>
-    `;
+  // Set text
+  if (textEl) textEl.textContent = text;
 
-    document.body.appendChild(root);
-  }
-
-  // ALWAYS reset text
-  const textEl = root.querySelector("#loader-text");
-  if (textEl) textEl.textContent = defaultText;
+  // Show loader
+  root.style.display = "flex";
 }
 
-
-// Update text
-export function setLoadingText(text) {
-  const el = document.getElementById("loadingText");
-  if (el) el.textContent = text;
+export function hideLoader() {
+  const root = document.getElementById("loader-root");
+  if (root) root.style.display = "none";
 }
 
-// Reveal page + remove loader
 export function revealPage() {
   document.documentElement.classList.remove("loading");
-  const loader = document.getElementById("loader");
-  if (loader) loader.remove();
+  hideLoader();
 }
