@@ -1,6 +1,7 @@
-import { saveScore } from "../js/data/scoreRepository.js";
+import { saveGame } from "../js/data/scoreRepository.js";
 import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
-import { startLoader } from "../shared/loader/index.js";
+import { startLoader } from "../shared/loader/assetLoader/index.js";
+import { PACK_UP_GAMEKEY } from "../js/data/gamekeys.js";
 
 
 startLoader({
@@ -43,10 +44,13 @@ const bgm = document.getElementById("bgm");
 const musicBtn = document.getElementById("music-btn");
 let musicOn = false;  // initially off until user clicks start
 
-let timeLeft = 2;     // seconds
+let timeLeft = 60;     // seconds
 let timerInterval = null;
 let gameStarted = false;
 let gameLoop = null;
+
+const levelKey = "level1";
+const nextLevel = "level2";
 
 
 
@@ -680,25 +684,15 @@ async function endGame() {
     clearInterval(timerInterval);
 
     // show overlay
+    
+
+    // =========================
+    // SAVE SCORE
+    // =========================
+    await saveGame({ gameKey: PACK_UP_GAMEKEY, level: levelKey, score, completed: true });
     document.getElementById("gameover-overlay").style.display = "flex";
-
-    // =========================
-    // 1️. SAVE SCORE (unchanged)
-    // =========================
-    const levelKey = "level1";
-    const nextLevel = "level2";
-    await saveScore({ level: levelKey, score });
-
-    // =========================
-    // 2️. SAVE LEVEL PROGRESS
-    // =========================
-    completeLevel(levelKey, nextLevel);
-
-    // =========================
-    // 3️. TRIGGER STORY (NEW)
-    // =========================
-    triggerPostLevelStory(levelKey, score);
 }
+
 
 
 
@@ -755,5 +749,9 @@ window.onload = function () {
     // ===== BACK TO MAP =====
     document.getElementById("back-to-map").onclick = function () {
         window.location.href = "../map/index.html";
+        // mark level as complete
+        completeLevel(levelKey, nextLevel);
+        // trigger story
+        triggerPostLevelStory(levelKey, score);
     };
 };

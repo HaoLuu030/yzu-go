@@ -1,6 +1,6 @@
 import { lockAllLevels, unlockLevelsByProgress } from "./js/helper.js";
 import { startGuide, showLastStoryLineIfAny } from "./js/guideCharacter.js";
-import { startLoader } from "../shared/loader/index.js";
+import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { setCurrentLevel } from "../js/utils/progress.js";
 
 

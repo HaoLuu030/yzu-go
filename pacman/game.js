@@ -1,6 +1,6 @@
-import { saveScore } from "../js/data/scoreRepository.js";
+import { saveGame } from "../js/data/scoreRepository.js";
 import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
-import { startLoader } from "../shared/loader/index.js";
+import { startLoader } from "../shared/loader/assetLoader/index.js";
 
 
 startLoader({
@@ -614,7 +614,7 @@ async function triggerGameOver() {
     // =========================
     const levelKey = "level4";
     const nextLevel = "level5";
-    await saveScore({ level: levelKey, score });
+    await saveGame({gameKey: PACMAN_GAMEKEY, level: levelKey, score, completed: true });
 
     // =========================
     // 2️. SAVE LEVEL PROGRESS

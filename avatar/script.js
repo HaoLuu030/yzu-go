@@ -1,4 +1,4 @@
-import { startLoader } from "../shared/loader/index.js";
+import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { ensurePlayer } from "../js/data/playerRepository.js";
 
 startLoader({
@@ -99,7 +99,7 @@ finishBtn.onclick = async () => {
     // Firestore
     await ensurePlayer(playerId, name, avatarId);
 
-    console.log("Player ensured:", playerId);
+    window.location.href = "../map/index.html";
 };
 
 

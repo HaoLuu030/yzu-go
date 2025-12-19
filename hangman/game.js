@@ -1,6 +1,6 @@
 import { triggerPostLevelStory, completeLevel } from "../js/utils/progress.js";
-import { saveScore } from "../js/data/scoreRepository.js";
-import { startLoader } from "../shared/loader/index.js";
+import { saveGame } from "../js/data/scoreRepository.js";
+import { startLoader } from "../shared/loader/assetLoader/index.js";
 
 
 startLoader({
@@ -263,7 +263,7 @@ async function endGame() {
     // progression hook
     const levelKey = "level5";
     const nextLevel = "level6";
-    await saveScore({ level: levelKey, score: quizScore });
+    await saveGame({gameKey: HANGMAN_GAMEKEY, level: levelKey, score, completed: true });
 
     // mark complete and unlock next
     completeLevel(levelKey, nextLevel);

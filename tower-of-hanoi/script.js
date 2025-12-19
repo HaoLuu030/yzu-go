@@ -1,6 +1,6 @@
-import { saveScore } from "../js/data/scoreRepository.js";
-import { completeLevel, setCurrentLevel, triggerPostLevelStory } from "../js/utils/progress.js";
-import { startLoader } from "../shared/loader/index.js";
+import { saveGame } from "../js/data/scoreRepository.js";
+import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
+import { startLoader } from "../shared/loader/assetLoader/index.js";
 
 
 startLoader({
@@ -114,7 +114,7 @@ function checkWin() {
 
 
 
-function endGame() {
+async function endGame() {
     if (gameEnded) return;
     gameEnded = true;
 
@@ -122,7 +122,7 @@ function endGame() {
 
     // save progression + score
     completeLevel(levelKey);
-    saveScore({level: levelKey, score});
+    await saveGame({gameKey: TOWER_OF_HANOI_GAMEKEY, level: levelKey, score, completed: true });
     triggerPostLevelStory(levelKey, score);
 
     // lock UI

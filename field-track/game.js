@@ -8,11 +8,15 @@ import createHitBox from "./utils/hitBox.js";
 import { pause, resume, gameOver, startGame } from "./utils/gameFunction.js";
 import { gameState } from "./config/gameState.js";
 import ScoreManager from "./utils/scoreManager.js";
-import { startLoader } from "../shared/loader/index.js";
+import { startLoader } from "../shared/loader/assetLoader/index.js";
+import { FIELD_TRACK_GAMEKEY } from "../js/data/gamekeys.js";
+import { saveGame } from "../js/data/scoreRepository.js";
+import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
 
 
 
-const loaderPromise  = startLoader({
+
+const loaderPromise = startLoader({
     text: "Getting into position",
     assets: [
         "./assets/img/backdrop.png",
@@ -95,6 +99,10 @@ let lastTickTime = null;
 
 let bgmStarted = false;
 let isMuted = false;
+
+const levelKey = "level2";
+const nextLevel = "level3";
+let finalScore = 0;
 
 
 // load frames
@@ -212,13 +220,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 // --------------------------------------------
 // GAME LOOP
 // --------------------------------------------
-export function gameLoop() {
+export async function gameLoop() {
 
     if (gameState.waitingToStart) return;
 
+    // game over
     if (gameState.gameOver) {
         clearInterval(stopwatchInterval);
         gameOver(context, document.getElementById("board"));
+        finalScore = Math.floor(gameState.score);
+        // save score
+        await saveGame({gameKey: FIELD_TRACK_GAMEKEY, score: finalScore, completed: true});
 
         const overlay = document.getElementById("gameover-overlay");
         if (overlay) overlay.style.display = 'flex';
@@ -275,6 +287,11 @@ export function startStopwatch() {
 
 // ===== BACK TO MAP =====
 document.getElementById("back-to-map").onclick = function () {
+    finalScore = Math.floor(gameState.score);
+    // mark complete and unlock next
+    completeLevel(levelKey, nextLevel);
+    // queue post-level story
+    triggerPostLevelStory(levelKey, finalScore);
     window.location.href = "../map/index.html";
 };
 

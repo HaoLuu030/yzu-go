@@ -1,35 +1,53 @@
-const USE_DB = false; // ← flip this later
+import { buildGameSave } from "./gameSaveContract.js";
+import { saveGameResult, getPlayer } from "./playerRepository.js";
 
-export async function saveScore({ level, score, time }) {
+const USE_DB = true; // flip anytime
+
+function getPlayerId() {
+  return JSON.parse(localStorage.getItem("playerProfile"))?.playerId;
+}
+
+/* SAVE */
+export async function saveGame({ gameKey, score, completed, extra = {} }) {
+  const save = buildGameSave({ score, completed, extra });
+
   if (USE_DB) {
-    // future database version
-    await fetch("/api/score", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ level, score, time })
-    });
+    const playerId = getPlayerId();
+    if (!playerId) throw new Error("No playerId");
+    await saveGameResult(playerId, gameKey, save);
   } else {
-    // localStorage fallback
-    localStorage.setItem(
-      `score_${level}`,
-      JSON.stringify({ score, time, date: Date.now() })
-    );
+    const profile = JSON.parse(localStorage.getItem("playerProfile")) || {};
+    profile.games = profile.games || {};
+    profile.games[gameKey] = {
+      ...save,
+      finishedAt: Date.now()
+    };
+    localStorage.setItem("playerProfile", JSON.stringify(profile));
   }
 }
 
-export async function getScore(level) {
+/* LOAD */
+export async function getGame(gameKey) {
   if (USE_DB) {
-    const res = await fetch(`/api/score?level=${level}`);
-    return await res.json();
+    const playerId = getPlayerId();
+    const player = await getPlayer(playerId);
+    return player?.games?.[gameKey] || null;
   } else {
-    return JSON.parse(localStorage.getItem(`score_${level}`));
+    const profile = JSON.parse(localStorage.getItem("playerProfile"));
+    return profile?.games?.[gameKey] || null;
   }
 }
 
-export async function clearScore(level) {
+/* CLEAR */
+export async function clearGame(gameKey) {
   if (USE_DB) {
-    await fetch(`/api/score?level=${level}`, { method: "DELETE" });
+    // optional: implement later
+    console.warn("DB clear not implemented");
   } else {
-    localStorage.removeItem(`score_${level}`);
+    const profile = JSON.parse(localStorage.getItem("playerProfile"));
+    if (profile?.games) {
+      delete profile.games[gameKey];
+      localStorage.setItem("playerProfile", JSON.stringify(profile));
+    }
   }
 }

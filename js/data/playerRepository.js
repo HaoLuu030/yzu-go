@@ -28,14 +28,14 @@ export async function ensurePlayer(playerId, name, avatarId) {
 }
 
 /* Save score for a game */
-export async function saveScore(playerId, gameKey, score) {
+export async function saveGameResult(playerId, gameKey, gameSave) {
   const ref = doc(db, "players", playerId);
+
   await updateDoc(ref, {
-    [`scores.${gameKey}`]: score,
-    lastSeen: serverTimestamp()
+    [`games.${gameKey}`]: gameSave,
+    lastSeen: gameSave.finishedAt
   });
 }
-
 /* Get player data */
 export async function getPlayer(playerId) {
   const ref = doc(db, "players", playerId);

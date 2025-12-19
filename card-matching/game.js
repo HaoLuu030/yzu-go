@@ -1,6 +1,6 @@
-import { saveScore } from "../js/data/scoreRepository.js";
+import { saveGame } from "../js/data/scoreRepository.js";
 import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
-import { startLoader } from "../shared/loader/index.js";
+import { startLoader } from "../shared/loader/assetLoader/index.js";
 
 
 startLoader({
@@ -88,6 +88,8 @@ clickSound.volume = 0.35;
 matchSound.volume = 0.45;
 
 /* STATE */
+const levelKey = "level3";
+const nextLevel = "level4";
 let gameStarted = false;
 let isMusicOn = false;
 let bgmStarted = false;
@@ -375,21 +377,10 @@ async function checkGameEnd() {
             if (board[r][c]) return false;
 
     // =========================
-    // 1️. SAVE SCORE (unchanged)
+    // SAVE SCORE (unchanged)
     // =========================
-    const levelKey = "level3";
-    const nextLevel = "level4";
-    await saveScore({ level: levelKey, score });
-
-    // =========================
-    // 2️. SAVE LEVEL PROGRESS
-    // =========================
-    completeLevel(levelKey, nextLevel);
-
-    // =========================
-    // 3️. TRIGGER STORY (NEW)
-    // =========================
-    triggerPostLevelStory(levelKey, score);
+    
+    await saveGame({gameKey: CARD_MATCHING_GAMEKEY, level: levelKey, score, completed: true });
 
 
     clearInterval(timerInterval);
@@ -488,4 +479,6 @@ init();
 // ===== BACK TO MAP =====
 document.getElementById("back-to-map").onclick = function () {
     window.location.href = "../map/index.html";
+    completeLevel(levelKey, nextLevel);
+    triggerPostLevelStory(levelKey, score);
 };
