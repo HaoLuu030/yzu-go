@@ -1,8 +1,9 @@
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { ensurePlayer } from "../js/data/playerRepository.js";
+import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 
 startLoader({
-    text: "Swiping student ID...",
+    text: "Identifying your identity...",
     assets: [
         "image/1.png",
         "image/10.png",
@@ -97,7 +98,12 @@ finishBtn.onclick = async () => {
     }));
 
     // Firestore
-    await ensurePlayer(playerId, name, avatarId);
+    await startSaveLoader(
+        async () => {
+            await ensurePlayer(playerId, name, avatarId);
+        },
+        { text: "Swiping your studentId..." }
+    );
 
     window.location.href = "../map/index.html";
 };

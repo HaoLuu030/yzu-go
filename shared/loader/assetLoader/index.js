@@ -3,7 +3,7 @@ import { preloadAssets } from "./preload.js";
 
 export async function startLoader({ assets = [], text = "Loading..." }) {
   // 1. Create loader DOM immediately
-  injectLoader();
+  injectLoader(text);
   setLoadingText(text);
 
   try {

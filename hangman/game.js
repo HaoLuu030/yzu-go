@@ -1,6 +1,8 @@
 import { triggerPostLevelStory, completeLevel } from "../js/utils/progress.js";
 import { saveGame } from "../js/data/scoreRepository.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
+import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
+import { HANGMAN_GAMEKEY } from "../js/data/gamekeys.js";
 
 
 startLoader({
@@ -21,34 +23,34 @@ startLoader({
 // Multi-word phrases supported
 const words = [
     { word: "BUILDING 5", hint: "The place we now stand." },
-    { word: "LIBRARY", hint: "A home full of books but no authors inside." },
-    { word: "LOUISA", hint: "A place that smells awake." },
-    { word: "MY WARMTH DAY", hint: "A place that serves the sun on a plate." },
-    { word: "FAMILY MART", hint: "The green-and-white stop for everyday needs." },
-    { word: "CABIN LOG", hint: "A cabin in name, a food stop in purpose." },
-    { word: "HUMANITIES", hint: "Which college calls this building home?" }
+    // { word: "LIBRARY", hint: "A home full of books but no authors inside." },
+    // { word: "LOUISA", hint: "A place that smells awake." },
+    // { word: "MY WARMTH DAY", hint: "A place that serves the sun on a plate." },
+    // { word: "FAMILY MART", hint: "The green-and-white stop for everyday needs." },
+    // { word: "CABIN LOG", hint: "A cabin in name, a food stop in purpose." },
+    // { word: "HUMANITIES", hint: "Which college calls this building home?" }
 ];
 
 
 
 const phraseWinMessages = [
     "Warm-up round over. Now let's see if your brain’s awake!",
-    "Ah yes… flashbacks to that final exam panic, right?",
-    "Win this and we’re treating ourselves to overpriced coffee.",
-    "Hotter than a toaster—nicely done!",
-    "If you can survive the 12pm FamilyMart queue, you can survive anything…",
-    "I heard the spot is very chill.",
-    "Nice! Even I thought that one was a scam answer."
+    // "Ah yes… flashbacks to that final exam panic, right?",
+    // "Win this and we’re treating ourselves to overpriced coffee.",
+    // "Hotter than a toaster—nicely done!",
+    // "If you can survive the 12pm FamilyMart queue, you can survive anything…",
+    // "I heard the spot is very chill.",
+    // "Nice! Even I thought that one was a scam answer."
 ];
 
 const phraseFailMessages = [
     "(Building 5) – Did you have a concussion?",
-    "(Library) – How did you even graduate?",
-    "(Louisa) – Fair enough, their coffee costs more than your GPA.",
-    "(My Warmth Day) – Guess the only warm thing here is your confusion.",
-    "(Family Mart) – The green-white sign was screaming.",
-    "(Cabin Log) – Honestly, neither do most people.",
-    "(Humanities) – Even Google sighed at this one."
+    // "(Library) – How did you even graduate?",
+    // "(Louisa) – Fair enough, their coffee costs more than your GPA.",
+    // "(My Warmth Day) – Guess the only warm thing here is your confusion.",
+    // "(Family Mart) – The green-white sign was screaming.",
+    // "(Cabin Log) – Honestly, neither do most people.",
+    // "(Humanities) – Even Google sighed at this one."
 ];
 
 /* ============================================================
@@ -95,6 +97,9 @@ const revealSound = document.getElementById("revealSound");
 
 let isMusicOn = false;
 let bgmStarted = false;
+// progression hook
+const levelKey = "level5";
+const nextLevel = "level6";
 
 /* ============================================================
    4. AUDIO HELPERS (SAME AS GAME)
@@ -260,16 +265,14 @@ function unlockInput() {
 
 
 async function endGame() {
-    // progression hook
-    const levelKey = "level5";
-    const nextLevel = "level6";
-    await saveGame({gameKey: HANGMAN_GAMEKEY, level: levelKey, score, completed: true });
-
-    // mark complete and unlock next
-    completeLevel(levelKey, nextLevel);
-    // queue post-level story
-    triggerPostLevelStory(levelKey, quizScore);
     disableAll();
+    await startSaveLoader(
+        async () => {
+            await saveGame({ gameKey: HANGMAN_GAMEKEY, level: levelKey, score: quizScore, completed: true });
+        },
+        { text: "Handing in answer sheet..." }
+    );
+
     gameOverOverlay.style.display = "flex";
 }
 
@@ -342,4 +345,14 @@ function playSound(sound) {
 
 createAlphabet();
 updateScoreDisplay();
+
+
+// ===== BACK TO MAP =====
+document.getElementById("back-to-map").onclick = function () {
+    window.location.href = "../map/index.html";
+    // mark level as complete
+    completeLevel(levelKey, nextLevel);
+    // trigger story
+    triggerPostLevelStory(levelKey, quizScore);
+};
 

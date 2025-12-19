@@ -1,6 +1,7 @@
 import { saveGame } from "../js/data/scoreRepository.js";
 import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
+import { TOWER_OF_HANOI_GAMEKEY } from "../js/data/gamekeys.js";
 
 
 startLoader({
@@ -20,6 +21,7 @@ const moveCountSpan = document.getElementById('moveCount');
 const scoreSpan = document.getElementById('score');
 const startOverlay = document.getElementById("overlay");
 const message = document.getElementById('message');
+import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 
 
 
@@ -27,8 +29,9 @@ const placeSound = new Audio("./sfx/place.mp3");
 
 const colors = ["#8B5A2B", "#A97458", "#C19A6B", "#D2B48C"];
 
-let numberOfDisks = 4;
+let numberOfDisks = 1;
 let gameEnded = false;
+const levelKey = "level6";
 
 
 // Optimal moves = 2^n − 1
@@ -118,12 +121,12 @@ async function endGame() {
     if (gameEnded) return;
     gameEnded = true;
 
-    const levelKey = "level6";
-
-    // save progression + score
-    completeLevel(levelKey);
-    await saveGame({gameKey: TOWER_OF_HANOI_GAMEKEY, level: levelKey, score, completed: true });
-    triggerPostLevelStory(levelKey, score);
+    await startSaveLoader(
+        async () => {
+            await saveGame({ gameKey: TOWER_OF_HANOI_GAMEKEY, level: levelKey, score, completed: true });
+        },
+        { text: "Putting away the disks..." }
+    );
 
     // lock UI
     document.querySelectorAll(".disk").forEach(d => d.draggable = false);
@@ -203,7 +206,9 @@ window.onload = function () {
 
     // ===== BACK TO MAP =====
     document.getElementById("back-to-map").onclick = function () {
-        console.log("going back to map");
+        // save progression + score
+        completeLevel(levelKey);
+        triggerPostLevelStory(levelKey, score);
         window.location.href = "../map/map.html";
     };
 };

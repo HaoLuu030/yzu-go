@@ -12,6 +12,7 @@ import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { FIELD_TRACK_GAMEKEY } from "../js/data/gamekeys.js";
 import { saveGame } from "../js/data/scoreRepository.js";
 import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
+import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 
 
 
@@ -230,7 +231,14 @@ export async function gameLoop() {
         gameOver(context, document.getElementById("board"));
         finalScore = Math.floor(gameState.score);
         // save score
-        await saveGame({gameKey: FIELD_TRACK_GAMEKEY, score: finalScore, completed: true});
+
+        await startSaveLoader(
+            async () => {
+                await saveGame({ gameKey: FIELD_TRACK_GAMEKEY, score: finalScore, completed: true }); // your async function
+            },
+            { text: "Getting up from the fall..." }
+        );
+        
 
         const overlay = document.getElementById("gameover-overlay");
         if (overlay) overlay.style.display = 'flex';

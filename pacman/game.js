@@ -1,7 +1,8 @@
 import { saveGame } from "../js/data/scoreRepository.js";
 import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
-
+import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
+import { PACMAN_GAMEKEY } from "../js/data/gamekeys.js";
 
 startLoader({
     text: "Seeking the truth...",
@@ -41,6 +42,8 @@ const boardHeight = rowCount * tileSize;
 let queuedDirection = null;
 let context;
 let gameWin = false;
+const levelKey = "level4";
+const nextLevel = "level5";
 
 let blueGhostImage;
 let orangeGhostImage;
@@ -612,19 +615,12 @@ async function triggerGameOver() {
     // =========================
     // 1️. SAVE SCORE
     // =========================
-    const levelKey = "level4";
-    const nextLevel = "level5";
-    await saveGame({gameKey: PACMAN_GAMEKEY, level: levelKey, score, completed: true });
-
-    // =========================
-    // 2️. SAVE LEVEL PROGRESS
-    // =========================
-    completeLevel(levelKey, nextLevel);
-
-    // =========================
-    // 3️. TRIGGER STORY
-    // =========================
-    triggerPostLevelStory(levelKey, score);
+    await startSaveLoader(
+        async () => {
+            await saveGame({ gameKey: PACMAN_GAMEKEY, level: levelKey, score, completed: true });
+        },
+        { text: "Walking down the stairs..." }
+    );
 
 
     clearInterval(timerInterval);
@@ -644,3 +640,13 @@ async function triggerGameOver() {
         gameStarted = true;
     };
 }
+
+
+// ===== BACK TO MAP =====
+document.getElementById("back-to-map").onclick = function () {
+    window.location.href = "../map/index.html";
+    // mark level as complete
+    completeLevel(levelKey, nextLevel);
+    // trigger story
+    triggerPostLevelStory(levelKey, score);
+};

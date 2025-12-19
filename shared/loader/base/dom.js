@@ -1,15 +1,27 @@
 // Hide page ASAP (must be imported early)
 
 // Inject loader HTML
-export function injectLoader() {
-  const root = document.getElementById("loader-root");
+export function injectLoader(defaultText = "Loading...") {
+  let root = document.getElementById("loader-root");
 
-  root.insertAdjacentHTML("afterbegin", `
-    <div id="loader">
-      <div class="spinner"></div>
-      <p id="loadingText">Loading...</p>
-    </div>
-  `);
+  // Create if missing
+  if (!root) {
+    root = document.createElement("div");
+    root.id = "loader-root";
+
+    root.innerHTML = `
+      <div id="loader">
+        <div class="spinner"></div>
+        <div id="loader-text"></div>
+      </div>
+    `;
+
+    document.body.appendChild(root);
+  }
+
+  // ALWAYS reset text
+  const textEl = root.querySelector("#loader-text");
+  if (textEl) textEl.textContent = defaultText;
 }
 
 

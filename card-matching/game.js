@@ -1,6 +1,8 @@
 import { saveGame } from "../js/data/scoreRepository.js";
 import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
+import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
+import { CARD_MATCHING_GAMEKEY } from "../js/data/gamekeys.js";
 
 
 startLoader({
@@ -15,8 +17,8 @@ startLoader({
    1. CONSTANTS & GLOBAL GAME STATE
 ============================================================ */
 
-const ROW = 8 + 2;
-const COL = 8 + 2;
+const ROW = 1 + 2;
+const COL = 2 + 2;
 
 const board = [];
 
@@ -379,8 +381,15 @@ async function checkGameEnd() {
     // =========================
     // SAVE SCORE (unchanged)
     // =========================
+
+    await startSaveLoader(
+        async () => {
+            await saveGame({ gameKey: CARD_MATCHING_GAMEKEY, level: levelKey, score, completed: true });; // your async function
+        },
+        { text: "Hanging the flags over the balcony..." }
+    );
+
     
-    await saveGame({gameKey: CARD_MATCHING_GAMEKEY, level: levelKey, score, completed: true });
 
 
     clearInterval(timerInterval);

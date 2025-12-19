@@ -2,6 +2,7 @@ import { saveGame } from "../js/data/scoreRepository.js";
 import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { PACK_UP_GAMEKEY } from "../js/data/gamekeys.js";
+import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 
 
 startLoader({
@@ -44,7 +45,7 @@ const bgm = document.getElementById("bgm");
 const musicBtn = document.getElementById("music-btn");
 let musicOn = false;  // initially off until user clicks start
 
-let timeLeft = 60;     // seconds
+let timeLeft = 2;     // seconds
 let timerInterval = null;
 let gameStarted = false;
 let gameLoop = null;
@@ -684,12 +685,17 @@ async function endGame() {
     clearInterval(timerInterval);
 
     // show overlay
-    
+
 
     // =========================
     // SAVE SCORE
     // =========================
-    await saveGame({ gameKey: PACK_UP_GAMEKEY, level: levelKey, score, completed: true });
+    await startSaveLoader(
+        async () => {
+            await saveGame({ gameKey: PACK_UP_GAMEKEY, level: levelKey, score, completed: true });
+        },
+        { text: "Carrying your luggage out of the dorm..." }
+    );
     document.getElementById("gameover-overlay").style.display = "flex";
 }
 
