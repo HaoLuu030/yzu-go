@@ -1,6 +1,7 @@
 import { saveScore } from "../js/data/scoreRepository.js";
 import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/index.js";
+import { getPerformanceImage } from "../js/utils/dolphinEmotion.js";
 
 
 startLoader({
@@ -21,9 +22,7 @@ startLoader({
         "../image/UI/whale.gif",
         "../image/UI/background_pack-up.png",
         "./image/UI/bubble.png",
-        "./image/UI/dolphin.png",
         "./image/UI/button.png",
-        "./image/UI/dolphin.png",
         "./image/UI/level.png",
         "./image/UI/map.png",
         "./image/UI/volume_off.png",
@@ -681,6 +680,8 @@ async function endGame() {
 
     // show overlay
     document.getElementById("gameover-overlay").style.display = "flex";
+    document.getElementById("dolphin").src =`/image/UI/emotion/${getPerformanceImage("level1", 1000)}`;
+  
 
     // =========================
     // 1️. SAVE SCORE (unchanged)
@@ -699,6 +700,8 @@ async function endGame() {
     // =========================
     triggerPostLevelStory(levelKey, score);
 }
+
+
 
 
 
