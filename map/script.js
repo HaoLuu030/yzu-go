@@ -1,7 +1,7 @@
-import { lockAllLevels, unlockLevelsByProgress } from "./js/helper.js";
+import { lockAllLevels, unlockLevelsFromState } from "./js/helper.js";
 import { startGuide, showLastStoryLineIfAny } from "./js/guideCharacter.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
-import { setCurrentLevel } from "../js/utils/progress.js";
+import { loadPlayerState, savePlayerState } from "../js/state/playerState.js";
 
 
 
@@ -29,70 +29,113 @@ startLoader(
   }
 )
 
+
+
+
+
 /* =========================
    STATE
 ========================= */
-let storyStarted = false;
+const state = loadPlayerState();
+const mode = getMapMode(state);
+
+
+if (mode !== "normal") {
+  lockAllLevels();
+}
+
+
+
+switch (mode) {
+  case "story": {
+    startGuide({
+      phase: state.story.phase,
+      level: state.story.level,
+      score: null,
+      lineIndex: state.story.lineIndex ?? 0
+    });
+
+    break;
+  }
+
+  case "welcome": {
+    startGuide({
+      phase: "welcome",
+      level: null,
+      lineIndex: 0
+    });
+
+    state.story = {
+      active: true,
+      phase: "welcome",
+      level: null,
+      lineIndex: 0,
+      lastLine: null
+    };
+
+    savePlayerState(state);
+    break;
+  }
+
+  case "normal": {
+    unlockLevelsFromState(state);
+    showLastStoryLineIfAny();
+    break;
+  }
+}
 
 /* =========================
    LOAD FLAGS (first-visit)
 ========================= */
-const flags = JSON.parse(localStorage.getItem("storyFlags")) || {
-  mapVisited: false,
-  welcomeDone: false
-};
 
 /* =========================
    1) RESUME ACTIVE STORY
 ========================= */
-const saved = JSON.parse(localStorage.getItem("storyState"));
-
-if (saved && !saved.completed) {
-  lockAllLevels();
-  startGuide(saved);
-  storyStarted = true;
-}
 
 /* =========================
    2) FIRST VISIT → WELCOME
 ========================= */
-if (!storyStarted && !flags.mapVisited) {
-  lockAllLevels();
-  startGuide({
-    phase: "welcome",
-    level: null,
-    score: null,
-    lineIndex: 0
-  });
 
-  flags.mapVisited = true;
-  localStorage.setItem("storyFlags", JSON.stringify(flags));
-
-
-  storyStarted = true;
-  setCurrentLevel("level1");
-}
 
 /* =========================
    3) NORMAL FLOW
 ========================= */
-if (!storyStarted) {
-  unlockLevelsByProgress();
-  showLastStoryLineIfAny();
-}
 
 /* =========================
    UNLOCK AFTER STORY
 ========================= */
-document.addEventListener("guide:finished", () => {
-  // mark welcome as done ONLY after completion
-  const active = JSON.parse(localStorage.getItem("storyState"));
-  if (active?.phase === "welcome") {
-    flags.welcomeDone = true;
-    localStorage.setItem("storyFlags", JSON.stringify(flags));
-  }
-  unlockLevelsByProgress();
+document.addEventListener("guide:progress", (e) => {
+  const state = loadPlayerState();
+
+  state.story.lineIndex = e.detail.lineIndex;
+  state.story.lastLine = e.detail.text;
+
+  savePlayerState(state);
 });
+
+document.addEventListener("guide:finished", (e) => {
+  const state = loadPlayerState();
+
+  if (state.story.phase === "welcome") {
+    if (!state.journey.completedNodes.includes("welcome")) {
+      state.journey.completedNodes.push("welcome");
+    }
+    state.levels.level1.unlocked = true;
+  }
+
+  // persist last line
+  state.story.lastLine = e.detail.lastLine;
+
+  // clear story
+  state.story.active = false;
+  state.story.phase = null;
+  state.story.level = null;
+  state.story.lineIndex = null;
+
+  savePlayerState(state);
+  unlockLevelsFromState(state);
+});
+
 
 /* =========================
    WATERFALL ANIMATION
@@ -118,3 +161,36 @@ setInterval(() => {
   current = (current + 1) % frames.length;
   img.src = frames[current];
 }, 100);
+
+
+function getMapMode(state) {
+  if (state.story.active) return "story";
+  if (!state.journey.completedNodes.includes("welcome")) return "welcome";
+  return "normal";
+}
+
+function enterLevel(levelKey) {
+  const state = loadPlayerState();
+  const level = state.levels[levelKey];
+
+  // hard safety guard
+  if (!level || !level.unlocked || level.completed) return;
+
+  state.journey.currentNode = levelKey;
+  savePlayerState(state);
+
+  // central routing
+  window.location.href = `../${level.gameId}/index.html`;
+}
+
+function bindLevelButtons() {
+  Object.keys(loadPlayerState().levels).forEach(levelKey => {
+    const btn = document.getElementById(levelKey);
+    if (!btn) return;
+
+    btn.addEventListener("click", () => enterLevel(levelKey));
+  });
+}
+
+bindLevelButtons();
+

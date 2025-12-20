@@ -1,6 +1,9 @@
 
 
 import { startLoader } from "./shared/loader/assetLoader/index.js";
+import { loadPlayerState } from "./js/state/playerState.js";
+import { savePlayerState } from "./js/state/playerState.js";
+
 
 
 startLoader({
@@ -17,6 +20,7 @@ startLoader({
   ],
   text: "Walking down the Hero Slope...",
 });
+
 
 const startBtn = document.getElementById("start");
 

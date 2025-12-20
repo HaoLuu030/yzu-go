@@ -1,4 +1,4 @@
-import { triggerPostLevelStory, completeLevel } from "../js/utils/progress.js";
+import { triggerPostLevelStory } from "../js/utils/progress.js";
 import { saveGame } from "../js/data/scoreRepository.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
@@ -268,7 +268,12 @@ async function endGame() {
     disableAll();
     await startSaveLoader(
         async () => {
-            await saveGame({ gameKey: HANGMAN_GAMEKEY, level: levelKey, score: quizScore, completed: true });
+            await saveGame({
+                gameKey: HANGMAN_GAMEKEY,
+                levelId: levelKey,
+                score: quizScore,
+                completed: true
+            });
         },
         { text: "Handing in answer sheet..." }
     );
@@ -349,10 +354,8 @@ updateScoreDisplay();
 
 // ===== BACK TO MAP =====
 document.getElementById("back-to-map").onclick = function () {
-    window.location.href = "../map/index.html";
-    // mark level as complete
-    completeLevel(levelKey, nextLevel);
     // trigger story
     triggerPostLevelStory(levelKey, quizScore);
+    window.location.href = "../map/index.html";
 };
 

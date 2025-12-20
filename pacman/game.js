@@ -1,5 +1,5 @@
 import { saveGame } from "../js/data/scoreRepository.js";
-import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
+import {  triggerPostLevelStory } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 import { PACMAN_GAMEKEY } from "../js/data/gamekeys.js";
@@ -616,7 +616,7 @@ async function triggerGameOver() {
         async () => {
             await saveGame({
                 gameKey: PACMAN_GAMEKEY,
-                level: levelKey,
+                levelId: levelKey,
                 score,
                 completed: true
             });
@@ -624,28 +624,26 @@ async function triggerGameOver() {
         { text: "Walking down the stairs..." }
     );
 
-    overlay.onclick = function () {
-        overlay.style.display = "none";
+    // overlay.onclick = function () {
+    //     overlay.style.display = "none";
 
-        loadMap();
-        resetPositions();
+    //     loadMap();
+    //     resetPositions();
 
-        score = 0;
-        lives = 3;
-        gameOver = false;
-        gameWin = false;
+    //     score = 0;
+    //     lives = 3;
+    //     gameOver = false;
+    //     gameWin = false;
 
-        gameStarted = true;
-        update(); // restart loop
-    };
+    //     gameStarted = true;
+    //     update(); // restart loop
+    // };
 }
 
 
 // ===== BACK TO MAP =====
 document.getElementById("back-to-map").onclick = function () {
-    window.location.href = "../map/index.html";
-    // mark level as complete
-    completeLevel(levelKey, nextLevel);
     // trigger story
     triggerPostLevelStory(levelKey, score);
+    window.location.href = "../map/index.html";
 };

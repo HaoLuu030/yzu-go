@@ -1,14 +1,20 @@
-const STORY_STATE_KEY_WORD = "storyState";
+import { loadPlayerState, savePlayerState } from "../state/playerState.js";
+
 const PROGRESS_KEY = "progress";
 
 export function triggerPostLevelStory(level, score) {
-  localStorage.setItem(STORY_STATE_KEY_WORD, JSON.stringify({
+  const state = loadPlayerState();
+
+  state.story = {
+    active: true,
     phase: "postLevel",
-    level,
+    level: level,
     score,
     lineIndex: 0,
-    completed: false
-  }));
+    lastLine: null
+  };
+
+  savePlayerState(state);
 }
 
 
@@ -26,7 +32,7 @@ export function loadProgress() {
       levels: p.levels || {}
     }
   } catch {
-    return {currentLevel: "level1", levels: {}};
+    return { currentLevel: "level1", levels: {} };
   }
 }
 
@@ -42,20 +48,7 @@ export function setCurrentLevel(levelKey) {
   p.currentLevel = levelKey;
 
   // update local storage
-  p.levels[levelKey] = {...(p.levels[levelKey] || {}), unlocked: true};
-
-  saveProgress(p);
-}
-
-export function completeLevel(levelKey, nextLevelKey) {
-  const p = loadProgress();
-
-  p.levels[levelKey] = { ...(p.levels[levelKey] || {}), unlocked: true, completed: true};
-
-  if (nextLevelKey) {
-    p.levels[nextLevelKey] = { ...(p.levels[nextLevelKey] || {}), unlocked: true };
-    p.currentLevel = nextLevelKey;
-  }
+  p.levels[levelKey] = { ...(p.levels[levelKey] || {}), unlocked: true };
 
   saveProgress(p);
 }

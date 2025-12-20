@@ -1,71 +1,85 @@
-function updateButtonState(levelNumber) {
-    const progress = JSON.parse(localStorage.getItem("progress")) || { levels: {} };
-    const levelKey = `level${levelNumber}`;
-    const data = progress.levels[levelKey];
+import { loadPlayerState } from "../../js/state/playerState.js";
 
-    const button = document.getElementById(levelKey);
-    if (!button) return;
 
-    // Story lock still has highest priority
-    if (button.classList.contains("story-locked")) {
-        button.classList.add("button-locked");
-        button.style.pointerEvents = "none";
-        return;
-    }
+function updateButtonState(levelKey) {
+  const state = loadPlayerState();
+  const level = state.levels[levelKey];
+  const button = document.getElementById(levelKey);
 
-    // Reset visual state
-    button.classList.remove(
-        "button-unlocked",
-        "button-locked",
-        "button-completed"
-    );
-    button.style.pointerEvents = "";
+  if (!button || !level) return;
 
-    // 1. Completed → permanently locked
-    if (data?.completed) {
-        button.classList.add("button-completed");
-        button.style.pointerEvents = "none";
-        return;
-    }
+  // reset visual state
+  button.classList.remove(
+    "button-unlocked",
+    "button-locked",
+    "button-completed",
+    "story-locked"
+  );
+  button.style.pointerEvents = "";
 
-    // 2. Unlocked → playable
-    if (levelNumber === 1 || data?.unlocked) {
-        button.classList.add("button-unlocked");
-        return;
-    }
-
-    // 3. Locked
-    button.classList.add("button-locked");
+  // 1️⃣ Completed
+  if (level.completed) {
+    button.classList.add("button-completed");
     button.style.pointerEvents = "none";
+    return;
+  }
+
+  // 2️⃣ Unlocked
+  if (level.unlocked) {
+    button.classList.add("button-unlocked");
+    return;
+  }
+
+  // 3️⃣ Locked
+  button.classList.add("button-locked");
+  button.style.pointerEvents = "none";
 }
+
 
 
 
 
 function lockAllLevels() {
-    for (let i = 1; i <= 8; i++) {
-        const btn = document.getElementById(`level${i}`);
-        if (!btn) continue;
+  for (let i = 1; i <= 8; i++) {
+    const btn = document.getElementById(`level${i}`);
+    if (!btn) continue;
 
-         btn.classList.remove(
-            "button-unlocked",
-            "button-completed"
-        );
+    btn.classList.remove(
+      "button-unlocked",
+      "button-completed"
+    );
 
-        btn.classList.add("button-locked", "story-locked");
-        btn.style.pointerEvents = "none";
+    btn.classList.add("button-locked", "story-locked");
+    btn.style.pointerEvents = "none";
 
-    }
+  }
 }
 
-function unlockLevelsByProgress() {
-    for (let i = 1; i <= 8; i++) {
-        const btn = document.getElementById(`level${i}`);
-        if (!btn) continue;
-        btn.classList.remove("story-locked");
-        updateButtonState(i);
+function unlockLevelsFromState(state) {
+  Object.entries(state.levels).forEach(([levelKey, level]) => {
+    const btn = document.getElementById(levelKey);
+    if (!btn) return;
+
+    btn.classList.remove("button-locked", "button-unlocked", "button-completed", "story-locked");
+
+    if (level.completed) {
+      btn.classList.add("button-completed");
+      btn.style.pointerEvents = "none";
+      return;
     }
+
+    if (level.unlocked) {
+      btn.classList.add("button-unlocked");
+      btn.style.pointerEvents = "auto";
+      return;
+    }
+
+    btn.classList.add("button-locked");
+    btn.style.pointerEvents = "none";
+  });
 }
 
 
-export { updateButtonState, lockAllLevels, unlockLevelsByProgress }
+
+
+export { updateButtonState, lockAllLevels, unlockLevelsFromState }

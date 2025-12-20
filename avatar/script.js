@@ -1,5 +1,6 @@
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { ensurePlayer } from "../js/data/playerRepository.js";
+import { loadPlayerState, savePlayerState } from "../js/state/playerState.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 
 startLoader({
@@ -38,7 +39,6 @@ const avatars = Array.from({ length: 20 }, (_, i) => ({
 
 
 const MAP_URL = "../map/index.html";
-const STORAGE_KEY = "playerProfile";
 
 
 
@@ -86,26 +86,29 @@ avatars.forEach(a => {
 nameInput.addEventListener("input", updateFinish);
 
 finishBtn.onclick = async () => {
-    const playerId = getPlayerId();
-    const name = nameInput.value.trim();
-    const avatarId = selectedAvatar.id;;
+  const playerId = getPlayerId();
+  const name = nameInput.value.trim();
+  const avatarId = selectedAvatar.id;
 
-    // local cache (fast UI)
-    localStorage.setItem("playerProfile", JSON.stringify({
-        playerId,
-        name,
-        avatarId
-    }));
+  // 1️⃣ Update playerState (single source of truth)
+  const state = loadPlayerState();
 
-    // Firestore
-    await startSaveLoader(
-        async () => {
-            await ensurePlayer(playerId, name, avatarId);
-        },
-        { text: "Swiping your studentId..." }
-    );
+  state.profile.id = playerId;
+  state.profile.name = name;
+  state.profile.avatarId = avatarId;
 
-    window.location.href = "../map/index.html";
+  savePlayerState(state);
+
+  // 2️⃣ Persist to Firestore (authoritative backend)
+  await startSaveLoader(
+    async () => {
+      await ensurePlayer(playerId, name, avatarId);
+    },
+    { text: "Swiping your studentId..." }
+  );
+
+  // 3️⃣ Continue flow
+  window.location.href = "../map/index.html";
 };
 
 

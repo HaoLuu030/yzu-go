@@ -1,53 +1,73 @@
-import { buildGameSave } from "./gameSaveContract.js";
 import { saveGameResult, getPlayer } from "./playerRepository.js";
+import { loadPlayerState, savePlayerState } from "../state/playerState.js";
 
-const USE_DB = `true`; // flip anytime
+const USE_DB = true; // flip anytime
 
 function getPlayerId() {
-  return JSON.parse(localStorage.getItem("playerProfile"))?.playerId;
+  return loadPlayerState().profile.id;
 }
 
-/* SAVE */
-export async function saveGame({ gameKey, score, completed, extra = {} }) {
-  const save = buildGameSave({ score, completed, extra });
+/* =========================
+   SAVE (AUTHORITATIVE)
+========================= */
+export async function saveGame({ gameKey, levelId, score, completed, extra = {} }) {
+  const state = loadPlayerState();
+  const level = state.levels[levelId];
 
+  if (!level) throw new Error(`Unknown level: ${levelId}`);
+
+  // ---- LOCAL STATE (SOURCE OF TRUTH)
+  level.completed = completed;
+  level.score = score;
+  level.finishedAt = Date.now();
+
+  // unlock next level (linear)
+  const keys = Object.keys(state.levels);
+  const idx = keys.indexOf(levelId);
+  if (completed && idx >= 0 && keys[idx + 1]) {
+    state.levels[keys[idx + 1]].unlocked = true;
+  }
+
+  savePlayerState(state);
+
+  // ---- OPTIONAL DB SYNC
   if (USE_DB) {
     const playerId = getPlayerId();
-    if (!playerId) throw new Error("No playerId");
-    await saveGameResult(playerId, gameKey, save);
-  } else {
-    const profile = JSON.parse(localStorage.getItem("playerProfile")) || {};
-    profile.games = profile.games || {};
-    profile.games[gameKey] = {
-      ...save,
-      finishedAt: Date.now()
-    };
-    localStorage.setItem("playerProfile", JSON.stringify(profile));
+    if (!playerId) throw new Error("No playerId in playerState");
+
+    await saveGameResult(playerId, gameKey, {
+      score,
+      completed,
+      finishedAt: level.finishedAt,
+      extra
+    });
   }
 }
 
-/* LOAD */
-export async function getGame(gameKey) {
-  if (USE_DB) {
-    const playerId = getPlayerId();
-    const player = await getPlayer(playerId);
-    return player?.games?.[gameKey] || null;
-  } else {
-    const profile = JSON.parse(localStorage.getItem("playerProfile"));
-    return profile?.games?.[gameKey] || null;
-  }
+/* =========================
+   LOAD (READ LOCAL ONLY)
+========================= */
+export function getGame(levelId) {
+  const state = loadPlayerState();
+  return state.levels[levelId] || null;
 }
 
-/* CLEAR */
-export async function clearGame(gameKey) {
+/* =========================
+   CLEAR (RESET LOCAL STATE)
+========================= */
+export async function clearGame(levelId) {
+  const state = loadPlayerState();
+  const level = state.levels[levelId];
+  if (!level) return;
+
+  level.completed = false;
+  level.score = null;
+  level.finishedAt = null;
+  level.unlocked = false;
+
+  savePlayerState(state);
+
   if (USE_DB) {
-    // optional: implement later
-    console.warn("DB clear not implemented");
-  } else {
-    const profile = JSON.parse(localStorage.getItem("playerProfile"));
-    if (profile?.games) {
-      delete profile.games[gameKey];
-      localStorage.setItem("playerProfile", JSON.stringify(profile));
-    }
+    console.warn("DB clear not implemented yet (optional)");
   }
 }
