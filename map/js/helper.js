@@ -82,4 +82,70 @@ function unlockLevelsFromState(state) {
 
 
 
-export { updateButtonState, lockAllLevels, unlockLevelsFromState }
+// Move the dophin according to levels
+const levelPositions = [
+  { id: 1, top: "13%", left: "63%" },
+  { id: 2, top: "10%", left: "54%" },
+  { id: 3, top: "21%", left: "46%" },
+  { id: 4, top: "11%", left: "39%" },
+  { id: 5, top: "12%", left: "32%" },
+  { id: 6, top: "20%", left: "29%" },
+];
+
+function saveMovementState(from, to, duration) {
+  localStorage.setItem("dolphinMove", JSON.stringify({
+    from,
+    to,
+    startTime: Date.now(),
+    duration
+  }));
+}
+
+function moveDolphinToLevel(level, duration = 2000) {
+  const dolphin = document.getElementById("your_avatar");
+  const to = levelPositions.find(p => p.id === level);
+  if (!dolphin || !to) return;
+
+  const from = {
+    left: getComputedStyle(dolphin).marginLeft,
+    top: getComputedStyle(dolphin).marginTop
+  };
+
+  saveMovementState(from, to, duration);
+
+  dolphin.style.transition = `margin-left ${duration}ms linear, margin-top ${duration}ms linear`;
+
+  requestAnimationFrame(() => {
+    dolphin.style.marginLeft = to.left;
+    dolphin.style.marginTop = `calc(${to.top} - 5%)`;
+  });
+}
+
+
+function getLatestLevelFromStorage() {
+  const raw = localStorage.getItem("playerState");
+  if (!raw) return 0;
+
+  const playerState = JSON.parse(raw);
+  const node = playerState?.journey?.currentNode;
+
+  if (node === "welcome") return 0;
+
+  const match = /^level(\d+)$/.exec(node);
+  return match ? Number(match[1]) : 0;
+}
+
+function getAvatarImagePath() {
+  const raw = localStorage.getItem("playerState");
+  if (!raw) return "image/default.png";
+
+  const playerState = JSON.parse(raw);
+  const avatarId = playerState?.profile?.avatarId;
+
+  return Number.isInteger(avatarId)
+    ? `../avatar/image/${avatarId}.png`
+    : "image/image/1.png";
+}
+
+
+export { updateButtonState, lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath}

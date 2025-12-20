@@ -257,7 +257,16 @@ body {
     z-index: 100;
 }
 
+#your_avatar {
+    position: absolute;
+    height: 5%;
+    margin-left: 63%;
+    margin-top: 9%;
+    transition:
+        margin-left 2s ease-in-out,
+        margin-top 2s ease-in-out;
 
+}
 
 /* Dialog box */
 .dialog-box {

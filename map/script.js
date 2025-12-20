@@ -1,4 +1,4 @@
-import { lockAllLevels, unlockLevelsFromState } from "./js/helper.js";
+import { lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath } from "./js/helper.js";
 import { startGuide, showLastStoryLineIfAny } from "./js/guideCharacter.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { loadPlayerState, savePlayerState } from "../js/state/playerState.js";
@@ -84,6 +84,50 @@ switch (mode) {
   }
 }
 
+
+
+
+/*-----------------------Avatar moves--------------------------- */
+const dolphin = document.getElementById("your_avatar");
+dolphin.src = getAvatarImagePath();
+
+function restoreDolphinPosition() {
+  const saved = JSON.parse(localStorage.getItem("dolphinPosition"));
+
+  dolphin.style.transition = "none"; // prevent animation on restore
+
+  if (saved) {
+
+    dolphin.style.marginLeft = saved.left;
+    dolphin.style.marginTop = saved.top;
+  } else {
+
+    dolphin.style.marginLeft = "63%";
+    dolphin.style.marginTop = "9%";
+  }
+
+  dolphin.offsetWidth; 
+
+  // re-enable smooth movement
+  dolphin.style.transition =
+    "margin-left 5s linear, margin-top 5s linear";
+}
+
+// save on exit
+function saveDolphinPosition() {
+  const style = getComputedStyle(dolphin);
+  localStorage.setItem("dolphinPosition", JSON.stringify({
+    left: style.marginLeft,
+    top: style.marginTop
+  }));
+}
+
+document.addEventListener("DOMContentLoaded", restoreDolphinPosition);
+window.addEventListener("beforeunload", saveDolphinPosition);
+
+
+
+
 /* =========================
    LOAD FLAGS (first-visit)
 ========================= */
@@ -134,6 +178,12 @@ document.addEventListener("guide:finished", (e) => {
 
   savePlayerState(state);
   unlockLevelsFromState(state);
+
+  const currentLevel = getLatestLevelFromStorage();
+  console.log(currentLevel);
+  moveDolphinToLevel(currentLevel + 1);
+
+
 });
 
 
