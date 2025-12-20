@@ -1,4 +1,4 @@
-import { lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath } from "./js/helper.js";
+import { lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath, levelPositions  } from "./js/helper.js";
 import { startGuide, showLastStoryLineIfAny } from "./js/guideCharacter.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { loadPlayerState, savePlayerState } from "../js/state/playerState.js";
@@ -91,41 +91,34 @@ switch (mode) {
 const dolphin = document.getElementById("your_avatar");
 dolphin.src = getAvatarImagePath();
 
-function restoreDolphinPosition() {
-  const saved = JSON.parse(localStorage.getItem("dolphinPosition"));
 
-  dolphin.style.transition = "none"; // prevent animation on restore
+const currentLevel = getLatestLevelFromStorage();
 
-  if (saved) {
 
-    dolphin.style.marginLeft = saved.left;
-    dolphin.style.marginTop = saved.top;
-  } else {
+function placeDolphinAtCurrentLevel() {
+  const dolphin = document.getElementById("your_avatar");
+  if (!dolphin) return;
 
-    dolphin.style.marginLeft = "63%";
-    dolphin.style.marginTop = "9%";
-  }
+  const raw = localStorage.getItem("playerState");
+  if (!raw) return;
 
-  dolphin.offsetWidth; 
+  const i = currentLevel;
 
-  // re-enable smooth movement
-  dolphin.style.transition =
-    "margin-left 5s linear, margin-top 5s linear";
+  const to = levelPositions.find(p => p.id === i);
+  if (!to) return;
+
+  // Disable animation
+  dolphin.style.transition = "none";
+  dolphin.style.marginLeft = to.left;
+  dolphin.style.marginTop = `calc(${to.top} - 5%)`;
+
+  // Re-enable transitions
+  requestAnimationFrame(() => {
+    dolphin.style.transition = "";
+  });
 }
 
-// save on exit
-function saveDolphinPosition() {
-  const style = getComputedStyle(dolphin);
-  localStorage.setItem("dolphinPosition", JSON.stringify({
-    left: style.marginLeft,
-    top: style.marginTop
-  }));
-}
-
-document.addEventListener("DOMContentLoaded", restoreDolphinPosition);
-window.addEventListener("beforeunload", saveDolphinPosition);
-
-
+document.addEventListener("DOMContentLoaded", placeDolphinAtCurrentLevel);
 
 
 /* =========================
@@ -179,8 +172,7 @@ document.addEventListener("guide:finished", (e) => {
   savePlayerState(state);
   unlockLevelsFromState(state);
 
-  const currentLevel = getLatestLevelFromStorage();
-  console.log(currentLevel);
+
   moveDolphinToLevel(currentLevel + 1);
 
 

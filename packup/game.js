@@ -664,8 +664,6 @@ function fadeOutMusic(bgm) {
 
 
 function startCountdown() {
-    console.log("started count");
-    console.log(timeLeft);
     timerInterval = setInterval(() => {
 
         timeLeft--;

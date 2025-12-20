@@ -148,4 +148,4 @@ function getAvatarImagePath() {
 }
 
 
-export { updateButtonState, lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath}
+export { updateButtonState, lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath, levelPositions}
