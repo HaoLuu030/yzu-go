@@ -3,6 +3,7 @@ import { triggerPostLevelStory, restoreIfGameCompleted } from "../js/utils/progr
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 import { CARD_MATCHING_GAMEKEY } from "../js/data/gamekeys.js";
+import { showOverlay } from "../js/utils/gameOverlay.js";
 
 
 
@@ -397,7 +398,8 @@ async function checkGameEnd() {
 
 
     clearInterval(timerInterval);
-    gameOverOverlay.style.display = "flex";
+    bgm.pause();
+    showOverlay({level: levelKey, score})
 
     return true;
 
@@ -411,7 +413,6 @@ function updateMusicIcon() {
     musicIcon.src = isMusicOn
         ? "../image/UI/volume_on.png"
         : "../image/UI/volume_off.png";
-    console.log(isMusicOn);
 }
 
 musicBtn.onclick = () => {

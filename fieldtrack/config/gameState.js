@@ -16,7 +16,7 @@ export const gameState = {
     _lastMileStone: 0,
     increase() {
         if (this.frameCount % 300 == 0) {
-            this.speedScale = Math.min(this.speedScale + this.speedIncrease, 4);
+            this.speedScale = Math.min(this.speedScale + this.speedIncrease, 5);
             this.spawnRateScale = Math.min(this.spawnRateScale + this.spawnRateIncrease, 2)
         }
     },

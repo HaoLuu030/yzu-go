@@ -22,6 +22,7 @@ const scoreSpan = document.getElementById('score');
 const startOverlay = document.getElementById("overlay");
 const message = document.getElementById('message');
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
+import { showOverlay } from "../js/utils/gameOverlay.js";
 
 
 
@@ -135,9 +136,10 @@ async function endGame() {
 
     // lock UI
     document.querySelectorAll(".disk").forEach(d => d.draggable = false);
-
+    
+    bgm.pause();
     // show overlay
-    document.getElementById("gameover-overlay").style.display = "flex";
+    showOverlay({level: levelKey, score})
 }
 
 pegs.forEach(peg => {
@@ -174,7 +176,6 @@ window.onload = function () {
     // ==== DOM ELEMENTS ====
     const bgm = document.getElementById("bgm");
     const musicBtn = document.getElementById("music-btn");
-    const gameOverOverlay = document.getElementById("gameover-overlay");
 
     // ==== STATE ====
     let musicOn = false;

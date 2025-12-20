@@ -3,7 +3,7 @@ import { triggerPostLevelStory, restoreIfGameCompleted  } from "../js/utils/prog
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { PACK_UP_GAMEKEY } from "../js/data/gamekeys.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
-
+import { showOverlay } from "../js/utils/gameOverlay.js";
 
 startLoader({
     text: "Going through the luggage...",
@@ -22,14 +22,6 @@ startLoader({
         "./sfx/shining.mp3",
         "../image/UI/whale.gif",
         "../image/UI/background_pack-up.png",
-        "./image/UI/bubble.png",
-        "./image/UI/dolphin.png",
-        "./image/UI/button.png",
-        "./image/UI/dolphin.png",
-        "./image/UI/level.png",
-        "./image/UI/map.png",
-        "./image/UI/volume_off.png",
-        "./image/UI/volume_on.png",
     ]
 })
 
@@ -683,13 +675,9 @@ async function endGame() {
     gameStarted = false;
     clearInterval(gameLoop);
     clearInterval(timerInterval);
-
-    // show overlay
-
-
-    // =========================
-    // SAVE SCORE
-    // =========================
+    // stop music
+    bgm.pause();
+    // save score
     await startSaveLoader(
         async () => {
             await saveGame({
@@ -701,7 +689,11 @@ async function endGame() {
         },
         { text: "Carrying your luggage out of the dorm..." }
     );
-    document.getElementById("gameover-overlay").style.display = "flex";
+    // show overlay
+    showOverlay({
+        level: levelKey,
+        score,
+    })
 }
 
 
@@ -718,7 +710,6 @@ window.onload = function () {
     const bgm = document.getElementById("bgm");
     const musicBtn = document.getElementById("music-btn");
     const startOverlay = document.getElementById("overlay");
-    const gameOverOverlay = document.getElementById("gameover-overlay");
 
     // ==== STATE ====
     let musicOn = false;

@@ -1,4 +1,5 @@
 import { loadPlayerState, savePlayerState } from "../state/playerState.js";
+import { showOverlay } from "./gameOverlay.js";
 
 
 export function triggerPostLevelStory(level, score) {
@@ -22,13 +23,14 @@ export function restoreIfGameCompleted(levelId) {
   const state = loadPlayerState();
   const level = state.levels[levelId];
 
-  if (!level || !level.completed) return false;
+  if (!level?.completed) return false;
 
-  // show game over overlay
-  const gameOverOverlay = document.getElementById("gameover-overlay");
-  if (gameOverOverlay) {
-    gameOverOverlay.style.display = "flex";
-  }
+  requestAnimationFrame(() => {
+    showOverlay({
+      level: levelId,
+      score: level.score
+    });
+  });
 
   return true;
 }

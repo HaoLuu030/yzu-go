@@ -3,6 +3,7 @@ import { triggerPostLevelStory, restoreIfGameCompleted } from "../js/utils/progr
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 import { PACMAN_GAMEKEY } from "../js/data/gamekeys.js";
+import { showOverlay } from "../js/utils/gameOverlay.js";
 
 
 startLoader({
@@ -611,10 +612,10 @@ class Block {
 
 
 async function triggerGameOver() {
+    
+    
     bgm.pause();
-    const overlay = document.getElementById("gameover-overlay");
-
-    overlay.style.display = "flex";
+    showOverlay({level: levelKey, score});
     gameStarted = false;
 
     await startSaveLoader(

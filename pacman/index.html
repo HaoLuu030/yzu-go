@@ -118,17 +118,25 @@
 
         <!-- UI -->
         <div id="gameover-overlay">
-            <div class="message">
-                <div class="left">
-                    <div class="text">Level Finished !</div>
-                    <a href="../map/index.html">
-                        <div><button id="back-to-map">Back to Map &nbsp; <img class="map-icon"
-                                    src="../image/UI/map.png"></button>
-                    </a>
-                </div>
-            </div>
 
-            <div class="right"><img class="dolphin" src="../image/UI/dolphin.png"></div>
+            <div class="message">
+
+                <div class="left">
+                    <div id="gameover-overlay-text" class="text">Level Finished</div>
+
+                    <div class="back">
+                        <button id="back-to-map">
+                            Back to Map &nbsp;
+                            <img class="map-icon" src="../image/UI/map.png">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="right">
+                    <img id="overlay-dolphin" class="dolphin" src="../image/UI/dolphin.png">
+                </div>
+
+            </div>
         </div>
     </div>
 

@@ -308,6 +308,12 @@ body {
     height: 40%;
 }
 
+.back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #back-to-map {
     background-image: url(../image/UI/button.png);
     color: white;
@@ -316,14 +322,12 @@ body {
     justify-content: center;
     font-family: "Concert One", sans-serif;
     font-size: 3vh;
-    background-size: contain;
+    background-size: 40vh 15vh;
     background-repeat: no-repeat;
     border: none;
     background-color: transparent;
     width: 40vh;
     height: 15vh;
-    margin-left: 20%;
-    cursor: pointer;
 }
 
 #back-to-map:hover {

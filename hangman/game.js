@@ -3,6 +3,7 @@ import { saveGame } from "../js/data/scoreRepository.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 import { HANGMAN_GAMEKEY } from "../js/data/gamekeys.js";
+import { showOverlay } from "../js/utils/gameOverlay.js";
 
 
 startLoader({
@@ -74,7 +75,6 @@ let number = 0;
 ============================================================ */
 
 const startOverlay = document.getElementById("start-overlay");
-const gameOverOverlay = document.getElementById("gameover-overlay");
 
 const scoreEl = document.getElementById("score");
 const hintEl = document.getElementById("quiz-hint");
@@ -275,8 +275,8 @@ async function endGame() {
         },
         { text: "Handing in answer sheet..." }
     );
-
-    gameOverOverlay.style.display = "flex";
+    bgm.pause();
+    showOverlay({level: levelKey, quizScore});
 }
 
 function disableAll() {

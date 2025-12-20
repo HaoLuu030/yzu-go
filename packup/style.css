@@ -154,6 +154,7 @@ body {
 
 .message {
     position: absolute;
+    
     display: grid;
     height: 50vh;
     width: 50vw;
@@ -177,6 +178,12 @@ body {
     height: 50vh;
 }
 
+.back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #back-to-map img {
     height: 40%;
 }
@@ -189,13 +196,12 @@ body {
     justify-content: center;
     font-family: "Concert One", sans-serif;
     font-size: 3vh;
-    background-size: contain;
+    background-size: 40vh 15vh;
     background-repeat: no-repeat;
     border: none;
     background-color: transparent;
     width: 40vh;
     height: 15vh;
-    margin-left: 20%;
 }
 
 /* END: 2. THE OVERLAY DISPLAYS WHEN THE PLAYER FINISH THIS LEVEL*/

@@ -13,6 +13,7 @@ import { FIELD_TRACK_GAMEKEY } from "../js/data/gamekeys.js";
 import { saveGame } from "../js/data/scoreRepository.js";
 import { restoreIfGameCompleted, triggerPostLevelStory } from "../js/utils/progress.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
+import { showOverlay } from "../js/utils/gameOverlay.js";
 
 
 
@@ -233,6 +234,7 @@ export async function gameLoop() {
     if (gameState.gameOver) {
         clearInterval(stopwatchInterval);
         gameOver(context, document.getElementById("board"));
+        bgm.pause();
         finalScore = Math.floor(gameState.score);
         // save score
 
@@ -250,7 +252,7 @@ export async function gameLoop() {
 
 
         const overlay = document.getElementById("gameover-overlay");
-        if (overlay) overlay.style.display = 'flex';
+        if (overlay) showOverlay({level: levelKey, finalScore});
 
         return;
     }
