@@ -1,4 +1,4 @@
-import { triggerPostLevelStory } from "../js/utils/progress.js";
+import { restoreIfGameCompleted, triggerPostLevelStory } from "../js/utils/progress.js";
 import { saveGame } from "../js/data/scoreRepository.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
@@ -96,10 +96,8 @@ const revealSound = document.getElementById("revealSound");
 
 
 let isMusicOn = false;
-let bgmStarted = false;
 // progression hook
 const levelKey = "level5";
-const nextLevel = "level6";
 
 /* ============================================================
    4. AUDIO HELPERS (SAME AS GAME)
@@ -324,17 +322,6 @@ document.addEventListener("keydown", e => {
 
 
 /* ============================================================
-   8. SAVE SCORE
-============================================================ */
-
-function logScore(score) {
-    localStorage.setItem("level_6", JSON.stringify({
-        level_6: score,
-        unlocked: true
-    }));
-}
-
-/* ============================================================
    9. sound
 ============================================================ */
 function playSound(sound) {
@@ -348,8 +335,18 @@ function playSound(sound) {
    10. BOOT
 ============================================================ */
 
-createAlphabet();
-updateScoreDisplay();
+const restored = restoreIfGameCompleted(levelKey);
+
+if (restored) {
+    // Restore-only UI
+    createAlphabet();
+    updateScoreDisplay();
+    disableAll();
+} else {
+    // Normal game boot
+    createAlphabet();
+    updateScoreDisplay();
+}
 
 
 // ===== BACK TO MAP =====

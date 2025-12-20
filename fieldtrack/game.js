@@ -11,7 +11,7 @@ import ScoreManager from "./utils/scoreManager.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { FIELD_TRACK_GAMEKEY } from "../js/data/gamekeys.js";
 import { saveGame } from "../js/data/scoreRepository.js";
-import { triggerPostLevelStory } from "../js/utils/progress.js";
+import { restoreIfGameCompleted, triggerPostLevelStory } from "../js/utils/progress.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 
 
@@ -127,6 +127,10 @@ entityManager.add(player, "player");
 document.addEventListener("DOMContentLoaded", async () => {
 
     await loaderPromise;
+
+    if(restoreIfGameCompleted(levelKey)) {
+        return;
+    }
 
     let board = document.getElementById('board');
     board.width = boardWidth;

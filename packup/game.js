@@ -1,5 +1,5 @@
 import { saveGame } from "../js/data/scoreRepository.js";
-import {  triggerPostLevelStory, isGameCompleted } from "../js/utils/progress.js";
+import { triggerPostLevelStory, restoreIfGameCompleted  } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { PACK_UP_GAMEKEY } from "../js/data/gamekeys.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
@@ -35,10 +35,6 @@ startLoader({
 
 const levelKey = "level1";
 const nextLevel = "level2";
-
-if (isGameCompleted(levelKey)) {
-    document.getElementById("gameover-overlay").style.display = "flex";
-}
 
 var candies = ["Blue", "Orange", "Green", "Yellow", "Red", "Purple"];
 var board = [];
@@ -716,6 +712,9 @@ async function endGame() {
 // ==== GAME STARTUP ====
 
 window.onload = function () {
+    if (restoreIfGameCompleted(levelKey)) {
+        return;
+    }
 
     // ==== DOM ELEMENTS ====
     const bgm = document.getElementById("bgm");

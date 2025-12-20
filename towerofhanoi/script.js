@@ -1,5 +1,5 @@
 import { saveGame } from "../js/data/scoreRepository.js";
-import { triggerPostLevelStory } from "../js/utils/progress.js";
+import { restoreIfGameCompleted, triggerPostLevelStory } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { TOWER_OF_HANOI_GAMEKEY } from "../js/data/gamekeys.js";
 
@@ -167,6 +167,9 @@ pegs.forEach(peg => {
 createGame();
 
 window.onload = function () {
+    if(restoreIfGameCompleted(levelKey)) {
+        return;
+    }
 
     // ==== DOM ELEMENTS ====
     const bgm = document.getElementById("bgm");

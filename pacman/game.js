@@ -1,8 +1,9 @@
 import { saveGame } from "../js/data/scoreRepository.js";
-import {  triggerPostLevelStory } from "../js/utils/progress.js";
+import { triggerPostLevelStory, restoreIfGameCompleted } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 import { PACMAN_GAMEKEY } from "../js/data/gamekeys.js";
+
 
 startLoader({
     text: "Seeking the truth...",
@@ -110,6 +111,10 @@ let lives = 1;
 let gameOver = false;
 
 window.onload = function () {
+
+    if (restoreIfGameCompleted(levelKey)) {
+        return;
+    }
 
     // load background music
     bgm = document.getElementById("bgm");

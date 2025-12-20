@@ -1,4 +1,4 @@
-import { saveGameResult, getPlayer } from "./playerRepository.js";
+import { saveGameResult } from "./playerRepository.js";
 import { loadPlayerState, savePlayerState } from "../state/playerState.js";
 
 const USE_DB = true; // flip anytime

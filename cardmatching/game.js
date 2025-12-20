@@ -1,8 +1,9 @@
 import { saveGame } from "../js/data/scoreRepository.js";
-import { triggerPostLevelStory } from "../js/utils/progress.js";
+import { triggerPostLevelStory, restoreIfGameCompleted } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 import { CARD_MATCHING_GAMEKEY } from "../js/data/gamekeys.js";
+
 
 
 startLoader({
@@ -70,7 +71,6 @@ const scoreDisplay = document.getElementById("score");
 const timeDisplay = document.getElementById("timer");
 
 const startOverlay = document.getElementById("start-overlay");
-const endOverlay = document.getElementById("end-overlay");
 
 
 const shuffleBtn = document.getElementById("shuffle-btn");
@@ -78,7 +78,6 @@ const musicBtn = document.getElementById("music-btn");
 const musicIcon = document.getElementById("music-icon");
 const mapBtn = document.getElementById("map-btn");
 
-const winMessage = document.getElementById("winMessage");
 
 /* AUDIO */
 const bgm = document.getElementById("bgm");
@@ -453,8 +452,6 @@ shuffleBtn.onclick = () => {
 
 };
 
-mapBtn.onclick = () => window.location.href = "../map/index.html";
-
 /* ============================================================
    AUDIO HELPERS
 ============================================================ */
@@ -487,7 +484,9 @@ function playShuffleSound() { shuffleSound.currentTime = 0; shuffleSound.play();
    BOOT
 ============================================================ */
 
-init();
+if (!restoreIfGameCompleted(levelKey)) {
+    init();
+}
 
 
 // ===== BACK TO MAP =====
