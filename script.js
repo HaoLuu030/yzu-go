@@ -21,7 +21,7 @@ startLoader({
 const startBtn = document.getElementById("start");
 
 
-function Float(e) {
+window.Float = function (e) {
   e.classList.add("float-once");
   e.addEventListener("animationend", () => {
     // Remove it to retrigger this function later

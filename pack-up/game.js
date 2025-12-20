@@ -1,5 +1,5 @@
 import { saveGame } from "../js/data/scoreRepository.js";
-import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
+import { completeLevel, triggerPostLevelStory, isGameCompleted } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { PACK_UP_GAMEKEY } from "../js/data/gamekeys.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
@@ -33,6 +33,13 @@ startLoader({
     ]
 })
 
+const levelKey = "level1";
+const nextLevel = "level2";
+
+if (isGameCompleted(levelKey)) {
+    document.getElementById("gameover-overlay").style.display = "flex";
+}
+
 var candies = ["Blue", "Orange", "Green", "Yellow", "Red", "Purple"];
 var board = [];
 var rows = 9;
@@ -50,8 +57,7 @@ let timerInterval = null;
 let gameStarted = false;
 let gameLoop = null;
 
-const levelKey = "level1";
-const nextLevel = "level2";
+
 
 
 

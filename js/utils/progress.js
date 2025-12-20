@@ -75,3 +75,7 @@ export function getCurrentLevel() {
   return loadProgress().currentLevel;
 }
 
+export function isGameCompleted(level) {
+  const progress = JSON.parse(localStorage.getItem("progress"));
+  return Boolean(progress?.levels?.[level]?.completed);
+}
