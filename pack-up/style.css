@@ -236,10 +236,10 @@ body {
 
 }
 
-.time {
+.time, .score {
     font-size: 3vh;
     background-image: url(../image/UI/button.png);
-    background-size: contain;
+    background-size: 10vw 9vh;
     background-repeat: no-repeat;
     border: none;
     background-color: transparent;
@@ -251,19 +251,7 @@ body {
 }
 
 
-.score {
-    font-size: 3vh;
-    background-image: url(../image/UI/button.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    border: none;
-    background-color: transparent;
-    width: 10vw;
-    height: 9vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 
 .btn-level {
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);

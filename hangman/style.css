@@ -1,13 +1,15 @@
 body {
     text-align: center;
-    background: url(../image/UI/background_hang_man.png) no-repeat center bottom;
-    background-size: cover;
     font-family: "Concert One", sans-serif;
-    background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed;
     color: white;
     overflow: hidden;
+}
+
+.app {
+    background: url(../image/UI/background_hang_man.png) no-repeat center bottom;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 .container {
@@ -40,15 +42,14 @@ body {
 }
 
 .questions,
-.score
-{
+.score {
     font-size: 3vh;
     background-image: url(../image/UI/button.png);
-    background-size: contain;
+    background-size: 13vw 9vh;
     background-repeat: no-repeat;
     border: none;
     background-color: transparent;
-    width: 10vw;
+    width: 13vw;
     height: 9vh;
     display: flex;
     justify-content: center;
@@ -243,8 +244,8 @@ body {
     position: absolute;
     height: 20vh;
     animation: move 10s ease-in-out infinite;
-    bottom: 5vh;
-    left: 10vw;
+    bottom: 15%;
+    left: 8%;
 }
 
 
@@ -255,11 +256,10 @@ body {
     }
 
     50% {
-        transform: translateY(-5vh);
+        transform: translateY(-3vh);
     }
 
-    100%
-    {
+    100% {
         transform: translateY(0);
     }
 }
@@ -341,9 +341,9 @@ body {
 #quiz-board {
     width: 40vw;
     height: auto;
-    background: rgba(255,255,255,0.35);
+    background: rgba(255, 255, 255, 0.35);
     border-radius: 15px;
-    box-shadow: 0 0 15px rgba(255,255,255,0.6);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
     padding: 3%;
     display: flex;
     flex-direction: column;
@@ -398,15 +398,13 @@ body {
     border-radius: 10px;
     border: white;
 
-    background: linear-gradient(
-        to bottom,
-        #ffffff,
-        #eaeaea
-    );
+    background: linear-gradient(to bottom,
+            #ffffff,
+            #eaeaea);
 
     box-shadow:
         0 3px 0 #bdbdbd,
-        0 6px 12px rgba(0,0,0,0.25);
+        0 6px 12px rgba(0, 0, 0, 0.25);
 
     color: #222;
 }
@@ -417,7 +415,7 @@ body {
     box-shadow: none;
     cursor: default;
 }
- 
+
 /* Status */
 #quiz-status {
     font-size: 2.5vh;

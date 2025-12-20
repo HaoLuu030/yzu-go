@@ -1,17 +1,24 @@
 body {
-    background: url(../image/UI/background_tower-of-hanoi.png) no-repeat center bottom fixed;
-    background-size: cover;
+
+
     font-family: "Concert One", sans-serif;
     font-weight: 400;
     font-style: normal;
     color: white;
     text-align: center;
-    width: 100vw;
-    height: 100vh;
-    margin: 0 0;
     overflow: hidden;
+    margin: 0 0;
+
 }
 
+.app {
+    background: url(../image/UI/background_tower-of-hanoi.png) no-repeat center bottom fixed;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    margin: 0 0;
+
+}
 
 /* 1. BACKGROUND PART */
 .background {
@@ -254,10 +261,10 @@ body {
 
 }
 
-.time {
+.time, .score {
     font-size: 3vh;
     background-image: url(../image/UI/button.png);
-    background-size: contain;
+    background-size: 10vw 9vh;
     background-repeat: no-repeat;
     border: none;
     background-color: transparent;
@@ -269,19 +276,6 @@ body {
 }
 
 
-.score {
-    font-size: 3vh;
-    background-image: url(../image/UI/button.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    border: none;
-    background-color: transparent;
-    width: 10vw;
-    height: 9vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .btn-level {
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
@@ -401,6 +395,7 @@ body {
     z-index: 1;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
 }
+
 /* 3. END: THE CONTAINER CONTAINS ALL ELEMENTS */
 
 
@@ -453,7 +448,7 @@ body {
     cursor: grab;
     z-index: 2;
     margin: 0;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 /* Success / info message */
@@ -465,18 +460,18 @@ body {
     font-size: 2.5vh;
     font-weight: bold;
     color: #fff;
-    text-shadow: 0 0 8px rgba(0,0,0,0.6);
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
 }
 
 
-.starfish img:nth-child(1){
+.starfish img:nth-child(1) {
     position: absolute;
     height: 7vh;
     right: 15vw;
     bottom: 0;
 }
 
-.starfish img:nth-child(2){
+.starfish img:nth-child(2) {
     height: 10vh;
     position: absolute;
     right: 0;

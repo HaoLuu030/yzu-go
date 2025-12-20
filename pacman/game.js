@@ -106,7 +106,7 @@ let pacman;
 
 const directions = ['U', 'D', 'L', 'R']; //up down left right
 let score = 0;
-let lives = 3;
+let lives = 1;
 let gameOver = false;
 
 window.onload = function () {
@@ -612,19 +612,17 @@ async function triggerGameOver() {
     overlay.style.display = "flex";
     gameStarted = false;
 
-    // =========================
-    // 1️. SAVE SCORE
-    // =========================
     await startSaveLoader(
         async () => {
-            await saveGame({ gameKey: PACMAN_GAMEKEY, level: levelKey, score, completed: true });
+            await saveGame({
+                gameKey: PACMAN_GAMEKEY,
+                level: levelKey,
+                score,
+                completed: true
+            });
         },
         { text: "Walking down the stairs..." }
     );
-
-
-    clearInterval(timerInterval);
-    gameOverOverlay.style.display = "flex";
 
     overlay.onclick = function () {
         overlay.style.display = "none";
@@ -638,6 +636,7 @@ async function triggerGameOver() {
         gameWin = false;
 
         gameStarted = true;
+        update(); // restart loop
     };
 }
 

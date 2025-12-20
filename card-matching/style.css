@@ -1,13 +1,18 @@
 body {
     text-align: center;
-    background: url(../image/UI/background_card-matching.png) no-repeat center bottom;
-    background-size: cover;
     font-family: "Concert One", sans-serif;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
     color: white;
     overflow: hidden;
+    margin: 0 0;
+}
+
+.app {
+    background: url(../image/UI/background_card-matching.png) no-repeat center bottom;
+    background-size: cover;
+    margin: 0 0;
+    background-repeat: no-repeat;
+    background-position: center;
+
 }
 
 .container {
@@ -44,7 +49,7 @@ body {
 #shuffle-btn {
     font-size: 3vh;
     background-image: url(../image/UI/button.png);
-    background-size: contain;
+    background-size: 10vw 9vh;
     background-repeat: no-repeat;
     border: none;
     background-color: transparent;
