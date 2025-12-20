@@ -1,7 +1,7 @@
 import { buildGameSave } from "./gameSaveContract.js";
 import { saveGameResult, getPlayer } from "./playerRepository.js";
 
-const USE_DB = true``; // flip anytime
+const USE_DB = `true`; // flip anytime
 
 function getPlayerId() {
   return JSON.parse(localStorage.getItem("playerProfile"))?.playerId;
