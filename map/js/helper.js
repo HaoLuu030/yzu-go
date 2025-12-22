@@ -137,14 +137,14 @@ function getLatestLevelFromStorage() {
 
 function getAvatarImagePath() {
   const raw = localStorage.getItem("playerState");
-  if (!raw) return "image/avatar/1.png";
+  if (!raw) return "avatar/image/1.png";
 
   const playerState = JSON.parse(raw);
   const avatarId = playerState?.profile?.avatarId;
 
   return Number.isInteger(avatarId)
-    ? `image/avatar/${avatarId}.png`
-    : "image/avatar/1.png";
+    ? `avatar/image/${avatarId}.png`
+    : "avatar/image/1.png";
 }
 
 
