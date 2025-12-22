@@ -147,7 +147,7 @@ document.addEventListener("guide:finished", () => {
 
 });
 
-  if (currentLevel == 7) {
+  if (currentLevel > 1) {
     const overlay = document.getElementById("gameover-overlay");
     overlay.style.display = "flex";
   }
