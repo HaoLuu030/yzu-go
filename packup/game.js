@@ -722,12 +722,12 @@ async function endGame() {
 // ==== GAME STARTUP ====
 
 window.onload = function () {
-    if (restoreIfGameCompleted(levelKey)) {
-        document.getElementById("back-to-map").onclick = () => {
-            window.location.href = "../map/index.html";
-        };
-        return;
-    }
+    // if (restoreIfGameCompleted(levelKey)) {
+    //     document.getElementById("back-to-map").onclick = () => {
+    //         window.location.href = "../map/index.html";
+    //     };
+    //     return;
+    // }
 
     // ==== DOM ELEMENTS ====
     const bgm = document.getElementById("bgm");
