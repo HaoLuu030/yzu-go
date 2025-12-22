@@ -1,31 +1,29 @@
-
-
-import { startLoader } from "./shared/loader/assetLoader/index.js";
+import { startLoader } from "shared/loader/assetLoader/index.js";
 
 
 
 startLoader({
   assets: [
-    "./avatar/image/1.png",
-    "./avatar/image/10.png",
-    "./avatar/image/11.png",
-    "./avatar/image/12.png",
-    "./avatar/image/13.png",
-    "./avatar/image/14.png",
-    "./avatar/image/15.png",
-    "./avatar/image/16.png",
-    "./avatar/image/17.png",
-    "./avatar/image/18.png",
-    "./avatar/image/19.png",
-    "./avatar/image/2.png",
-    "./avatar/image/20.png",
-    "./avatar/image/3.png",
-    "./avatar/image/4.png",
-    "./avatar/image/5.png",
-    "./avatar/image/6.png",
-    "./avatar/image/7.png",
-    "./avatar/image/8.png",
-    "./avatar/image/9.png",
+    "avatar/image/1.png",
+    "avatar/image/10.png",
+    "avatar/image/11.png",
+    "avatar/image/12.png",
+    "avatar/image/13.png",
+    "avatar/image/14.png",
+    "avatar/image/15.png",
+    "avatar/image/16.png",
+    "avatar/image/17.png",
+    "avatar/image/18.png",
+    "avatar/image/19.png",
+    "avatar/image/2.png",
+    "avatar/image/20.png",
+    "avatar/image/3.png",
+    "avatar/image/4.png",
+    "avatar/image/5.png",
+    "avatar/image/6.png",
+    "avatar/image/7.png",
+    "avatar/image/8.png",
+    "avatar/image/9.png",
     "image/bubble.png",
     "image/background.png",
     "image/bubble.png",
@@ -76,11 +74,11 @@ let isPlay = false;
 window.playMusic = function () {
   if (!isPlay) {
     music.play();
-    music_image.src = "../image/volume_on.png";
+    music_image.src = "image/volume_on.png";
   }
   else {
     music.pause();
-    music_image.src = "../image/volume_off.png";
+    music_image.src = "image/volume_off.png";
   }
   isPlay = !isPlay;
 }
@@ -94,9 +92,9 @@ startBtn.onclick = () => {
   // set time out to hear the sound play 
   setTimeout(() => {
     if (localStorage.getItem("playerId")) {
-      window.location.href = "./map/index.html";
+      window.location.href = "map/index.html";
     } else {
-      window.location.href = "./avatar/index.html";
+      window.location.href = "avatar/index.html";
     }
   }, 400);
 }
