@@ -698,7 +698,7 @@ async function endGame() {
     // ===== BACK TO MAP =====
     document.getElementById("back-to-map").onclick = function () {
         // trigger story
-        triggerPostLevelStory(levelKey, quizScore);
+        triggerPostLevelStory(levelKey, score);
         window.location.href = "../map/index.html";
     };
 }

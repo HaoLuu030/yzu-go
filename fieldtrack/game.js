@@ -76,7 +76,7 @@ const loaderPromise = startLoader({
         "./assets/img/student-cry.png",
         "./assets/img/student-jump.png",
         "./assets/img/volley-ball.png",
-        "../image/UI/sunFish.gif",
+        "../image/UI/sunfish.gif",
         "./assets/sfx/background-music.mp3",
         "./assets/sfx/collide.mp3",
         "./assets/sfx/jump.mp3",
