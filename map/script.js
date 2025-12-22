@@ -39,6 +39,7 @@ startLoader(
 ========================= */
 const state = loadPlayerState();
 const mode = getMapMode(state);
+const scorePopUpSound = document.getElementById("score-popup-sound");
 
 
 if (mode !== "normal") {
@@ -239,4 +240,8 @@ function hideLeaderboard() {
 
 
 document.getElementById("your_avatar")
-  .addEventListener("click", toggleScoreOverlay);
+  .addEventListener("click", () => {
+    scorePopUpSound.play().catch(() => { });
+    toggleScoreOverlay();
+
+  });
