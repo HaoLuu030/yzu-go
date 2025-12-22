@@ -2,7 +2,7 @@ export const storyData = {
     welcome: [
         "So… you finally graduated, huh?",
         "Usually, this is when students pack up their stuff and get the hell out of here.",
-        "And then what - straight into unemployment?",
+        "And then what? straight into unemployment?",
         "Not so fast. Before you’re allowed to leave, we need to make sure you actually meet YZU’s standards.",
         "There’s one last challenge waiting for you.",
         "So go on - pack up your things. We’ll see if you’re really ready to graduate."
@@ -20,7 +20,7 @@ export const storyData = {
                     "Yikes. If packing is this hard, graduation might be a bit early for you.",
                     "Still, you made it through, so we’re not stopping here.",
                     "Let’s move on to the next challenge.",
-                    "Being a good student isn’t just about the mind - it’s about the body too. You know?",
+                    "Being a good student isn’t just about the mind. It’s about the body too. You know?",
                     "And nothing works the body like a good run.",
                     "Let’s see if you can move faster than you packed.",
                     "Oh - and watch out for others on the track, will you? You’re not the only one using it."
@@ -28,18 +28,18 @@ export const storyData = {
                 mid: [
                     "Well, you finished. Eventually.",
                     "Let’s move on to the next challenge.",
-                    "Being a good student isn’t just about the mind - it’s about the body too. You know?",
+                    "Being a good student isn’t just about the mind. It’s about the body too. You know?",
                     "And nothing works the body like a good run.",
                     "Let's see if all that PE lessons did you any good.",
-                    "Oh - and watch out for others on the track, will you? You’re not the only one using it."
+                    "Oh. and watch out for others on the track, will you? You’re not the only one using it."
                 ],
                 high: [
                     "Wow, already done? Guess you couldn’t wait to get out of here, huh?",
                     "Let’s move on to the next challenge.",
-                    "Being a good student isn’t just about the mind - it’s about the body too. You know?",
+                    "Being a good student isn’t just about the mind. It’s about the body too. You know?",
                     "And nothing works the body like a good run.",
                     "All that speed packing… let’s see if your legs can keep up.",
-                    "Oh - and watch out for others on the track, will you? You’re not the only one using it."
+                    "Oh. And watch out for others on the track, will you? You’re not the only one using it."
                 ]
             }
         },
@@ -67,7 +67,7 @@ export const storyData = {
                     "And remember: they need a little breathing room between them before they can connect.",
                     "Also, don’t dawdle.",
                     "Speed matters.",
-                    "Think of it as a very festive addition to your final performance review."
+                    "Delays will be reflected in your overall performance review."
                 ],
                 mid: [
                     "Mediocer. Just like your GPA.",
@@ -84,7 +84,7 @@ export const storyData = {
                     "And remember: they need a little breathing room between them before they can connect.",
                     "Also, don’t dawdle.",
                     "Speed matters.",
-                    "Think of it as a very festive addition to your final performance review."
+                    "Delays will be reflected in your overall performance review."
                 ],
                 high: [
                     "Holy hell! You nearly turned that Shiba into a speed bump.",
@@ -102,7 +102,7 @@ export const storyData = {
                     "And remember: they need a little breathing room between them before they can connect.",
                     "Also, don’t dawdle.",
                     "Speed matters.",
-                    "Think of it as a very festive addition to your final performance review."
+                    "Delays will be reflected in your overall performance review."
                 ]
             }
         },
@@ -122,6 +122,7 @@ export const storyData = {
                     "Word is, it’s haunted after midnight",
                     "Probably just campus folklore, but rumors don’t investigate themselves.",
                     "So why don’t you go check it out?",
+                    "Search every corner of the buidling",
                     "And if those ‘ghosts’ turn out to be actual people, come say hi.",
                     "They’ll probably give you something. Maybe. I don’t know. I’m not their manager.",
                     "Now what are you waiting for? Get inside already!"
@@ -134,6 +135,7 @@ export const storyData = {
                     "Word is, it’s haunted after midnight",
                     "Probably just campus folklore, but rumors don’t investigate themselves.",
                     "So why don’t you go check it out?",
+                    "Search every corner of the buidling",
                     "And if those ‘ghosts’ turn out to be actual people, come say hi.",
                     "They’ll probably give you something. Maybe. I don’t know. I’m not their manager.",
                     "Now what are you waiting for? Get inside already!"
@@ -146,6 +148,7 @@ export const storyData = {
                     "Word is, it’s haunted after midnight.",
                     "Probably just campus folklore, but rumors don’t investigate themselves.",
                     "So why don’t you go check it out?",
+                    "Search every corner of the buidling",
                     "And if those ‘ghosts’ turn out to be actual people, come say hi.",
                     "They’ll probably give you something. Maybe. I don’t know. I’m not their manager.",
                     "Now what are you waiting for? Get inside already!"
@@ -174,7 +177,7 @@ export const storyData = {
                     "So enough sightseeing. Let’s move on to your final quiz.",
                     "But I’ll be kind enough to give you a hint.",
                     "The answers are all around us.",
-                    "Let’s see if you can use your brain instead of pure luck."
+                    "Let’s see if you can use your brain instead of probability."
                 ],
                 mid: [
                     "So… that’s as far as your critical thinking takes you.",
@@ -187,7 +190,7 @@ export const storyData = {
                     "So enough sightseeing. Let’s move on to your final quiz.",
                     "But I’ll be kind enough to give you a hint.",
                     "The answers are all around us.",
-                    "Let’s see if you can use your brain instead of pure luck."
+                    "Let’s see if you can use your brain instead of probability."
                 ],
                 high: [
                     "No ghosts, no screams, no dramatic fainting. Just rumors doing what rumors do best.",
@@ -217,7 +220,7 @@ export const storyData = {
                     "I can't...",
                     "*Deep breath*",
                     "Lucky for both of us, we’re finally nearing the end of this journey.",
-                    "You might want to dust off something from your DSA course to survive what’s next.",
+                    "You might want to dust off something from your data structure course to survive what’s next.",
                     "Let’s see if you can tower over everything this time.",
                     "...",
                     "Pun absolutely intended",
@@ -226,7 +229,7 @@ export const storyData = {
                     "Average.",
                     "Exactly what I expected.",
                     "Anyway, We are finally at the last challenge",
-                    "You might want to dust off something from your DSA course to survive what’s next.",
+                    "You might want to dust off something from your data structure course to survive what’s next.",
                     "Let’s see if you can tower over everything this time.",
                     "...",
                     "Pun absolutely intended",
@@ -235,7 +238,7 @@ export const storyData = {
                     "Woah… we’ve got a nerd in town.",
                     "A capable one, too.",
                     "Anyway, We are finally at the last challenge",
-                    "Time to remind yourself why you survived DSA.",
+                    "Time to remind yourself why you survived data structure.",
                     "Let’s see if you can tower over everything this time.",
                     "...",
                     "Pun absolutely intended",
