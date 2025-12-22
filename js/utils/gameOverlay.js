@@ -19,7 +19,7 @@ export function showOverlay({
     textEl.textContent = getOverlayText(level, score, text);
 
     // Performance-aware image
-    dolphinEl.src = `/image/UI/${getPerformanceImage(level, score)}`;
+    dolphinEl.src = `image/UI/${getPerformanceImage(level, score)}`;
 
     const soundFile = getPerformanceSound(level, score);
 
@@ -30,7 +30,7 @@ export function showOverlay({
             overlayAudio.currentTime = 0;
         }
 
-        overlayAudio = new Audio(`/sfx/${soundFile}`);
+        overlayAudio = new Audio(`sfx/${soundFile}`);
         overlayAudio.volume = 0.8;
         overlayAudio.play().catch(() => {
             // silent fail (autoplay policies, etc.)
