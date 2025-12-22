@@ -36,14 +36,13 @@
                 <div class="title">
                     <img class="yzu_logo" src="image/yzu_logo.png">
                     <a id="start" class="link">
-                        <div class="play_button"><button >Play</button></div>
+                        <div id="play_button" class="play_button"><button >Play</button></div>
                     </a>
                 </div>
                 <div class="right_top">
                     <div class="music">
                         <button onclick="playMusic()" id="music_button" class="music_button">
                             <img id="music_image" class="music_image" src="image/volume_on.png">
-                            <audio id="music_file" src="image/home_music.mp3" loop></audio>
                         </button>
                     </div>
                     <div class="jellyfish">
@@ -73,7 +72,8 @@
         </div>
     </div>
 
-
+<audio id="music_file" src="image/home_music.mp3" loop></audio>
+<audio id="go_sfx" src="avatar/sfx/go.mp3" preload="auto"></audio>
 </body>
 <script type="module" src="script.js"></script>
 

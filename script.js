@@ -38,15 +38,17 @@ window.Float = function (e) {
 let music_button;
 let music_image;
 let music;
+let goSfx;
 window.onload = () => {
   music_button = document.getElementById("music_button");
   music_image = document.getElementById("music_image");
   music = document.getElementById("music_file");
+  goSfx = document.getElementById("go_sfx");
 }
 
 let isPlay = false;
 
-function playMusic() {
+window.playMusic = function () {
   if (!isPlay) {
     music.play();
     music_image.src = "../image/volume_off.png";
@@ -61,9 +63,15 @@ function playMusic() {
 
 
 startBtn.onclick = () => {
-  if (localStorage.getItem("playerId")) {
-    window.location.href = "./map/index.html";
-  } else {
-    window.location.href = "./avatar/index.html";
-  }
+  goSfx.currentTime = 0;
+  goSfx.play().catch(() => { });
+
+  // set time out to hear the sound play 
+  setTimeout(() => {
+    if (localStorage.getItem("playerId")) {
+      window.location.href = "./map/index.html";
+    } else {
+      window.location.href = "./avatar/index.html";
+    }
+  }, 400);
 }
