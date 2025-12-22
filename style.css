@@ -75,7 +75,7 @@ body {
 
 .music_button,
 #leaderBoard-btn {
-  background-image: url("/image/UI/button.png");
+  background-image: url("image/UI/button.png");
   background-size: 6vh 6vh;
   background-repeat: no-repeat;
   border: none;
