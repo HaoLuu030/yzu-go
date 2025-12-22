@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     musicBtn.addEventListener("click", () => {
 
-        // ❌ if game hasn't started → do nothing
+        // if game hasn't started → do nothing
         if (gameState.waitingToStart) return;
 
         // Start music only one time
@@ -257,7 +257,7 @@ export async function gameLoop() {
 
 
         const overlay = document.getElementById("gameover-overlay");
-        if (overlay) showOverlay({ level: levelKey, finalScore });
+        if (overlay) showOverlay({ level: levelKey, score: finalScore });
 
         // ===== BACK TO MAP =====
         document.getElementById("back-to-map").onclick = function () {
@@ -279,7 +279,7 @@ export async function gameLoop() {
 
     // dynamic music speed
     const minRate = 1.0;
-    const maxRate = 2.0;
+    const maxRate = 4.0;
     bgm.playbackRate = Math.min(
         maxRate,
         minRate + (gameState.speedScale - 1) * 0.1

@@ -7,7 +7,7 @@ export default class ScoreManager {
         this.x = x;
         this.y = y;
 
-        this.basePtPersecond = 0.1;
+        this.basePtPersecond = 0.15;
         this.milestoneStep = 100;
 
         // remove all high-score loading (no more localStorage read)

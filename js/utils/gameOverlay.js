@@ -5,6 +5,7 @@ export function showOverlay({
     score,
     text // optional
 }) {
+    console.log(score);
     const overlay = document.getElementById("gameover-overlay");
     const textEl = document.getElementById("gameover-overlay-text");
     const dolphinEl = document.getElementById("overlay-dolphin");

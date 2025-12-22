@@ -105,7 +105,7 @@ let isMusicOn = false;
 let bgmStarted = false;
 
 let first = null;
-let baseScore = 10;
+let baseScore = 30;
 let score = 0;
 let time = 0;
 let timerInterval = null;
@@ -433,7 +433,7 @@ function startTimer() {
     timerInterval = setInterval(() => {
         time++;
         timeDisplay.textContent = time;
-        if (time % 30 === 0 && baseScore > 2) baseScore -= 2;
+        if (time % 20 === 0 && baseScore > 5) baseScore -= 5;
     }, 1000);
 }
 
@@ -620,3 +620,4 @@ if (!restoreIfGameCompleted(levelKey)) {
     };
 }
 
+// init();
