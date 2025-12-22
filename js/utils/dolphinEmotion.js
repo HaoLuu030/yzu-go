@@ -1,10 +1,22 @@
 import { storyData } from "../../map/js/storyData.js";
+// dolphinEmotion.js
+
+const performanceSoundMap = {
+  low: "result_low.mp3",
+  mid: "result_mid.mp3",
+  high: "result_high.mp3"
+};
 
 const defaultOverlayTextMap = {
   low: "Really?!?",
   mid: "Meh...",
   high: "Hoohrayy!!"
 };
+
+export function getPerformanceSound(level, score) {
+  const key = getThresholdKey(level, score);
+  return performanceSoundMap[key];
+}
 
 export function getOverlayText(level, score, customText) {
   // Explicit text always wins
