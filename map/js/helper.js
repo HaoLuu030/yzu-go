@@ -84,12 +84,12 @@ function unlockLevelsFromState(state) {
 
 // Move the dophin according to levels
 const levelPositions = [
-  { id: 1, top: "13%", left: "63%" },
-  { id: 2, top: "10%", left: "54%" },
-  { id: 3, top: "21%", left: "46%" },
-  { id: 4, top: "11%", left: "39%" },
-  { id: 5, top: "12%", left: "32%" },
-  { id: 6, top: "20%", left: "29%" },
+  { id: 1, top: "13%", left: "62%" },
+  { id: 2, top: "10%", left: "53%" },
+  { id: 3, top: "21%", left: "45%" },
+  { id: 4, top: "11%", left: "38%" },
+  { id: 5, top: "12%", left: "31%" },
+  { id: 6, top: "20%", left: "28%" },
 ];
 
 function saveMovementState(from, to, duration) {
