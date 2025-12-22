@@ -328,6 +328,7 @@ body {
     background-color: transparent;
     width: 40vh;
     height: 15vh;
+    cursor: pointer;
 }
 
 #back-to-map:hover {

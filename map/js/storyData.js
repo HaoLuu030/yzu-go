@@ -208,8 +208,8 @@ export const storyData = {
         level5: {
             thresholds: [
                 { min: 0, key: "low" },
-                { min: 100, key: "mid" },
-                { min: 200, key: "high" }
+                { min: 250, key: "mid" },
+                { min: 500, key: "high" }
             ],
             lines: {
                 low: [
