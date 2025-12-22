@@ -156,15 +156,14 @@ document.addEventListener("guide:finished", (e) => {
 
   savePlayerState(state);
   unlockLevelsFromState(state);
-  console.log(currentLevel + 1)
   moveDolphinToLevel(currentLevel + 1);
 
 
 });
 
-if (currentLevel == 6) {
-  showLeaderboard()
-}
+// if (currentLevel == 6) {
+//   showLeaderboard()
+// }
 
 
 /* =========================

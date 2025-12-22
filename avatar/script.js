@@ -38,7 +38,36 @@ const avatars = Array.from({ length: 20 }, (_, i) => ({
 
 
 
-const MAP_URL = "../map/index.html";
+/* ===========================
+   AUDIO
+=========================== */
+
+const bgm = new Audio("./sfx/background-sfx.mp3");
+bgm.loop = true;
+bgm.volume = 1;
+
+const selectSfx = new Audio("./sfx/select.mp3");
+selectSfx.volume = 0.8;
+
+const goSfx = new Audio("./sfx/go.mp3");
+goSfx.volume = 1.0;
+
+// Browsers require user interaction before audio
+let audioUnlocked = false;
+
+function unlockAudio() {
+    if (audioUnlocked) return;
+
+    bgm.play().catch(() => { });
+    audioUnlocked = true;
+
+    document.removeEventListener("click", unlockAudio);
+    document.removeEventListener("keydown", unlockAudio);
+}
+
+document.addEventListener("click", unlockAudio);
+document.addEventListener("keydown", unlockAudio);
+
 
 
 
@@ -60,8 +89,14 @@ function selectAvatar(avatar, el) {
     document.querySelectorAll(".avatar").forEach(a => a.classList.remove("selected"));
     el.classList.add("selected");
     bigAvatar.src = avatar.src;
+
+    // 🔊 play select sound
+    selectSfx.currentTime = 0;
+    selectSfx.play().catch(() => {});
+
     updateFinish();
 }
+
 
 function getPlayerId() {
     let id = localStorage.getItem("playerId");
@@ -90,16 +125,15 @@ finishBtn.onclick = async () => {
   const name = nameInput.value.trim();
   const avatarId = selectedAvatar.id;
 
-  // 1️⃣ Update playerState (single source of truth)
   const state = loadPlayerState();
-
   state.profile.id = playerId;
   state.profile.name = name;
   state.profile.avatarId = avatarId;
-
   savePlayerState(state);
 
-  // 2️⃣ Persist to Firestore (authoritative backend)
+  // 🔊 go sound
+  goSfx.play().catch(() => {});
+
   await startSaveLoader(
     async () => {
       await ensurePlayer(playerId, name, avatarId);
@@ -107,9 +141,13 @@ finishBtn.onclick = async () => {
     { text: "Swiping your studentId..." }
   );
 
-  // 3️⃣ Continue flow
+  // stop bgm cleanly before leaving
+  bgm.pause();
+  bgm.currentTime = 0;
+
   window.location.href = "../map/index.html";
 };
+
 
 
 
