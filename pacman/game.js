@@ -114,6 +114,9 @@ let gameOver = false;
 window.onload = function () {
 
     if (restoreIfGameCompleted(levelKey)) {
+        document.getElementById("back-to-map").onclick = () => {
+            window.location.href = "../map/index.html";
+        };
         return;
     }
 
@@ -612,10 +615,10 @@ class Block {
 
 
 async function triggerGameOver() {
-    
-    
+
+
     bgm.pause();
-    showOverlay({level: levelKey, score});
+    showOverlay({ level: levelKey, score });
     gameStarted = false;
 
     await startSaveLoader(

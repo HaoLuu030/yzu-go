@@ -8,12 +8,6 @@ export function showOverlay({
     const overlay = document.getElementById("gameover-overlay");
     const textEl = document.getElementById("gameover-overlay-text");
     const dolphinEl = document.getElementById("overlay-dolphin");
-    // ===== BACK TO MAP =====
-    document.getElementById("back-to-map").onclick = () => {
-        window.location.href = "../map/index.html";
-    };
-
-    console.log(textEl);
 
     if (!overlay || !textEl || !dolphinEl) return;
 

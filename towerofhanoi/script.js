@@ -136,10 +136,17 @@ async function endGame() {
 
     // lock UI
     document.querySelectorAll(".disk").forEach(d => d.draggable = false);
-    
+
     bgm.pause();
     // show overlay
-    showOverlay({level: levelKey, score})
+    showOverlay({ level: levelKey, score })
+
+    // ===== BACK TO MAP =====
+    document.getElementById("back-to-map").onclick = function () {
+        // save progression + score
+        triggerPostLevelStory(levelKey, score);
+        window.location.href = "../map/index.html";
+    };
 }
 
 pegs.forEach(peg => {
@@ -169,7 +176,11 @@ pegs.forEach(peg => {
 createGame();
 
 window.onload = function () {
-    if(restoreIfGameCompleted(levelKey)) {
+    if (restoreIfGameCompleted(levelKey)) {
+        // ===== BACK TO MAP =====
+        document.getElementById("back-to-map").onclick = function () {
+            window.location.href = "../map/index.html";
+        };
         return;
     }
 
@@ -209,15 +220,6 @@ window.onload = function () {
         }).catch(err => {
             console.warn("Music play blocked:", err);
         });
-    };
-
-
-
-    // ===== BACK TO MAP =====
-    document.getElementById("back-to-map").onclick = function () {
-        // save progression + score
-        triggerPostLevelStory(levelKey, score);
-        window.location.href = "../map/map.html";
     };
 };
 

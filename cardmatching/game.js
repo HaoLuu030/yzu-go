@@ -399,7 +399,13 @@ async function checkGameEnd() {
 
     clearInterval(timerInterval);
     bgm.pause();
-    showOverlay({level: levelKey, score})
+    showOverlay({ level: levelKey, score })
+
+    // ===== BACK TO MAP =====
+    document.getElementById("back-to-map").onclick = function () {
+        triggerPostLevelStory(levelKey, score);
+        window.location.href = "../map/index.html";
+    };
 
     return true;
 
@@ -487,11 +493,10 @@ function playShuffleSound() { shuffleSound.currentTime = 0; shuffleSound.play();
 
 if (!restoreIfGameCompleted(levelKey)) {
     init();
+} else {
+    document.getElementById("back-to-map").onclick = () => {
+        window.location.href = "../map/index.html";
+    };
 }
 
 
-// ===== BACK TO MAP =====
-document.getElementById("back-to-map").onclick = function () {
-    triggerPostLevelStory(levelKey, score);
-    window.location.href = "../map/index.html";
-};

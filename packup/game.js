@@ -1,5 +1,5 @@
 import { saveGame } from "../js/data/scoreRepository.js";
-import { triggerPostLevelStory, restoreIfGameCompleted  } from "../js/utils/progress.js";
+import { triggerPostLevelStory, restoreIfGameCompleted } from "../js/utils/progress.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { PACK_UP_GAMEKEY } from "../js/data/gamekeys.js";
 import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
@@ -694,6 +694,13 @@ async function endGame() {
         level: levelKey,
         score,
     })
+
+    // ===== BACK TO MAP =====
+    document.getElementById("back-to-map").onclick = function () {
+        // trigger story
+        triggerPostLevelStory(levelKey, quizScore);
+        window.location.href = "../map/index.html";
+    };
 }
 
 
@@ -703,6 +710,9 @@ async function endGame() {
 
 window.onload = function () {
     if (restoreIfGameCompleted(levelKey)) {
+        document.getElementById("back-to-map").onclick = () => {
+            window.location.href = "../map/index.html";
+        };
         return;
     }
 

@@ -88,6 +88,7 @@ switch (mode) {
 
 
 /*-----------------------Avatar moves--------------------------- */
+hideLeaderboard();
 const dolphin = document.getElementById("your_avatar");
 dolphin.src = getAvatarImagePath();
 
@@ -152,6 +153,7 @@ document.addEventListener("guide:progress", (e) => {
 
 document.addEventListener("guide:finished", (e) => {
   const state = loadPlayerState();
+  console.log("Story finished:", e.detail.phase);
 
   if (state.story.phase === "welcome") {
     if (!state.journey.completedNodes.includes("welcome")) {
@@ -171,12 +173,16 @@ document.addEventListener("guide:finished", (e) => {
 
   savePlayerState(state);
   unlockLevelsFromState(state);
-
-
+  console.log(currentLevel + 1)
   moveDolphinToLevel(currentLevel + 1);
-
+  
 
 });
+
+  if (currentLevel == 6)
+  {
+    showLeaderboard()
+  }
 
 
 /* =========================
@@ -236,3 +242,16 @@ function bindLevelButtons() {
 
 bindLevelButtons();
 
+
+
+
+// Show leaderboard
+function showLeaderboard() {
+  document.getElementById("leaderboard-overlay")
+    .classList.remove("hidden");
+}
+
+function hideLeaderboard() {
+  document.getElementById("leaderboard-overlay")
+    .classList.add("hidden");
+}

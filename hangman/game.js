@@ -276,7 +276,14 @@ async function endGame() {
         { text: "Handing in answer sheet..." }
     );
     bgm.pause();
-    showOverlay({level: levelKey, quizScore});
+    showOverlay({ level: levelKey, quizScore });
+
+    // ===== BACK TO MAP =====
+    document.getElementById("back-to-map").onclick = function () {
+        // trigger story
+        triggerPostLevelStory(levelKey, quizScore);
+        window.location.href = "../map/index.html";
+    };
 }
 
 function disableAll() {
@@ -338,6 +345,10 @@ function playSound(sound) {
 const restored = restoreIfGameCompleted(levelKey);
 
 if (restored) {
+    // ===== BACK TO MAP =====
+    document.getElementById("back-to-map").onclick = function () {
+        window.location.href = "../map/index.html";
+    };
     // Restore-only UI
     createAlphabet();
     updateScoreDisplay();
@@ -347,12 +358,4 @@ if (restored) {
     createAlphabet();
     updateScoreDisplay();
 }
-
-
-// ===== BACK TO MAP =====
-document.getElementById("back-to-map").onclick = function () {
-    // trigger story
-    triggerPostLevelStory(levelKey, quizScore);
-    window.location.href = "../map/index.html";
-};
 

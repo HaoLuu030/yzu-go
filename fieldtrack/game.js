@@ -129,7 +129,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await loaderPromise;
 
-    if(restoreIfGameCompleted(levelKey)) {
+    if (restoreIfGameCompleted(levelKey)) {
+        // ===== BACK TO MAP =====
+        document.getElementById("back-to-map").onclick = function () {
+            window.location.href = "../map/index.html";
+        };
+
         return;
     }
 
@@ -252,7 +257,16 @@ export async function gameLoop() {
 
 
         const overlay = document.getElementById("gameover-overlay");
-        if (overlay) showOverlay({level: levelKey, finalScore});
+        if (overlay) showOverlay({ level: levelKey, finalScore });
+
+        // ===== BACK TO MAP =====
+        document.getElementById("back-to-map").onclick = function () {
+            finalScore = Math.floor(gameState.score);
+            // queue post-level story
+            triggerPostLevelStory(levelKey, score);
+            window.location.href = "../map/index.html";
+        };
+
 
         return;
     }
@@ -304,13 +318,6 @@ export function startStopwatch() {
     }, 50);
 }
 
-// ===== BACK TO MAP =====
-document.getElementById("back-to-map").onclick = function () {
-    finalScore = Math.floor(gameState.score);
-    // queue post-level story
-    triggerPostLevelStory(levelKey, score);
-    window.location.href = "../map/index.html";
-};
 
 
 export { scoreManager, spawnerManager, entityManager, player };
