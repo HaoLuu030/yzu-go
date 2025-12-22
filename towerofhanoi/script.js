@@ -30,7 +30,7 @@ const placeSound = new Audio("./sfx/place.mp3");
 
 const colors = ["#8B5A2B", "#A97458", "#C19A6B", "#D2B48C"];
 
-let numberOfDisks = 1;
+let numberOfDisks = 3;
 let gameEnded = false;
 const levelKey = "level6";
 
@@ -94,7 +94,7 @@ function updateMoves() {
     moveCountSpan.textContent = moveCount;
 
     if (moveCount > optimalMoves) {
-        score -= 50;
+        score -= 100;
         if (score < 0) score = 0;
     }
 
@@ -176,13 +176,13 @@ pegs.forEach(peg => {
 createGame();
 
 window.onload = function () {
-    if (restoreIfGameCompleted(levelKey)) {
-        // ===== BACK TO MAP =====
-        document.getElementById("back-to-map").onclick = function () {
-            window.location.href = "../map/index.html";
-        };
-        return;
-    }
+    // if (restoreIfGameCompleted(levelKey)) {
+    //     // ===== BACK TO MAP =====
+    //     document.getElementById("back-to-map").onclick = function () {
+    //         window.location.href = "../map/index.html";
+    //     };
+    //     return;
+    // }
 
     // ==== DOM ELEMENTS ====
     const bgm = document.getElementById("bgm");
