@@ -14,7 +14,6 @@ startLoader({
     "./image/volume_off.png",
     "./image/volume_on.png",
     "./image/yzu_logo.png",
-    "./image/home_music.mp3",
     "sfx/home_music.mp3",
     "sfx/result_high.mp3",
     "sfx/result_low.mp3",
@@ -55,11 +54,11 @@ let isPlay = false;
 window.playMusic = function () {
   if (!isPlay) {
     music.play();
-    music_image.src = "../image/volume_off.png";
+    music_image.src = "../image/volume_on.png";
   }
   else {
     music.pause();
-    music_image.src = "../image/volume_on.png";
+    music_image.src = "../image/volume_off.png";
   }
   isPlay = !isPlay;
 }
@@ -79,3 +78,35 @@ startBtn.onclick = () => {
     }
   }, 400);
 }
+
+
+let leaderBoardIsVisible = false;
+
+const leaderBoardBtn = document.getElementById("leaderBoard-btn");
+const overlay = document.getElementById("leaderboard-overlay");
+
+leaderBoardBtn.onclick = toggleScoreOverlay;
+
+function showLeaderboard() {
+  overlay.classList.remove("hidden");
+  leaderBoardIsVisible = true;
+}
+
+function hideLeaderboard() {
+  overlay.classList.add("hidden");
+  leaderBoardIsVisible = false;
+}
+
+function toggleScoreOverlay() {
+  leaderBoardIsVisible ? hideLeaderboard() : showLeaderboard();
+}
+
+// Click outside to close
+overlay?.addEventListener("click", e => {
+  if (e.target === overlay) {
+    hideLeaderboard();
+  }
+});
+
+document.querySelector(".score-close-btn")
+  ?.addEventListener("click",  hideLeaderboard);

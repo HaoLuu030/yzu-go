@@ -6,34 +6,35 @@
 
 /* SCORE LOG OVERLAY */
 #score-log-overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  z-index: 9999;
+  font-family: "Concert One", sans-serif;
+  font-weight: 400;
+  background:
+    radial-gradient(circle at top, rgba(80, 80, 140, 0.25), rgba(0, 0, 0, 0.75)),
+    rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
   display: none;
-  justify-content: center;
   align-items: center;
-
-  /* transparent black */
-  background: rgba(0, 0, 0, 0.55);
+  justify-content: center;
+  z-index: 9999;
+  color: white;
+  font-family: "Concert One", sans-serif !important;
+  z-index: 999;
 }
 
 /* PANEL */
 .score-panel {
-  position: relative;
-  width: min(520px, 90vw);
-
-  /* blue glass */
-  background: var(--panel-blue);
-  border: 2px solid var(--panel-blue-stroke);
-  border-radius: 26px;
-  backdrop-filter: blur(10px);
-
-  box-shadow:
-    0 0 20px var(--panel-blue-glow),
-    inset 0 0 30px rgba(255, 255, 255, 0.15);
-
-  padding: 24px 28px;
-  animation: float 5s ease-in-out infinite;
+   position: relative;
+  width: 40%;
+  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  background: url(../image/background.png) center top no-repeat;
+  border-radius: 22px;
+  padding: 20px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .score-panel h2 {
@@ -44,9 +45,16 @@
 
 /* TABLE */
 .score-table {
+ 
   width: 100%;
   border-collapse: collapse;
   font-size: 18px;
+  padding: 3%;
+  text-align: center;
+  border-radius: 15px;
+  background: linear-gradient(180deg, #e3e6e909, rgba(0, 229, 255, 0.8));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  transform: translateY(0);
 }
 
 .score-table th,
@@ -69,7 +77,7 @@
 
 /* STATUS ICON */
 .score-table tr.completed .status {
-  color: #9ff6ff;
+  color: white;
   text-shadow: 0 0 8px rgba(0, 229, 255, 0.8);
 }
 
@@ -101,16 +109,3 @@
 }
 
 
-@keyframes float {
-  0% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-1.5vh);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
-}

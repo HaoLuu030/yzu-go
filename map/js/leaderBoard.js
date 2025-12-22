@@ -43,29 +43,63 @@ function sortLeaderboard(players) {
       a.lastSeen - b.lastSeen
   );
 }
+
+
 function renderLeaderboard(players) {
+  const top3Container = document.getElementById("leaderboard-top3");
   const ol = document.getElementById("leaderboard");
+
+  top3Container.innerHTML = "";
   ol.innerHTML = "";
 
-  players.forEach((player, index) => {
+  // ===== TOP 3 (podium order) =====
+  const podiumOrder = [1, 0, 2]; // silver, gold, bronze
+
+  podiumOrder.forEach(rankIndex => {
+    const player = players[rankIndex];
+    if (!player) return;
+
+    const card = document.createElement("div");
+    card.className = `top-card rank-${rankIndex + 1}`;
+
+    const medal =
+      rankIndex === 0 ? "🥇" :
+      rankIndex === 1 ? "🥈" : "🥉";
+
+    const crown = rankIndex === 0
+      ? `<div class="crown">👑</div>`
+      : "";
+
+    card.innerHTML = `
+      <div class="top-medal">${medal}</div>
+
+      <div class="avatar-wrapper">
+        ${crown}
+        <img
+          class="top-avatar"
+          src="../../avatar/image/${player.avatarId}.png"
+          onerror="this.src='../../avatar/image/1.png'"
+        />
+      </div>
+
+      <div class="top-name">${player.name}</div>
+      <div class="top-score">${player.totalScore}</div>
+    `;
+
+    top3Container.appendChild(card);
+  });
+
+  // ===== REST =====
+  players.slice(3).forEach((player, index) => {
     const li = document.createElement("li");
     li.className = "leaderboard-row";
 
-    // rank / medal
-    let rankHTML;
-    if (index === 0) rankHTML = `<div class="rank-medal gold">🥇</div>`;
-    else if (index === 1) rankHTML = `<div class="rank-medal silver">🥈</div>`;
-    else if (index === 2) rankHTML = `<div class="rank-medal bronze">🥉</div>`;
-    else rankHTML = `<div class="rank-number">${index + 1}</div>`;
-
-   
     li.innerHTML = `
-      ${rankHTML}
+      <div class="rank-number">${index + 4}</div>
 
       <img
         class="avatar"
         src="../../avatar/image/${player.avatarId}.png"
-        alt="Avatar ${player.avatarId}"
         onerror="this.src='../../avatar/image/1.png'"
       />
 
@@ -79,6 +113,7 @@ function renderLeaderboard(players) {
     ol.appendChild(li);
   });
 }
+
 
 
 async function initLeaderboard() {
