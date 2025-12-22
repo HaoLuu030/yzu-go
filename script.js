@@ -1,4 +1,4 @@
-import { startLoader } from "shared/loader/assetLoader/index.js";
+import { startLoader } from "./shared/loader/assetLoader/index.js";
 
 
 

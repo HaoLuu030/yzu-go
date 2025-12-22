@@ -10,15 +10,17 @@ export function preloadAssets(assets = []) {
     };
 
     assets.forEach((src) => {
+      const url = new URL(src, document.baseURI).href;
+
       // Images
       if (/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(src)) {
         const img = new Image();
         img.onload = done;
         img.onerror = () => {
-          console.warn("Failed to load image:", src);
+          console.warn("Failed to load image:", url);
           done();
         };
-        img.src = src;
+        img.src = url;
         return;
       }
 
@@ -27,15 +29,14 @@ export function preloadAssets(assets = []) {
         const audio = new Audio();
         audio.addEventListener("canplaythrough", done, { once: true });
         audio.addEventListener("error", () => {
-          console.warn("Failed to load audio:", src);
+          console.warn("Failed to load audio:", url);
           done();
         }, { once: true });
-        audio.src = src;
+        audio.src = url;
         audio.load();
         return;
       }
 
-      // Unknown → don’t block
       done();
     });
   });
