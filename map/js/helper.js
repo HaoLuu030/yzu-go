@@ -137,14 +137,14 @@ function getLatestLevelFromStorage() {
 
 function getAvatarImagePath() {
   const raw = localStorage.getItem("playerState");
-  if (!raw) return "avatar/image/1.png";
+  if (!raw) return "../avatar/image/1.png";
 
   const playerState = JSON.parse(raw);
   const avatarId = playerState?.profile?.avatarId;
 
   return Number.isInteger(avatarId)
-    ? `avatar/image/${avatarId}.png`
-    : "avatar/image/1.png";
+    ? `../avatar/image/${avatarId}.png`
+    : "../avatar/image/1.png";
 }
 
 
@@ -152,9 +152,6 @@ function hasFinishedGame(state, totalLevels = 6) {
   const levelsCompleted = Object.values(state.levels)
     .slice(0, totalLevels)
     .every(level => level.completed === true);
-    console.log("levels completed: " + levelsCompleted);
-    console.log("story active" + !state.story.active);
-
   return levelsCompleted && state.story.active === false;
 }
 

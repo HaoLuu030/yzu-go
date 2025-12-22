@@ -98,6 +98,7 @@ switch (mode) {
 
 const dolphin = document.getElementById("your_avatar");
 dolphin.src = getAvatarImagePath();
+console.log(dolphin);
 
 
 const currentLevel = getLatestLevelFromStorage();
