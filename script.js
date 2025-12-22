@@ -100,33 +100,33 @@ startBtn.onclick = () => {
 }
 
 
-// let leaderBoardIsVisible = false;
+let leaderBoardIsVisible = false;
 
-// const leaderBoardBtn = document.getElementById("leaderBoard-btn");
-// const overlay = document.getElementById("leaderboard-overlay");
+const leaderBoardBtn = document.getElementById("leaderBoard-btn");
+const overlay = document.getElementById("leaderboard-overlay");
 
-// leaderBoardBtn.onclick = toggleScoreOverlay;
+leaderBoardBtn.onclick = toggleScoreOverlay;
 
-// function showLeaderboard() {
-//   overlay.classList.remove("hidden");
-//   leaderBoardIsVisible = true;
-// }
+function showLeaderboard() {
+  overlay.classList.remove("hidden");
+  leaderBoardIsVisible = true;
+}
 
-// function hideLeaderboard() {
-//   overlay.classList.add("hidden");
-//   leaderBoardIsVisible = false;
-// }
+function hideLeaderboard() {
+  overlay.classList.add("hidden");
+  leaderBoardIsVisible = false;
+}
 
-// function toggleScoreOverlay() {
-//   leaderBoardIsVisible ? hideLeaderboard() : showLeaderboard();
-// }
+function toggleScoreOverlay() {
+  leaderBoardIsVisible ? hideLeaderboard() : showLeaderboard();
+}
 
-// // Click outside to close
-// overlay?.addEventListener("click", e => {
-//   if (e.target === overlay) {
-//     hideLeaderboard();
-//   }
-// });
+// Click outside to close
+overlay?.addEventListener("click", e => {
+  if (e.target === overlay) {
+    hideLeaderboard();
+  }
+});
 
-// document.querySelector(".score-close-btn")
-//   ?.addEventListener("click", hideLeaderboard);
+document.querySelector(".score-close-btn")
+  ?.addEventListener("click", hideLeaderboard);

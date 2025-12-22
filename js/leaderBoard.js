@@ -73,8 +73,8 @@ function renderLeaderboard(players) {
         ${crown}
         <img
           class="top-avatar"
-          src="../../avatar/image/${player.avatarId}.png"
-          onerror="this.src='../../avatar/image/1.png'"
+          src="avatar/image/${player.avatarId}.png"
+          onerror="this.src='avatar/image/1.png'"
         />
       </div>
 
@@ -95,8 +95,8 @@ function renderLeaderboard(players) {
 
       <img
         class="avatar"
-        src="../../avatar/image/${player.avatarId}.png"
-        onerror="this.src='../../avatar/image/1.png'"
+        src="avatar/image/${player.avatarId}.png"
+        onerror="this.src='avatar/image/1.png'"
       />
 
       <div class="player-info">
