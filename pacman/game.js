@@ -33,7 +33,13 @@ startLoader({
 
 
 
-const FRIGHTENED_TOUCH_BONUS = 10;
+// ==== SCORE CONFIG ====
+const SCORE = {
+    FOOD: 2,                 // normal food
+    SPECIAL_FOOD: 5,         // power pellet
+    FRIGHTENED_GHOST: 15,    // touching ghost during frightened mode
+};
+
 //board
 let board;
 const rowCount = 17;
@@ -82,7 +88,7 @@ const FRIGHTENED_DURATION = 8000;
 //Ghosts: b = blue, o = orange, p = pink
 const tileMap = [
     "OOOOOXXXXXXXXXOOOOO",
-    "OOOOX         XOOOO",
+    "OOOOXS        XOOOO",
     "OOOXX XXXXXXX XXOOO",
     "OOX             XOO",
     "OXX XXSXXXXX XX XXO",
@@ -94,7 +100,7 @@ const tileMap = [
     "XX X   XXXXX XX X X",
     "XX XXX            X",
     "OX   X XXXXX XX XXO",
-    "OOXX            XOO",
+    "OOXX           SXOO",
     "OOOXX XXXXXXX XXOOO",
     "OOOOX    P    XOOOO",
     "OOOOOXXXXXXXXXOOOOO"
@@ -108,7 +114,7 @@ let pacman;
 
 const directions = ['U', 'D', 'L', 'R']; //up down left right
 let score = 0;
-let lives = 1;
+let lives = 2;
 let gameOver = false;
 
 window.onload = function () {
@@ -383,7 +389,7 @@ function move() {
                 bigHit.currentTime = 0;
                 bigHit.play().catch(() => { });
                 // Bonus for interacting during frightened mode
-                score += FRIGHTENED_TOUCH_BONUS;
+                score += SCORE.FRIGHTENED_GHOST;
 
                 // Reset ONLY the ghost
                 ghost.reset();
@@ -442,13 +448,13 @@ function move() {
                 bigEatSound.play().catch(() => { });
 
                 activateFrightenedMode();
-                score += 5;
+                score += SCORE.SPECIAL_FOOD;
             } else {
                 eatSound.pause();
                 eatSound.currentTime = 0;
                 eatSound.play().catch(() => { });
 
-                score += 1;
+                score += SCORE.FOOD;
             }
 
             foodEaten = food;
