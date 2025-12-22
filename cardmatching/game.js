@@ -18,9 +18,17 @@ startLoader({
 /* ============================================================
    1. CONSTANTS & GLOBAL GAME STATE
 ============================================================ */
+const CELL_SIZE = 60;
+const CELL_GAP = 8;
 
-const ROW = 1 + 2;
-const COL = 2 + 2;
+
+const PLAY_ROWS = 6;
+const PLAY_COLS = 6;
+
+const ROW = PLAY_ROWS + 2;
+const COL = PLAY_COLS + 2;
+
+
 
 const board = [];
 
@@ -68,7 +76,7 @@ const boardWrapper = document.getElementById("game-board-container");
 const canvas = document.getElementById("fx-canvas");
 const ctx = canvas.getContext("2d");
 
-const scoreDisplay = document.getElementById("score");
+const scoreDisplay = document.getElementById("score-value");
 const timeDisplay = document.getElementById("timer");
 
 const startOverlay = document.getElementById("start-overlay");
@@ -114,12 +122,14 @@ function getRandomIconSet(count) {
    3. GAME INITIALIZATION
 ============================================================ */
 
+
 function init() {
     const items = [];
-    const gameIcons = getRandomIconSet(12);
-    const PAIRS = ((ROW - 2) * (COL - 2)) / 2;
+    const TOTAL_PAIRS = (PLAY_ROWS * PLAY_COLS) / 2;
+    const UNIQUE_ICONS = Math.floor(TOTAL_PAIRS / 2); // 👈 9 for 6×6
 
-    for (let i = 0; i < PAIRS; i++) {
+    const gameIcons = getRandomIconSet(UNIQUE_ICONS);
+    for (let i = 0; i < TOTAL_PAIRS; i++) {
         items.push(
             gameIcons[i % gameIcons.length],
             gameIcons[i % gameIcons.length]
@@ -168,29 +178,54 @@ function resizeCanvas() {
     const rect = boardWrapper.getBoundingClientRect();
     canvas.width = rect.width;
     canvas.height = rect.height;
+
+    // reset drawing state (important after resize)
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
 }
+
 
 window.addEventListener("resize", resizeCanvas);
 
 function cellCenter(r, c) {
-    const cells = document.getElementsByClassName("cell");
-    const index = (r - 1) * (COL - 2) + (c - 1);
-    const rect = cells[index].getBoundingClientRect();
+    const boardRect = gameBoard.getBoundingClientRect();
     const canvasRect = canvas.getBoundingClientRect();
 
+    const offsetX =
+        (c - 1) * (CELL_SIZE + CELL_GAP) + CELL_SIZE / 2;
+
+    const offsetY =
+        (r - 1) * (CELL_SIZE + CELL_GAP) + CELL_SIZE / 2;
+
     return {
-        x: rect.left - canvasRect.left + rect.width / 2,
-        y: rect.top - canvasRect.top + rect.height / 2
+        x: boardRect.left - canvasRect.left + offsetX,
+        y: boardRect.top - canvasRect.top + offsetY
     };
 }
 
 
+
+
+
 function drawPath(points) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const glow = 10; // MUST match shadowBlur
+
+    ctx.save();
+
+    // 🔒 CLIP INSIDE SAFE AREA
+    ctx.beginPath();
+    ctx.rect(
+        glow,
+        glow,
+        canvas.width - glow * 2,
+        canvas.height - glow * 2
+    );
+    ctx.clip();
+
     ctx.strokeStyle = "#00e5ff";
     ctx.shadowColor = "#00bcd4";
-    ctx.shadowBlur = 10;
-
+    ctx.shadowBlur = glow;
     ctx.lineWidth = 4;
 
     ctx.beginPath();
@@ -198,12 +233,31 @@ function drawPath(points) {
     points.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
     ctx.stroke();
 
+    ctx.restore();
+
     setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), 300);
 }
+
 
 /* ============================================================
    5. INPUT
 ============================================================ */
+function hasAnyTilesLeft() {
+    for (let r = 1; r < ROW - 1; r++) {
+        for (let c = 1; c < COL - 1; c++) {
+            if (board[r][c]) return true;
+        }
+    }
+    return false;
+}
+
+function checkAutoShuffleOnly() {
+    if (!hasAnyTilesLeft()) return;   // ✅ WIN state → no shuffle
+    if (!hasAnyMovesLeft()) {
+        autoShuffle();
+    }
+}
+
 
 function select(r, c) {
     if (!gameStarted) return;
@@ -230,19 +284,20 @@ function select(r, c) {
             board[r][c] = "";
 
             playMatchSound();
-            drawPath(path.map(p => cellCenter(p.r, p.c)));
-            addScore(baseScore);
+            drawPath(
+                path.map(p => clampToBoard(cellCenter(p.r - 1, p.c - 1)))
+            );
 
+            addScore(baseScore);
             setTimeout(() => {
                 render();
-                if (!checkGameEnd() && !hasAnyMovesLeft()) {
-                    alert("⚠️ No moves left! Shuffling board.");
-                    shuffleBoard();
-                    render();
-                }
+                checkAutoShuffleOnly();
+                checkGameEnd();   // ✅ THIS WAS MISSING
             }, 300);
         }
     }
+
+    setTimeout(checkAutoShuffleOnly, 0);
 
     highlight(first.r, first.c, false);
     first = null;
@@ -255,68 +310,120 @@ function highlight(r, c, on) {
 }
 
 /* ============================================================
-   6. PATHFINDING
+   6. PATHFINDING (PADDED + DRAWABLE)
 ============================================================ */
 
-function inBounds(p) {
-    return p.r > 0 && p.r < ROW - 1 && p.c > 0 && p.c < COL - 1;
+function clampToBoard(point) {
+    const pad = CELL_SIZE / 2; // keep line inside tile center margin
+
+    return {
+        x: Math.max(pad, Math.min(canvas.width - pad, point.x)),
+        y: Math.max(pad, Math.min(canvas.height - pad, point.y))
+    };
 }
 
-function getPath(a, b) {
-    if (clearLine(a, b)) return [a, b];
 
-    const p = oneTurnPoint(a, b);
-    if (p) return [a, p, b];
+function buildPaddedBoard() {
+    const padded = Array.from({ length: ROW + 2 }, () => Array(COL + 2).fill(""));
 
-    const pts = twoTurnPoints(a, b);
-    if (pts) return [a, pts[0], pts[1], b];
-
-    return null;
+    for (let r = 0; r < ROW; r++) {
+        for (let c = 0; c < COL; c++) {
+            padded[r + 1][c + 1] = board[r][c];
+        }
+    }
+    return padded;
 }
 
-function clearLine(a, b) {
-    if (!inBounds(a) || !inBounds(b)) return false;
+function inBoundsP(pBoard, p) {
+    return (
+        p.r >= 0 && p.r < pBoard.length &&
+        p.c >= 0 && p.c < pBoard[0].length
+    );
+}
+
+function clearLineP(pBoard, a, b) {
+    if (!inBoundsP(pBoard, a) || !inBoundsP(pBoard, b)) return false;
 
     if (a.r === b.r) {
-        for (let c = Math.min(a.c, b.c) + 1; c < Math.max(a.c, b.c); c++)
-            if (board[a.r][c]) return false;
+        for (let c = Math.min(a.c, b.c) + 1; c < Math.max(a.c, b.c); c++) {
+            if (pBoard[a.r][c]) return false;
+        }
         return true;
     }
 
     if (a.c === b.c) {
-        for (let r = Math.min(a.r, b.r) + 1; r < Math.max(a.r, b.r); r++)
-            if (board[r][a.c]) return false;
+        for (let r = Math.min(a.r, b.r) + 1; r < Math.max(a.r, b.r); r++) {
+            if (pBoard[r][a.c]) return false;
+        }
         return true;
     }
+
     return false;
 }
 
-function oneTurnPoint(a, b) {
-    const points = [
+function oneTurnPointP(pBoard, a, b) {
+    const candidates = [
         { r: a.r, c: b.c },
         { r: b.r, c: a.c }
     ];
 
-    for (const p of points) {
-        if (!inBounds(p)) continue;
-        if (board[p.r][p.c]) continue;
-        if (clearLine(a, p) && clearLine(p, b)) return p;
+    for (const p of candidates) {
+        if (!inBoundsP(pBoard, p)) continue;
+        if (pBoard[p.r][p.c]) continue;
+        if (clearLineP(pBoard, a, p) && clearLineP(pBoard, p, b)) return p;
     }
     return null;
 }
 
-function twoTurnPoints(a, b) {
-    for (let r = 1; r < ROW - 1; r++) {
-        for (let c = 1; c < COL - 1; c++) {
-            if (board[r][c]) continue;
+function twoTurnPointsP(pBoard, a, b) {
+    const dirs = [
+        { dr: 1, dc: 0 },
+        { dr: -1, dc: 0 },
+        { dr: 0, dc: 1 },
+        { dr: 0, dc: -1 }
+    ];
+
+    // expand only along valid corridors from A
+    for (const { dr, dc } of dirs) {
+        let r = a.r + dr;
+        let c = a.c + dc;
+
+        while (
+            r >= 0 && r < pBoard.length &&
+            c >= 0 && c < pBoard[0].length &&
+            !pBoard[r][c]
+        ) {
             const p = { r, c };
-            if (!clearLine(a, p)) continue;
-            const corner = oneTurnPoint(p, b);
+            const corner = oneTurnPointP(pBoard, p, b);
             if (corner) return [p, corner];
+
+            r += dr;
+            c += dc;
         }
     }
     return null;
 }
+
+
+function getPath(a, b) {
+    const pBoard = buildPaddedBoard();
+
+    // shift into padded coordinates
+    const A = { r: a.r + 1, c: a.c + 1 };
+    const B = { r: b.r + 1, c: b.c + 1 };
+
+    if (clearLineP(pBoard, A, B)) return [A, B];
+
+    const p1 = oneTurnPointP(pBoard, A, B);
+    if (p1) return [A, p1, B];
+
+    const pts = twoTurnPointsP(pBoard, A, B);
+    if (pts) return [A, pts[0], pts[1], B];
+
+    return null;
+}
+
+
 
 /* ============================================================
    7. SCORE & TIMER
@@ -339,19 +446,42 @@ function addScore(points) {
    8. BOARD UTILITIES
 ============================================================ */
 
-function shuffleBoard() {
+function shuffleBoardInternal() {
     const tiles = [];
-    for (let r = 1; r < ROW - 1; r++)
-        for (let c = 1; c < COL - 1; c++)
+    for (let r = 1; r < ROW - 1; r++) {
+        for (let c = 1; c < COL - 1; c++) {
             if (board[r][c]) tiles.push(board[r][c]);
+        }
+    }
 
     tiles.sort(() => Math.random() - 0.5);
 
     let i = 0;
-    for (let r = 1; r < ROW - 1; r++)
-        for (let c = 1; c < COL - 1; c++)
+    for (let r = 1; r < ROW - 1; r++) {
+        for (let c = 1; c < COL - 1; c++) {
             if (board[r][c]) board[r][c] = tiles[i++];
+        }
+    }
 }
+
+function manualShuffle() {
+    if (score < 20) return;
+
+    score -= 20;
+    scoreDisplay.textContent = score;
+
+    shuffleBoardInternal();
+    render();
+    playShuffleSound();
+}
+
+function autoShuffle() {
+    shuffleBoardInternal();
+    playShuffleSound();
+    render();
+}
+
+
 
 
 /* ============================================================
@@ -389,7 +519,7 @@ async function checkGameEnd() {
                 levelId: levelKey,
                 score,
                 completed: true
-            });; // your async function
+            }); // your async function
         },
         { text: "Hanging the flags over the balcony..." }
     );
@@ -447,17 +577,8 @@ startOverlay.onclick = () => {
 };
 
 
+shuffleBtn.onclick = manualShuffle;
 
-shuffleBtn.onclick = () => {
-    if (score >= 20) {
-        shuffleBoard();
-        render();
-        playShuffleSound();
-        score -= 20;
-        scoreDisplay.textContent = score;
-    }
-
-};
 
 /* ============================================================
    AUDIO HELPERS
@@ -491,12 +612,13 @@ function playShuffleSound() { shuffleSound.currentTime = 0; shuffleSound.play();
    BOOT
 ============================================================ */
 
-if (!restoreIfGameCompleted(levelKey)) {
-    init();
-} else {
-    document.getElementById("back-to-map").onclick = () => {
-        window.location.href = "../map/index.html";
-    };
-}
+// if (!restoreIfGameCompleted(levelKey)) {
+//     init();
+// } else {
+//     document.getElementById("back-to-map").onclick = () => {
+//         window.location.href = "../map/index.html";
+//     };
+// }
 
+init();
 

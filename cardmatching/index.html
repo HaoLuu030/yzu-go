@@ -16,7 +16,7 @@
     <script>
         document.documentElement.classList.add("loading");
     </script>
-    
+
 
     <link rel="stylesheet" href="../shared/loader/base/styles.css">
     <link rel="stylesheet" href="style.css" />
@@ -54,25 +54,25 @@
             <!-- 2. WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS -->
             <div id="gameover-overlay">
 
-            <div class="message">
+                <div class="message">
 
-                <div class="left">
-                    <div id="gameover-overlay-text" class="text">Level Finished</div>
+                    <div class="left">
+                        <div id="gameover-overlay-text" class="text">Level Finished</div>
 
-                    <div class="back">
-                        <button id="back-to-map">
-                            Back to Map &nbsp;
-                            <img class="map-icon" src="../image/UI/map.png">
-                        </button>
+                        <div class="back">
+                            <button id="back-to-map">
+                                Back to Map &nbsp;
+                                <img class="map-icon" src="../image/UI/map.png">
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="right">
-                    <img id="overlay-dolphin" class="dolphin" src="../image/UI/dolphin.png">
-                </div>
+                    <div class="right">
+                        <img id="overlay-dolphin" class="dolphin" src="../image/UI/dolphin.png">
+                    </div>
 
+                </div>
             </div>
-        </div>
             <!--2. END: WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS-->
 
 
@@ -87,8 +87,8 @@
                         Time: &nbsp;<span id="timer">0</span>s
                     </div>
 
-                    <div class="score">
-                        Score: &nbsp;<span id="score">0</span>
+                    <div id="score" class="score">
+                        Score: <span id="score-value"> 0</span>
                     </div>
                     <div id="shuffle-btn">Shuffle &nbsp;
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
@@ -114,7 +114,9 @@
                     Click to start
                 </div>
                 <canvas id="fx-canvas"></canvas>
-                <div id="game-board"></div>
+                <div class="board-padding">
+                    <div id="game-board"></div>
+                </div>
             </div>
 
         </div>

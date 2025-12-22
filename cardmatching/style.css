@@ -20,8 +20,9 @@ body {
     width: 100vw;
     display: grid;
     grid-template-columns: 1fr 2fr;
-    align-items: center;
+    align-items: start; /* 👈 key change */
 }
+
 
 .title-p {
     width: 15vw;
@@ -61,7 +62,9 @@ body {
 
 }
 
-
+#score-value {
+    margin-left: 0.5em;
+}
 
 
 .btn-level {
@@ -127,44 +130,51 @@ body {
     width: fit-content;
     height: fit-content;
     margin: 0 auto;
-    background: rgba(0,0,0,0.2)  url(../image/UI/building_7.png) center no-repeat;
+    margin-top: 12vh;
+    background: rgba(0, 0, 0, 0.2) url(../image/UI/building_7.png) center no-repeat;
     background-size: cover;
-    padding: 5vh 3vh;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     border-radius: 15px;
+    overflow: hidden;
+}
 
+/* move padding HERE */
+.board-padding {
+    padding: 6vh 6vh;
+    /* bigger background */
 }
 
 
 
 /* GAME BOARD */
 #game-board {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: repeat(8, 60px);
     justify-content: center;
-    gap: 1vh;
-    position: relative;
-    width: 40vw;
-    height: 80vh;
+    gap: 8px;
+    width: auto;
+    height: auto;
 }
 
 .cell {
-    width: 4vw;
-    height: 9vh;
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: white;
-    border-radius: 10px;
-    cursor: pointer;
-    user-select: none;
 }
 
 .cell img {
-    width: 2.6vw;
-    height: auto;
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
     pointer-events: none;
 }
+
 
 .cell.empty {
     background: transparent;
@@ -181,9 +191,9 @@ body {
 /* FX CANVAS */
 #fx-canvas {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     pointer-events: none;
+    z-index: 2;
 }
 
 /* HUD */
@@ -424,4 +434,3 @@ body {
 }
 
 /* END: 2. THE OVERLAY DISPLAYS WHEN THE PLAYER FINISH THIS LEVEL*/
-
