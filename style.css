@@ -75,7 +75,7 @@ body {
 
 .music_button,
 #leaderBoard-btn {
-  background-image: url(../image/UI/button.png);
+  background-image: url(/image/UI/button.png);
   background-size: 6vh 6vh;
   background-repeat: no-repeat;
   border: none;
@@ -318,7 +318,7 @@ h2 {
   max-height: 75vh;
   display: flex;
   flex-direction: column;
-  background: url(../image/background.png) center top no-repeat;
+  background: url(image/background.png) center top no-repeat;
   border-radius: 22px;
   padding: 20px;
   overflow-y: auto;
@@ -482,7 +482,7 @@ h2 {
   height: 10vh;
   border-radius: 50%;
   object-fit: cover;
-  background: url(../image/bubble.png) center center no-repeat;
+  background: url(image/bubble.png) center center no-repeat;
   background-size: contain;
   border-radius: 50%;
   padding: 2vh 2vh;
