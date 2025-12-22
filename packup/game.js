@@ -26,7 +26,20 @@ startLoader({
 })
 
 const levelKey = "level1";
-const nextLevel = "level2";
+
+// ==== SCORE CONFIG ====
+const SCORE = {
+    MATCH_3: 3,
+    MATCH_4: 4,
+    MATCH_5: 5,
+
+    T_SHAPE: 10,
+    L_SHAPE: 10,
+
+    LUGGAGE_CLEAR: 2,        // double luggage swap (full board clear)
+    LUGGAGE_MATCH_CLEAR: 0,  // optional: per-tile clear via luggage
+};
+
 
 var candies = ["Blue", "Orange", "Green", "Yellow", "Red", "Purple"];
 var board = [];
@@ -40,7 +53,7 @@ const bgm = document.getElementById("bgm");
 const musicBtn = document.getElementById("music-btn");
 let musicOn = false;  // initially off until user clicks start
 
-let timeLeft = 2;     // seconds
+let timeLeft = 40;     // seconds
 let timerInterval = null;
 let gameStarted = false;
 let gameLoop = null;
@@ -142,7 +155,7 @@ function crushT() {
                 board[i + 1][j + 1].src = "./images/blank.gif";
                 board[i + 2][j + 1].src = "./images/blank.gif";
                 created = true;
-                score += 25;
+                score += SCORE.T_SHAPE;
             }
 
             // ===========================
@@ -159,7 +172,7 @@ function crushT() {
                 board[i + 1][j + 1].src = "./images/blank.gif";
                 board[i][j + 1].src = "./images/blank.gif";
                 created = true;
-                score += 25;
+                score += SCORE.T_SHAPE;
             }
 
             // ===========================
@@ -176,7 +189,7 @@ function crushT() {
                 board[i + 1][j + 1].src = "./images/blank.gif";
                 board[i + 1][j + 2].src = "./images/blank.gif";
                 created = true;
-                score += 25;
+                score += SCORE.T_SHAPE;
             }
 
             // ===========================
@@ -193,7 +206,7 @@ function crushT() {
                 board[i][j + 2].src = "./images/blank.gif";
                 board[i + 2][j + 2].src = "./images/blank.gif";
                 created = true;
-                score += 25;
+                score += SCORE.T_SHAPE;
             }
         }
     }
@@ -243,7 +256,7 @@ function crushL() {
                 board[i + 2][j + 2].src = "./images/blank.gif";
 
                 board[i + 2][j + 2].src = "./images/luggage.png"; // corner
-                score += 25;
+                score += SCORE.L_SHAPE;
                 created = true;
             }
 
@@ -262,7 +275,7 @@ function crushL() {
                 board[i + 2][j + 2].src = "./images/blank.gif";
 
                 board[i][j + 2].src = "./images/luggage.png"; // corner
-                score += 25;
+                score += SCORE.L_SHAPE;
                 created = true;
             }
 
@@ -281,7 +294,7 @@ function crushL() {
                 board[i + 2][j].src = "./images/blank.gif";
 
                 board[i + 2][j].src = "./images/luggage.png"; // corner
-                score += 25;
+                score += SCORE.L_SHAPE;
                 created = true;
             }
 
@@ -300,7 +313,7 @@ function crushL() {
                 board[i + 2][j].src = "./images/blank.gif";
 
                 board[i][j].src = "./images/luggage.png"; // corner
-                score += 25;
+                score += SCORE.L_SHAPE;
                 created = true;
             }
         }
@@ -342,7 +355,7 @@ function crushFive() {
                 candy3.src = "./images/luggage.png";
                 candy4.src = "./images/blank.gif";
                 candy5.src = "./images/blank.gif";
-                score += 20;
+                score += SCORE.MATCH_5;
                 const sound = new Audio("./sfx/shining.mp3");
                 sound.play();
             }
@@ -364,7 +377,7 @@ function crushFive() {
                 candy3.src = "./images/blank.gif";
                 candy4.src = "./images/blank.gif";
                 candy5.src = "./images/blank.gif";
-                score += 20;
+                score += SCORE.MATCH_5;
                 const sound = new Audio("./sfx/shining.mp3");
                 sound.play();
             }
@@ -387,7 +400,7 @@ function crushFour() {
                 candy2.src = "./images/blank.gif";
                 candy3.src = "./images/blank.gif";
                 candy4.src = "./images/luggage.png";
-                score += 20;
+                score += SCORE.MATCH_4;
                 const sound = new Audio("./sfx/shining.mp3");
                 sound.play();
             }
@@ -406,7 +419,7 @@ function crushFour() {
                 candy2.src = "./images/blank.gif";
                 candy3.src = "./images/blank.gif";
                 candy4.src = "./images/luggage.png";
-                score += 20;
+                score += SCORE.MATCH_4;
                 const sound = new Audio("./sfx/shining.mp3");
                 sound.play();
             }
@@ -428,7 +441,7 @@ function crushThree() {
                 candy1.src = "./images/blank.gif";
                 candy2.src = "./images/blank.gif";
                 candy3.src = "./images/blank.gif";
-                score += 10;
+                score += SCORE.MATCH_3;
                 const sound = new Audio("./sfx/blink.mp3");
                 sound.play();
             }
@@ -444,7 +457,7 @@ function crushThree() {
                 candy1.src = "./images/blank.gif";
                 candy2.src = "./images/blank.gif";
                 candy3.src = "./images/blank.gif";
-                score += 10;
+                score += SCORE.MATCH_3;
                 const sound = new Audio("./sfx/blink.mp3");
                 sound.play();
             }
@@ -513,11 +526,11 @@ function dragEnd() {
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < columns; c++) {
                     board[r][c].src = "./images/blank.gif";
-                    score += 5;
+                    score += SCORE.LUGGAGE_CLEAR;
                 }
             }
-            const sound = new Audio("./sfx/blink.mp3");
-            sound.play();
+            const luggage_bomb = new Audio("./sfx/luggage-bomb.mp3");
+            luggage_bomb.play();
             return;
         }
 
@@ -709,12 +722,12 @@ async function endGame() {
 // ==== GAME STARTUP ====
 
 window.onload = function () {
-    if (restoreIfGameCompleted(levelKey)) {
-        document.getElementById("back-to-map").onclick = () => {
-            window.location.href = "../map/index.html";
-        };
-        return;
-    }
+    // if (restoreIfGameCompleted(levelKey)) {
+    //     document.getElementById("back-to-map").onclick = () => {
+    //         window.location.href = "../map/index.html";
+    //     };
+    //     return;
+    // }
 
     // ==== DOM ELEMENTS ====
     const bgm = document.getElementById("bgm");
