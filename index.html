@@ -8,54 +8,24 @@
     <script>
         document.documentElement.classList.add("loading");
     </script>
-    <style>
-        html.loading .app {
-            visibility: hidden;
-        }
-
-        #loader {
-            font-size: xx-large;
-            position: fixed;
-            font-family: "Concert One", sans-serif;
-            inset: 0;
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            color: white;
-        }
-
-        .spinner {
-            width: 48px;
-            height: 48px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-top: 5px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 12px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Single+Ink:wght@100..900&family=IM+Fell+English:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Original+Surfer&family=Oswald:wght@200..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Uncial+Antiqua&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./shared/loader/styles.css">
+    <link rel="stylesheet" href="./shared/loader/base/styles.css">
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 
 <body>
 
-    <div id="loader-root"></div>
+    <div id="loader-root">
+        <div id="loader">
+            <div class="spinner"></div>
+            <div id="loader-text">Loading...</div>
+        </div>
+    </div>
 
     <div class="app">
         <div class="main_view">
@@ -65,15 +35,14 @@
                 </div>
                 <div class="title">
                     <img class="yzu_logo" src="image/yzu_logo.png">
-                    <a class="link" href="./avatar/index.html">
-                        <div class="play_button"><button>Play</button></div>
+                    <a id="start" class="link">
+                        <div id="play_button" class="play_button"><button >Play</button></div>
                     </a>
                 </div>
                 <div class="right_top">
                     <div class="music">
                         <button onclick="playMusic()" id="music_button" class="music_button">
                             <img id="music_image" class="music_image" src="image/volume_on.png">
-                            <audio id="music_file" src="image/home_music.mp3" loop></audio>
                         </button>
                     </div>
                     <div class="jellyfish">
@@ -103,7 +72,8 @@
         </div>
     </div>
 
-
+<audio id="music_file" src="image/home_music.mp3" loop></audio>
+<audio id="go_sfx" src="avatar/sfx/go.mp3" preload="auto"></audio>
 </body>
 <script type="module" src="script.js"></script>
 

@@ -1,6 +1,9 @@
-import { saveScore } from "../js/data/scoreRepository.js";
-import { completeLevel, triggerPostLevelStory } from "../js/utils/progress.js";
-import { startLoader } from "../shared/loader/index.js";
+import { saveGame } from "../js/data/scoreRepository.js";
+import { triggerPostLevelStory, restoreIfGameCompleted } from "../js/utils/progress.js";
+import { startLoader } from "../shared/loader/assetLoader/index.js";
+import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
+import { PACMAN_GAMEKEY } from "../js/data/gamekeys.js";
+import { showOverlay } from "../js/utils/gameOverlay.js";
 
 
 startLoader({
@@ -41,6 +44,8 @@ const boardHeight = rowCount * tileSize;
 let queuedDirection = null;
 let context;
 let gameWin = false;
+const levelKey = "level4";
+const nextLevel = "level5";
 
 let blueGhostImage;
 let orangeGhostImage;
@@ -103,10 +108,17 @@ let pacman;
 
 const directions = ['U', 'D', 'L', 'R']; //up down left right
 let score = 0;
-let lives = 3;
+let lives = 1;
 let gameOver = false;
 
 window.onload = function () {
+
+    if (restoreIfGameCompleted(levelKey)) {
+        document.getElementById("back-to-map").onclick = () => {
+            window.location.href = "../map/index.html";
+        };
+        return;
+    }
 
     // load background music
     bgm = document.getElementById("bgm");
@@ -603,44 +615,44 @@ class Block {
 
 
 async function triggerGameOver() {
-    bgm.pause();
-    const overlay = document.getElementById("gameover-overlay");
 
-    overlay.style.display = "flex";
+
+    bgm.pause();
+    showOverlay({ level: levelKey, score });
     gameStarted = false;
 
-    // =========================
-    // 1️. SAVE SCORE
-    // =========================
-    const levelKey = "level4";
-    const nextLevel = "level5";
-    await saveScore({ level: levelKey, score });
+    await startSaveLoader(
+        async () => {
+            await saveGame({
+                gameKey: PACMAN_GAMEKEY,
+                levelId: levelKey,
+                score,
+                completed: true
+            });
+        },
+        { text: "Walking down the stairs..." }
+    );
 
-    // =========================
-    // 2️. SAVE LEVEL PROGRESS
-    // =========================
-    completeLevel(levelKey, nextLevel);
+    // overlay.onclick = function () {
+    //     overlay.style.display = "none";
 
-    // =========================
-    // 3️. TRIGGER STORY
-    // =========================
-    triggerPostLevelStory(levelKey, score);
+    //     loadMap();
+    //     resetPositions();
 
+    //     score = 0;
+    //     lives = 3;
+    //     gameOver = false;
+    //     gameWin = false;
 
-    clearInterval(timerInterval);
-    gameOverOverlay.style.display = "flex";
-
-    overlay.onclick = function () {
-        overlay.style.display = "none";
-
-        loadMap();
-        resetPositions();
-
-        score = 0;
-        lives = 3;
-        gameOver = false;
-        gameWin = false;
-
-        gameStarted = true;
-    };
+    //     gameStarted = true;
+    //     update(); // restart loop
+    // };
 }
+
+
+// ===== BACK TO MAP =====
+document.getElementById("back-to-map").onclick = function () {
+    // trigger story
+    triggerPostLevelStory(levelKey, score);
+    window.location.href = "../map/index.html";
+};

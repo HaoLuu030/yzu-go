@@ -1,17 +1,26 @@
 body {
-    background: url(../image/UI/background_pacman.png) no-repeat bottom fixed;
-    background-size: cover;
+    
     font-family: "Concert One", sans-serif;
     font-weight: 400;
     font-style: normal;
     color: white;
     text-align: center;
-    width: 100vw;
-    height: 100vh;
+    
     margin: 0 0;
     overflow: hidden;
   
 }
+
+.app {
+    position: relative;
+    z-index: 100;
+    background: url(../image/UI/background_pacman.png) no-repeat bottom fixed;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+}
+
+
 
 /* OVERLAY */
 #gameover-overlay {
@@ -21,7 +30,7 @@ body {
     background: rgba(0, 0, 0, 0.6);
     margin: 0 0;
     display: none;
-    z-index: 25;
+    z-index: 9999;
     justify-content: center;
     align-items: center;
 }
@@ -116,24 +125,12 @@ a {
 }
 
 
-.time {
-    font-size: 3vh;
-    background-image: url(../image/UI/button.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    border: none;
-    background-color: transparent;
-    width: 10vw;
-    height: 9vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.score {
+
+.time, .score {
     font-size: 3vh;
     background-image: url(../image/UI/button.png);
-    background-size: contain;
+    background-size: 10vw 9vh;
     background-repeat: no-repeat;
     border: none;
     background-color: transparent;
@@ -358,5 +355,4 @@ a {
         transform: translate(100vh, -100vh);
     }
 }
-
 

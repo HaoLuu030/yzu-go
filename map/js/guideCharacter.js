@@ -1,4 +1,5 @@
 import { getStoryLines } from "./storyEngine.js";
+import { loadPlayerState } from "../../js/state/playerState.js";
 
 let dialogLines = [];
 let lineIndex = 0;
@@ -35,16 +36,6 @@ const nextEl = document.getElementById("nextIndicator");
    SAVE / LOAD
 ========================= */
 
-function saveStory() {
-    localStorage.setItem("storyState", JSON.stringify({
-        phase,
-        level,
-        score,
-        lineIndex,
-        completed: false
-    }));
-}
-
 
 /* =========================
    CORE CONTROLS
@@ -55,7 +46,7 @@ function advanceDialog() {
 
     // unlock & start music on FIRST interaction only
     if (!bgmStarted) {
-        bgm.play().catch(() => {});
+        bgm.play().catch(() => { });
         bgmStarted = true;
     }
 
@@ -65,7 +56,12 @@ function advanceDialog() {
     }
 
     lineIndex++;
-    saveStory();
+    document.dispatchEvent(new CustomEvent("guide:progress", {
+        detail: {
+            lineIndex,
+            text: dialogLines[lineIndex - 1] ?? ""
+        }
+    }));;
 
     nextEl.style.visibility = "hidden";
 
@@ -101,18 +97,17 @@ export function startGuide({
 
     textEl.textContent = "";
     nextEl.style.visibility = "hidden";
-
-    saveStory();
     typeLine();
 }
 
 export function showLastStoryLineIfAny() {
-  const saved = JSON.parse(localStorage.getItem("storyLastLine"));
-  if (!saved?.text) return;
+  const state = loadPlayerState();
+  if (!state.story.lastLine) return;
 
-  textEl.textContent = saved.text;
+  textEl.textContent = state.story.lastLine;
   nextEl.style.visibility = "hidden";
 }
+
 
 /* =========================
    TYPING EFFECT
@@ -122,7 +117,7 @@ function typeLine() {
     if (!typing) {
         typing = true;
         typingSound.currentTime = 0;
-        typingSound.play().catch(() => {}); // browser-safe
+        typingSound.play().catch(() => { }); // browser-safe
     }
 
     currentLine = dialogLines[lineIndex];
@@ -150,30 +145,20 @@ function finishLineImmediately() {
 ========================= */
 
 function finishStory() {
-    storyActive = false;
-    const existing = JSON.parse(localStorage.getItem("storyState"));
-    if (!existing || existing.completed) return;
-    // persist last sentence for display
-    const lastLine = dialogLines[dialogLines.length - 1];
+  storyActive = false;
 
-    localStorage.setItem("storyLastLine", JSON.stringify({
-        text: lastLine,
-        phase
-    }));
+  const lastLine = dialogLines[dialogLines.length - 1];
 
-    // mark story complete
-    localStorage.setItem("storyState", JSON.stringify({
-        phase,
-        level,
-        score,
-        lineIndex,
-        completed: true
-    }));
+  document.dispatchEvent(new CustomEvent("guide:finished", {
+    detail: {
+      lastLine,
+      phase
+    }
+  }));
 
-    localStorage.removeItem("storyState");
-    document.dispatchEvent(new CustomEvent("guide:finished"));
-    typingSound.pause();
+  typingSound.pause();
 }
+
 
 
 /* =========================

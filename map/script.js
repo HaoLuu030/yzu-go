@@ -1,7 +1,8 @@
-import { lockAllLevels, unlockLevelsByProgress } from "./js/helper.js";
+import { lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath, levelPositions } from "./js/helper.js";
 import { startGuide, showLastStoryLineIfAny } from "./js/guideCharacter.js";
-import { startLoader } from "../shared/loader/index.js";
-import { setCurrentLevel } from "../js/utils/progress.js";
+import { startLoader } from "../shared/loader/assetLoader/index.js";
+import { loadPlayerState, savePlayerState } from "../js/state/playerState.js";
+import { toggleScoreOverlay } from "../scorelog/script.js";
 
 
 
@@ -29,70 +30,144 @@ startLoader(
   }
 )
 
+
+
+
+
 /* =========================
    STATE
 ========================= */
-let storyStarted = false;
+const state = loadPlayerState();
+const mode = getMapMode(state);
 
-/* =========================
-   LOAD FLAGS (first-visit)
-========================= */
-const flags = JSON.parse(localStorage.getItem("storyFlags")) || {
-  mapVisited: false,
-  welcomeDone: false
-};
 
-/* =========================
-   1) RESUME ACTIVE STORY
-========================= */
-const saved = JSON.parse(localStorage.getItem("storyState"));
-
-if (saved && !saved.completed) {
+if (mode !== "normal") {
   lockAllLevels();
-  startGuide(saved);
-  storyStarted = true;
 }
 
-/* =========================
-   2) FIRST VISIT → WELCOME
-========================= */
-if (!storyStarted && !flags.mapVisited) {
-  lockAllLevels();
-  startGuide({
-    phase: "welcome",
-    level: null,
-    score: null,
-    lineIndex: 0
+
+
+switch (mode) {
+  case "story": {
+    startGuide({
+      phase: state.story.phase,
+      level: state.story.level,
+      score: null,
+      lineIndex: state.story.lineIndex ?? 0
+    });
+
+    break;
+  }
+
+  case "welcome": {
+    startGuide({
+      phase: "welcome",
+      level: null,
+      lineIndex: 0
+    });
+
+    state.story = {
+      active: true,
+      phase: "welcome",
+      level: null,
+      lineIndex: 0,
+      lastLine: null
+    };
+
+    savePlayerState(state);
+    break;
+  }
+
+  case "normal": {
+    unlockLevelsFromState(state);
+    showLastStoryLineIfAny();
+    break;
+  }
+}
+
+
+
+
+/*-----------------------Avatar moves--------------------------- */
+
+const dolphin = document.getElementById("your_avatar");
+dolphin.src = getAvatarImagePath();
+
+
+const currentLevel = getLatestLevelFromStorage();
+
+
+function placeDolphinAtCurrentLevel() {
+  const dolphin = document.getElementById("your_avatar");
+  if (!dolphin) return;
+
+  const raw = localStorage.getItem("playerState");
+  if (!raw) return;
+
+  const i = currentLevel;
+
+  const to = levelPositions.find(p => p.id === i);
+  if (!to) return;
+
+  // Disable animation
+  dolphin.style.transition = "none";
+  dolphin.style.marginLeft = to.left;
+  dolphin.style.marginTop = `calc(${to.top} - 5%)`;
+
+  // Re-enable transitions
+  requestAnimationFrame(() => {
+    dolphin.style.transition = "";
   });
-
-  flags.mapVisited = true;
-  localStorage.setItem("storyFlags", JSON.stringify(flags));
-
-
-  storyStarted = true;
-  setCurrentLevel("level1");
 }
 
-/* =========================
-   3) NORMAL FLOW
-========================= */
-if (!storyStarted) {
-  unlockLevelsByProgress();
-  showLastStoryLineIfAny();
-}
+document.addEventListener("DOMContentLoaded", placeDolphinAtCurrentLevel);
 
 /* =========================
    UNLOCK AFTER STORY
 ========================= */
-document.addEventListener("guide:finished", () => {
-  // mark welcome as done ONLY after completion
-  const active = JSON.parse(localStorage.getItem("storyState"));
-  if (active?.phase === "welcome") {
-    flags.welcomeDone = true;
-    localStorage.setItem("storyFlags", JSON.stringify(flags));
-  }
-  unlockLevelsByProgress();
+document.addEventListener("guide:progress", (e) => {
+  const state = loadPlayerState();
+
+  state.story.lineIndex = e.detail.lineIndex;
+  state.story.lastLine = e.detail.text;
+
+  savePlayerState(state);
 });
+
+document.addEventListener("guide:finished", (e) => {
+  const state = loadPlayerState();
+  console.log("Story finished:", e.detail.phase);
+
+  if (state.story.phase === "welcome") {
+    if (!state.journey.completedNodes.includes("welcome")) {
+      state.journey.completedNodes.push("welcome");
+    }
+    state.levels.level1.unlocked = true;
+  }
+
+  // persist last line
+  state.story.lastLine = e.detail.lastLine;
+
+  // clear story
+  state.story.active = false;
+  state.story.phase = null;
+  state.story.level = null;
+  state.story.lineIndex = null;
+
+  savePlayerState(state);
+  unlockLevelsFromState(state);
+ 
+
+  moveDolphinToLevel(currentLevel + 1);
+
+
+});
+
+  if (currentLevel == 6) {
+      showLeaderboard()
+  }
+
+
 
 /* =========================
    WATERFALL ANIMATION
@@ -118,3 +193,53 @@ setInterval(() => {
   current = (current + 1) % frames.length;
   img.src = frames[current];
 }, 100);
+
+
+function getMapMode(state) {
+  if (state.story.active) return "story";
+  if (!state.journey.completedNodes.includes("welcome")) return "welcome";
+  return "normal";
+}
+
+function enterLevel(levelKey) {
+  const state = loadPlayerState();
+  const level = state.levels[levelKey];
+
+  // hard safety guard
+  if (!level || !level.unlocked || level.completed) return;
+
+  state.journey.currentNode = levelKey;
+  savePlayerState(state);
+
+  // central routing
+  window.location.href = `../${level.gameId}/index.html`;
+}
+
+function bindLevelButtons() {
+  Object.keys(loadPlayerState().levels).forEach(levelKey => {
+    const btn = document.getElementById(levelKey);
+    if (!btn) return;
+
+    btn.addEventListener("click", () => enterLevel(levelKey));
+  });
+}
+
+bindLevelButtons();
+
+
+
+
+// Show leaderboard
+function showLeaderboard() {
+  document.getElementById("leaderboard-overlay")
+    .classList.remove("hidden");
+}
+
+function hideLeaderboard() {
+  document.getElementById("leaderboard-overlay")
+    .classList.add("hidden");
+}
+
+
+document.getElementById("your_avatar")
+  .addEventListener("click", toggleScoreOverlay);

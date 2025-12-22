@@ -1,0 +1,427 @@
+body {
+    text-align: center;
+    font-family: "Concert One", sans-serif;
+    color: white;
+    overflow: hidden;
+    margin: 0 0;
+}
+
+.app {
+    background: url(../image/UI/background_card-matching.png) no-repeat center bottom;
+    background-size: cover;
+    margin: 0 0;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
+.container {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+}
+
+.title-p {
+    width: 15vw;
+    height: 60vh;
+}
+
+.title {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.349);
+    border: 0.3vw solid rgb(255, 255, 255);
+    width: 15vw;
+    height: 60vh;
+    border-radius: 30px;
+    top: 15vh;
+    left: 10vw;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5%;
+}
+
+.time,
+.score,
+#shuffle-btn {
+    font-size: 3vh;
+    background-image: url(../image/UI/button.png);
+    background-size: 10vw 9vh;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: transparent;
+    width: 10vw;
+    height: 9vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+
+
+.btn-level {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    color: white;
+    font-size: 3vw;
+    font-family: inherit;
+    font-weight: 400;
+    font-style: inherit;
+    background-image: url(../image/UI/level.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: transparent;
+    margin-top: -50%;
+    width: 6vw;
+    height: 6vw;
+}
+
+.btn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2vw;
+}
+
+.music,
+
+#map-btn {
+    color: white;
+    background-image: url(../image/UI/button.png);
+    background-size: 8vh 8vh;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: transparent;
+    width: 8vh;
+    height: 8vh;
+    transition: transform 0.3s ease;
+}
+
+#map-btn img,
+.music img {
+    height: 5vh;
+}
+
+
+
+
+.music:hover,
+#map-btn:hover,
+#shuffle-btn:hover {
+    cursor: pointer;
+    transform: scale(1.2)
+}
+
+
+
+/* BOARD CONTAINER */
+#game-board-container {
+    display: block;
+    position: relative;
+    z-index: 4;
+    width: fit-content;
+    height: fit-content;
+    margin: 0 auto;
+    background: rgba(0,0,0,0.2)  url(../image/UI/building_7.png) center no-repeat;
+    background-size: cover;
+    padding: 5vh 3vh;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+
+}
+
+
+
+/* GAME BOARD */
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(8, 60px);
+    justify-content: center;
+    gap: 1vh;
+    position: relative;
+    width: 40vw;
+    height: 80vh;
+}
+
+.cell {
+    width: 4vw;
+    height: 9vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cell img {
+    width: 2.6vw;
+    height: auto;
+    pointer-events: none;
+}
+
+.cell.empty {
+    background: transparent;
+    border: none;
+    cursor: default;
+}
+
+/* selection effect */
+.cell.active {
+    filter: brightness(85%);
+    transition: filter 0.15s ease;
+}
+
+/* FX CANVAS */
+#fx-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+/* HUD */
+.hud {
+    font-size: 20px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+/* START OVERLAY */
+#start-overlay {
+    background: url(../image/UI/building_7.png) center no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    font-size: 6vh;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+/* SHARED OVERLAY BOX */
+.overlay-box {
+    background: rgba(255, 255, 255, 0.373);
+    padding: 30px 50px;
+    border-radius: 15px;
+    text-align: center;
+
+}
+
+.overlay-box h2 {
+    margin-bottom: 20px;
+}
+
+
+
+
+
+/* Bubbles animation */
+
+.bubbles img {
+    width: 10vh;
+    animation: bubble 15s linear infinite;
+}
+
+.bubbles img:hover {
+    animation: none;
+    filter: blur(150px);
+}
+
+.bubbles {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    bottom: -20%;
+}
+
+@keyframes bubble {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    70% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-98vh);
+        opacity: 0;
+    }
+
+}
+
+.bubbles img:nth-child(1) {
+    animation-delay: 0.5s;
+    width: 30px;
+}
+
+.bubbles img:nth-child(2) {
+    width: 28px;
+}
+
+.bubbles img:nth-child(3) {
+    animation-delay: 8s;
+    width: 36px;
+}
+
+.bubbles img:nth-child(4) {
+    animation-delay: 8.2s;
+    width: 27px;
+}
+
+.bubbles img:nth-child(5) {
+    animation-delay: 2s;
+    width: 20px;
+}
+
+.bubbles img:nth-child(6) {
+    animation-delay: 4s;
+    width: 30px;
+}
+
+.bubbles img:nth-child(7) {
+    animation-delay: 5s;
+    width: 35px;
+}
+
+.bubbles img:nth-child(8) {
+    animation-delay: 1s;
+    width: 29px;
+}
+
+.bubbles img:nth-child(9) {
+    animation-delay: 7s;
+    width: 40px;
+}
+
+
+.crownfish img {
+    position: absolute;
+    height: 20vh;
+    animation: move 40s linear infinite;
+    margin-top: 50vh;
+}
+
+.seahorse img {
+    position: absolute;
+    height: 30vh;
+    animation: moveTop 50s linear infinite;
+    top: 20vh;
+    left: -4vw;
+}
+
+
+
+
+@keyframes move {
+    from {
+        transform: translateX(-70vw);
+    }
+
+    to {
+        transform: translateX(50vw);
+    }
+}
+
+@keyframes moveTop {
+    from {
+        transform: translate(-10vw, 80vh);
+    }
+
+    to {
+        transform: translate(40vw, -50vh);
+    }
+}
+
+/* 2. THE OVERLAY DISPLAYS WHEN THE PLAYER FINISH THIS LEVEL*/
+
+#gameover-overlay {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 25;
+    justify-content: center;
+    align-items: center;
+}
+
+.message {
+    position: absolute;
+    display: grid;
+    height: 50vh;
+    width: 50vw;
+    grid-template-columns: 2fr 1fr;
+    gap: 5%;
+}
+
+.left {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.text {
+    font-size: 9vh;
+}
+
+.dolphin {
+    height: 50vh;
+}
+
+#back-to-map img {
+    height: 40%;
+}
+
+#back-to-map {
+    background-image: url(../image/UI/button.png);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Concert One", sans-serif;
+    font-size: 3vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: transparent;
+    width: 40vh;
+    height: 15vh;
+    margin-left: 20%;
+    cursor: pointer;
+}
+
+#back-to-map:hover {
+    transform: scale(1.2);
+}
+
+/* END: 2. THE OVERLAY DISPLAYS WHEN THE PLAYER FINISH THIS LEVEL*/
+

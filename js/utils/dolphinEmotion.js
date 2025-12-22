@@ -1,4 +1,19 @@
 import { storyData } from "../../map/js/storyData.js";
+
+const defaultOverlayTextMap = {
+  low: "Really?!?",
+  mid: "Meh...",
+  high: "Hoohrayy!!"
+};
+
+export function getOverlayText(level, score, customText) {
+  // Explicit text always wins
+  if (customText) return customText;
+
+  const key = getThresholdKey(level, score);
+  return defaultOverlayTextMap[key] || "Level Finished!";
+}
+
 export function getThresholdKey(level, score) {
   const levelData = storyData.postLevel?.[level];
   if (!levelData) return "low";
@@ -21,7 +36,3 @@ export function getPerformanceImage(level, score) {
   const key = getThresholdKey(level, score);
   return performanceImageMap[key];
 }
-// E.g :
-// const imgEl = document.getElementById("dolphin");
-// imgEl.src = `/image/UI/emotion/${getPerformanceImage("level4", score)}`;
-

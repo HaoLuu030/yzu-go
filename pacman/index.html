@@ -50,13 +50,18 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="../shared/loader/styles.css">
+    <link rel="stylesheet" href="../shared/loader/base/styles.css">
     <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
-    <div id="loader-root"></div>
+    <div id="loader-root">
+        <div id="loader">
+            <div class="spinner"></div>
+            <div id="loader-text">Loading...</div>
+        </div>
+    </div>
 
     <div class="app">
         <!-- 1. BACKGROUND PART -->
@@ -110,28 +115,38 @@
                 </div>
             </div>
         </div>
-    </div>
 
+        <!-- UI -->
+        <div id="gameover-overlay">
 
+            <div class="message">
 
+                <div class="left">
+                    <div id="gameover-overlay-text" class="text">Level Finished</div>
 
+                    <div class="back">
+                        <button id="back-to-map">
+                            Back to Map &nbsp;
+                            <img class="map-icon" src="../image/UI/map.png">
+                        </button>
+                    </div>
+                </div>
 
+                <div class="right">
+                    <img id="overlay-dolphin" class="dolphin" src="../image/UI/dolphin.png">
+                </div>
 
-    <!-- UI -->
-    <div id="gameover-overlay">
-        <div class="message">
-            <div class="left">
-                <div class="text">Level Finished !</div>
-                <a href="../map/index.html">
-                    <div><button id="back-to-map">Back to Map &nbsp; <img class="map-icon"
-                                src="../image/UI/map.png"></button>
-                </a>
             </div>
         </div>
+    </div>
 
-        <div class="right"><img class="dolphin" src="../image/UI/dolphin.png"></div>
-    </div>
-    </div>
+
+
+
+
+
+
+
     <!-- UI -->
     <audio id="bgm" src="./sfx/background-music.mp3" loop></audio>
 </body>

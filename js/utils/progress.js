@@ -1,77 +1,36 @@
-const STORY_STATE_KEY_WORD = "storyState";
-const PROGRESS_KEY = "progress";
+import { loadPlayerState, savePlayerState } from "../state/playerState.js";
+import { showOverlay } from "./gameOverlay.js";
+
 
 export function triggerPostLevelStory(level, score) {
-  localStorage.setItem(STORY_STATE_KEY_WORD, JSON.stringify({
+  const state = loadPlayerState();
+
+  state.story = {
+    active: true,
     phase: "postLevel",
-    level,
+    level: level,
     score,
     lineIndex: 0,
-    completed: false
-  }));
+    lastLine: null
+  };
+
+  savePlayerState(state);
 }
 
 
-export function loadProgress() {
 
-  // fall back
-  const raw = localStorage.getItem(PROGRESS_KEY);
-  if (!raw) return { currentLevel: "level1", levels: {} };
+export function restoreIfGameCompleted(levelId) {
+  const state = loadPlayerState();
+  const level = state.levels[levelId];
 
-  // error handling
-  try {
-    const p = JSON.parse(raw);
-    return {
-      currentLevel: p.currentLevel || "level1",
-      levels: p.levels || {}
-    }
-  } catch {
-    return {currentLevel: "level1", levels: {}};
-  }
+  if (!level?.completed) return false;
+
+  requestAnimationFrame(() => {
+    showOverlay({
+      level: levelId,
+      score: level.score
+    });
+  });
+
+  return true;
 }
-
-
-export function saveProgress(progress) {
-  localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
-}
-
-
-export function setCurrentLevel(levelKey) {
-  // load progress
-  const p = loadProgress();
-  p.currentLevel = levelKey;
-
-  // update local storage
-  p.levels[levelKey] = {...(p.levels[levelKey] || {}), unlocked: true};
-
-  saveProgress(p);
-}
-
-export function completeLevel(levelKey, nextLevelKey) {
-  const p = loadProgress();
-
-  p.levels[levelKey] = { ...(p.levels[levelKey] || {}), unlocked: true, completed: true};
-
-  if (nextLevelKey) {
-    p.levels[nextLevelKey] = { ...(p.levels[nextLevelKey] || {}), unlocked: true };
-    p.currentLevel = nextLevelKey;
-  }
-
-  saveProgress(p);
-}
-
-
-export function isUnlocked(levelKey) {
-  const p = loadProgress();
-  return levelKey === "level1" || !!p.levels[levelKey]?.unlocked;
-}
-
-export function isCompleted(levelKey) {
-  const p = loadProgress();
-  return !!p.levels[levelKey]?.completed;
-}
-
-export function getCurrentLevel() {
-  return loadProgress().currentLevel;
-}
-

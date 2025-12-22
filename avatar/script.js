@@ -1,8 +1,10 @@
-import { startLoader } from "../shared/loader/index.js";
+import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { ensurePlayer } from "../js/data/playerRepository.js";
+import { loadPlayerState, savePlayerState } from "../js/state/playerState.js";
+import { startSaveLoader } from "../shared/loader/saveLoader/index.js";
 
 startLoader({
-    text: "Swiping student ID...",
+    text: "Identifying your identity...",
     assets: [
         "image/1.png",
         "image/10.png",
@@ -36,8 +38,36 @@ const avatars = Array.from({ length: 20 }, (_, i) => ({
 
 
 
-const MAP_URL = "../map/index.html";
-const STORAGE_KEY = "playerProfile";
+/* ===========================
+   AUDIO
+=========================== */
+
+const bgm = new Audio("./sfx/background-sfx.mp3");
+bgm.loop = true;
+bgm.volume = 1;
+
+const selectSfx = new Audio("./sfx/select.mp3");
+selectSfx.volume = 0.8;
+
+const goSfx = new Audio("./sfx/go.mp3");
+goSfx.volume = 1.0;
+
+// Browsers require user interaction before audio
+let audioUnlocked = false;
+
+function unlockAudio() {
+    if (audioUnlocked) return;
+
+    bgm.play().catch(() => { });
+    audioUnlocked = true;
+
+    document.removeEventListener("click", unlockAudio);
+    document.removeEventListener("keydown", unlockAudio);
+}
+
+document.addEventListener("click", unlockAudio);
+document.addEventListener("keydown", unlockAudio);
+
 
 
 
@@ -59,8 +89,14 @@ function selectAvatar(avatar, el) {
     document.querySelectorAll(".avatar").forEach(a => a.classList.remove("selected"));
     el.classList.add("selected");
     bigAvatar.src = avatar.src;
+
+    // 🔊 play select sound
+    selectSfx.currentTime = 0;
+    selectSfx.play().catch(() => {});
+
     updateFinish();
 }
+
 
 function getPlayerId() {
     let id = localStorage.getItem("playerId");
@@ -85,22 +121,33 @@ avatars.forEach(a => {
 nameInput.addEventListener("input", updateFinish);
 
 finishBtn.onclick = async () => {
-    const playerId = getPlayerId();
-    const name = nameInput.value.trim();
-    const avatarId = selectedAvatar.id;;
+  const playerId = getPlayerId();
+  const name = nameInput.value.trim();
+  const avatarId = selectedAvatar.id;
 
-    // local cache (fast UI)
-    localStorage.setItem("playerProfile", JSON.stringify({
-        playerId,
-        name,
-        avatarId
-    }));
+  const state = loadPlayerState();
+  state.profile.id = playerId;
+  state.profile.name = name;
+  state.profile.avatarId = avatarId;
+  savePlayerState(state);
 
-    // Firestore
-    await ensurePlayer(playerId, name, avatarId);
+  // 🔊 go sound
+  goSfx.play().catch(() => {});
 
-    console.log("Player ensured:", playerId);
+  await startSaveLoader(
+    async () => {
+      await ensurePlayer(playerId, name, avatarId);
+    },
+    { text: "Swiping your studentId..." }
+  );
+
+  // stop bgm cleanly before leaving
+  bgm.pause();
+  bgm.currentTime = 0;
+
+  window.location.href = "../map/index.html";
 };
+
 
 
 

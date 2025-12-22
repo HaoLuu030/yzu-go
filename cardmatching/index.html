@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Building 7</title>
+    <!-- FONT STYLE -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <!-- FONT STYLE -->
+
+    <!-- loading -->
+    <script>
+        document.documentElement.classList.add("loading");
+    </script>
+    
+
+    <link rel="stylesheet" href="../shared/loader/base/styles.css">
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <div id="loader-root">
+        <div id="loader">
+            <div class="spinner"></div>
+            <div id="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div class="app">
+        <!-- BACKGROUND-->
+        <div class="background">
+            <div class="bubbles">
+                <img src="../image/UI/bubble.png" alt="">
+                <img src="../image/UI/bubble.png" alt="">
+                <img src="../image/UI/bubble.png" alt="">
+                <img src="../image/UI/bubble.png" alt="">
+            </div>
+            <div class="crownfish">
+                <img src="../image/UI/crownfish.gif" alt="">
+            </div>
+            <div class="seahorse">
+                <img src="../image/UI/seahorse.gif" alt="">
+            </div>
+        </div>
+
+
+
+        <div class="container">
+            <!-- 2. WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS -->
+            <div id="gameover-overlay">
+
+            <div class="message">
+
+                <div class="left">
+                    <div id="gameover-overlay-text" class="text">Level Finished</div>
+
+                    <div class="back">
+                        <button id="back-to-map">
+                            Back to Map &nbsp;
+                            <img class="map-icon" src="../image/UI/map.png">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="right">
+                    <img id="overlay-dolphin" class="dolphin" src="../image/UI/dolphin.png">
+                </div>
+
+            </div>
+        </div>
+            <!--2. END: WHEN YOU FINISH THE GAME, THIS OVERLAY APPEARS-->
+
+
+            <!-- TOP HUD -->
+            <div id="title-p" class="title-p">
+                <div class="title">
+                    <div class="level">
+                        <button class="btn-level">3</button>
+                    </div>
+
+                    <div class="time">
+                        Time: &nbsp;<span id="timer">0</span>s
+                    </div>
+
+                    <div class="score">
+                        Score: &nbsp;<span id="score">0</span>
+                    </div>
+                    <div id="shuffle-btn">Shuffle &nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                            fill="#FFFFFF">
+                            <path
+                                d="M560-160v-80h104L537-367l57-57 126 126v-102h80v240H560Zm-344 0-56-56 504-504H560v-80h240v240h-80v-104L216-160Zm151-377L160-744l56-56 207 207-56 56Z" />
+                        </svg>
+                    </div>
+
+                    <div class="btn">
+
+                        <button id="music-btn" class="music"><img id="music-icon"
+                                src="../image/UI/volume_off.png"></button>
+                        <button id="map-btn"><img class="map-icon" src="../image/UI/map.png"></button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- GAME BOARD -->
+            <div id="game-board-container">
+                <div id="start-overlay" class="overlay">
+                    Click to start
+                </div>
+                <canvas id="fx-canvas"></canvas>
+                <div id="game-board"></div>
+            </div>
+
+        </div>
+
+        <!-- AUDIO -->
+        <audio id="bgm" src="sfx/soundtrack.mp3" loop></audio>
+        <audio id="clickSound" src="./sfx/click.wav"></audio>
+        <audio id="matchSound" src="./sfx/match.mp3"></audio>
+        <audio id="shuffleSound" src="./sfx/shuffle.mp3"></audio>
+    </div>
+    <script type="module" src="game.js"></script>
+</body>
+
+</html>

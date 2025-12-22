@@ -1,0 +1,96 @@
+import Entity from './entity.js'
+import { groundY, gravity, jumpForce } from './physics.js';
+import { gameState } from '../config/gameState.js';
+import drawHitBox from '../utils/drawHitBox.js';
+
+let jumpImg = new Image();
+jumpImg.src = "./assets/img/student-jump.png";   // ✅ FIXED
+
+let cryImg = new Image();
+cryImg.src = "./assets/img/student-cry.png";     // ✅ FIXED
+
+let jumpSfx = new Audio("./assets/sfx/jump.mp3"); // ✅ FIXED
+jumpSfx.volume = 0.6;
+
+
+export default class Player extends Entity {
+    constructor(x, y, width, height, speed, frames, hitbox = null) {
+        super(x, y, width, height, speed, jumpImg);
+        this.jumpImg = jumpImg;
+        this.cryImg = cryImg;
+        this.frames = frames;
+        this.frameDelay = 0;
+        this.frameInterval = 4;
+        this.currentFrame = 0;
+        this.velocityY = 0;
+        this.jumping = false;
+        this.isDead = false;
+
+        if (hitbox) {
+            this.hitbox = {
+                offsetX: hitbox.offsetX ?? 0,
+                offsetY: hitbox.offsetY ?? 0,
+                width: hitbox.width ?? width,
+                height: hitbox.height ?? height,
+            }
+        } else {
+            this.hitbox = {
+                offsetX: 0,
+                offsetY: 0,
+                width: width,
+                height: height,
+            };
+        }
+    }
+
+    update() {
+        this.frameDelay += gameState.speedScale;
+
+        if (!this.jumping && this.frameDelay >= this.frameInterval) {
+            this.frameDelay = 0;
+            this.currentFrame = (this.currentFrame + 1) % this.frames.length;
+        }
+
+        this.velocityY += gravity;
+        this.y += this.velocityY;
+
+        if (this.y >= groundY - this.height) {
+            this.velocityY = 0;
+            this.y = groundY - this.height;
+            this.jumping = false;
+        }
+    }
+
+    jump() {
+        if (!this.jumping) {
+            this.velocityY = -jumpForce;
+            this.jumping = true;
+
+            jumpSfx.currentTime = 0;
+            jumpSfx.play();
+        }
+    }
+
+    draw(context) {
+        let img;
+        if (this.isDead) img = cryImg;
+        else if (this.jumping) img = this.jumpImg;
+        else img = this.frames[this.currentFrame];
+
+        context.drawImage(img, this.x, this.y, this.width, this.height);
+
+        if (this.hitbox && gameState.testing) {
+            drawHitBox(this.x, this.y, this.hitbox, 'white', context);
+        }
+    }
+
+    reset() {
+        this.isDead = false;
+        this.x = this.initialX ?? this.x;
+        this.y = groundY - this.height;
+        this.velocityY = 0;
+        this.jumping = false;
+        this.currentFrame = 0;
+        this.frameDelay = 0;
+    }
+}

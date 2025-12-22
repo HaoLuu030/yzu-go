@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running track</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
+    <!-- loading -->
+    <script>
+        document.documentElement.classList.add("loading");
+    </script>
+    <link rel="stylesheet" href="../shared/loader/base/styles.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="loader-root">
+        <div id="loader">
+            <div class="spinner"></div>
+            <div id="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- UI -->
+    <div id="gameover-overlay">
+
+            <div class="message">
+
+                <div class="left">
+                    <div id="gameover-overlay-text" class="text">Level Finished</div>
+
+                    <div class="back">
+                        <button id="back-to-map">
+                            Back to Map &nbsp;
+                            <img class="map-icon" src="../image/UI/map.png">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="right">
+                    <img id="overlay-dolphin" class="dolphin" src="../image/UI/dolphin.png">
+                </div>
+
+            </div>
+        </div>
+    <!-- UI -->
+
+    <div class="app">
+        <!-- 1. BACKGROUND PART -->
+        <div class="background">
+
+            <!-- a. Bubbles floating -->
+            <div class="bubbles">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+                <img src="../image/UI/bubble.png">
+            </div>
+
+            <!-- b. Decoration -->
+            <div class="sunfish"><img src="../image/UI/sunfish.gif"></div>
+        </div>
+        <!-- 1. END: BACKGROUND PART -->
+        <!-- 2. game display -->
+        <div class="container">
+            <!-- UI -->
+            <div id="title" class="title">
+                <div class="level"><button class="btn-level">2</button></div>
+                <div class="time">Time:&nbsp;<span id="timer">0</span>s</div>
+                <div class="score">Score:&nbsp;<span id="score">0</span></div>
+                <div class="btn">
+                    <div><button class="music" id="music-btn"><img id="music-icon"
+                                src="images/UI/volume_off.png"></button>
+                    </div>
+                    <div><a href="../map/index.html"><button class="map"><img id="map-icon"
+                                    src="images/UI/map.png"></button></a>
+                    </div>
+                </div>
+            </div>
+            <!-- UI -->
+
+            <div id="board-container">
+                <div class="canvas-wrapper">
+                    <canvas id="board"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- end game display -->
+    </div>
+    <script type="module" src="game.js"></script>
+</body>
+
+</html>
