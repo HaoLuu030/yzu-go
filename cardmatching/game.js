@@ -18,7 +18,7 @@ startLoader({
 /* ============================================================
    1. CONSTANTS & GLOBAL GAME STATE
 ============================================================ */
-const CELL_SIZE = 60;
+const CELL_SIZE = 80;
 const CELL_GAP = 8;
 
 
@@ -158,7 +158,7 @@ function init() {
 
 function render() {
     gameBoard.innerHTML = "";
-    gameBoard.style.gridTemplateColumns = `repeat(${COL - 2}, 60px)`;
+    gameBoard.style.gridTemplateColumns = `repeat(${COL - 2}, 80px)`;
 
     for (let r = 1; r < ROW - 1; r++) {
         for (let c = 1; c < COL - 1; c++) {
@@ -226,7 +226,7 @@ function drawPath(points) {
     ctx.strokeStyle = "#00e5ff";
     ctx.shadowColor = "#00bcd4";
     ctx.shadowBlur = glow;
-    ctx.lineWidth = 4;
+    ctx.lineWidth = CELL_SIZE * 0.075;
 
     ctx.beginPath();
     ctx.moveTo(points[0].x, points[0].y);
@@ -612,13 +612,11 @@ function playShuffleSound() { shuffleSound.currentTime = 0; shuffleSound.play();
    BOOT
 ============================================================ */
 
-// if (!restoreIfGameCompleted(levelKey)) {
-//     init();
-// } else {
-//     document.getElementById("back-to-map").onclick = () => {
-//         window.location.href = "../map/index.html";
-//     };
-// }
-
-init();
+if (!restoreIfGameCompleted(levelKey)) {
+    init();
+} else {
+    document.getElementById("back-to-map").onclick = () => {
+        window.location.href = "../map/index.html";
+    };
+}
 
