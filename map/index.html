@@ -50,6 +50,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="../scorelog/styles.css">
     <link rel="stylesheet" href="../shared/loader/base/styles.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -62,11 +63,31 @@
         </div>
     </div>
     <div class="app">
-        <div id="leaderboard-overlay" class="overlay hidden">
+        <!-- LEADER BOARD -->
+        <!-- <div id="leaderboard-overlay" class="overlay hidden">
             <section class="leaderboard-panel">
                 <h2>Leaderboard</h2>
                 <ol id="leaderboard"></ol>
             </section>
+        </div> -->
+
+        <!-- SCORE BOARD -->
+        <div id="score-log-overlay">
+            <div class="score-panel">
+                <button class="score-close-btn" aria-label="Close">✕</button>
+                <h2 id="score-title">Progress</h2>
+
+                <table class="score-table">
+                    <thead>
+                        <tr>
+                            <th>Game</th>
+                            <th>Score</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="score-log-body"></tbody>
+                </table>
+            </div>
         </div>
 
         <div class="container">
@@ -111,7 +132,7 @@
 
 
     <script type="module" src="script.js"></script>
-    <script type="module" src="js/leaderBoard.js"></script>
+    <!-- <script type="module" src="js/leaderBoard.js"></script> -->
 </body>
 
 </html>

@@ -1,0 +1,116 @@
+:root {
+  --panel-blue: rgba(70, 140, 220, 0.35);
+  --panel-blue-stroke: rgba(180, 220, 255, 0.45);
+  --panel-blue-glow: rgba(0, 200, 255, 0.35);
+}
+
+/* SCORE LOG OVERLAY */
+#score-log-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  /* transparent black */
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* PANEL */
+.score-panel {
+  position: relative;
+  width: min(520px, 90vw);
+
+  /* blue glass */
+  background: var(--panel-blue);
+  border: 2px solid var(--panel-blue-stroke);
+  border-radius: 26px;
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 0 20px var(--panel-blue-glow),
+    inset 0 0 30px rgba(255, 255, 255, 0.15);
+
+  padding: 24px 28px;
+  animation: float 5s ease-in-out infinite;
+}
+
+.score-panel h2 {
+  text-align: center;
+  margin: 0 0 16px;
+  font-size: 26px;
+}
+
+/* TABLE */
+.score-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 18px;
+}
+
+.score-table th,
+.score-table td {
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.score-table thead {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.score-table tr.completed {
+  color: white;
+}
+
+.score-table tr.pending {
+  opacity: 0.55;
+}
+
+/* STATUS ICON */
+.score-table tr.completed .status {
+  color: #9ff6ff;
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.8);
+}
+
+/* CLOSE BUTTON */
+.score-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 22px;
+  cursor: pointer;
+
+  line-height: 1;
+  padding: 4px;
+
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.score-close-btn:hover {
+  transform: scale(1.15);
+  opacity: 1;
+}
+
+.score-close-btn:active {
+  transform: scale(0.95);
+}
+
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-1.5vh);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}

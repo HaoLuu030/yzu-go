@@ -1,7 +1,8 @@
-import { lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath, levelPositions  } from "./js/helper.js";
+import { lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath, levelPositions } from "./js/helper.js";
 import { startGuide, showLastStoryLineIfAny } from "./js/guideCharacter.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { loadPlayerState, savePlayerState } from "../js/state/playerState.js";
+import { toggleScoreOverlay } from "../scorelog/script.js";
 
 
 
@@ -88,7 +89,7 @@ switch (mode) {
 
 
 /*-----------------------Avatar moves--------------------------- */
-hideLeaderboard();
+// hideLeaderboard();
 const dolphin = document.getElementById("your_avatar");
 dolphin.src = getAvatarImagePath();
 
@@ -120,24 +121,6 @@ function placeDolphinAtCurrentLevel() {
 }
 
 document.addEventListener("DOMContentLoaded", placeDolphinAtCurrentLevel);
-
-
-/* =========================
-   LOAD FLAGS (first-visit)
-========================= */
-
-/* =========================
-   1) RESUME ACTIVE STORY
-========================= */
-
-/* =========================
-   2) FIRST VISIT → WELCOME
-========================= */
-
-
-/* =========================
-   3) NORMAL FLOW
-========================= */
 
 /* =========================
    UNLOCK AFTER STORY
@@ -175,14 +158,13 @@ document.addEventListener("guide:finished", (e) => {
   unlockLevelsFromState(state);
   console.log(currentLevel + 1)
   moveDolphinToLevel(currentLevel + 1);
-  
+
 
 });
 
-  if (currentLevel == 6)
-  {
-    showLeaderboard()
-  }
+if (currentLevel == 6) {
+  showLeaderboard()
+}
 
 
 /* =========================
@@ -255,3 +237,7 @@ function hideLeaderboard() {
   document.getElementById("leaderboard-overlay")
     .classList.add("hidden");
 }
+
+
+document.getElementById("your_avatar")
+  .addEventListener("click", toggleScoreOverlay);

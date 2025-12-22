@@ -1,8 +1,6 @@
 
 
 import { startLoader } from "./shared/loader/assetLoader/index.js";
-import { loadPlayerState } from "./js/state/playerState.js";
-import { savePlayerState } from "./js/state/playerState.js";
 
 
 

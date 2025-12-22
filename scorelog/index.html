@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <!-- SCORE LOG OVERLAY -->
+    <div id="score-log-overlay">
+        <div class="score-panel">
+            <button class="score-close-btn" aria-label="Close">✕</button>
+            <h2>Progress</h2>
+
+            <table class="score-table">
+                <thead>
+                    <tr>
+                        <th>Game</th>
+                        <th>Score</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="score-log-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <img id="player-icon" src="./image/avatar.png" alt="Player">
+
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

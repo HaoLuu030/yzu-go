@@ -117,7 +117,7 @@ function moveDolphinToLevel(level, duration = 2000) {
 
   requestAnimationFrame(() => {
     dolphin.style.marginLeft = to.left;
-    dolphin.style.marginTop = `calc(${to.top} - 5%)`;
+    dolphin.style.marginTop = `calc(${to.top} - 6%)`;
   });
 }
 
