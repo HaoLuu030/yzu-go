@@ -1,8 +1,9 @@
-import { lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath, levelPositions } from "./js/helper.js";
+import { lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath, levelPositions, hasFinishedGame } from "./js/helper.js";
 import { startGuide, showLastStoryLineIfAny } from "./js/guideCharacter.js";
 import { startLoader } from "../shared/loader/assetLoader/index.js";
 import { loadPlayerState, savePlayerState } from "../js/state/playerState.js";
 import { toggleScoreOverlay } from "../scorelog/script.js";
+import { renderCertificate } from "../certificate/script.js";
 
 
 
@@ -38,6 +39,8 @@ startLoader(
    STATE
 ========================= */
 const state = loadPlayerState();
+
+
 const mode = getMapMode(state);
 const scorePopUpSound = document.getElementById("score-popup-sound");
 
@@ -53,7 +56,7 @@ switch (mode) {
     startGuide({
       phase: state.story.phase,
       level: state.story.level,
-      score: null,
+      score: state.story.score ?? null,
       lineIndex: state.story.lineIndex ?? 0
     });
 
@@ -89,8 +92,10 @@ switch (mode) {
 
 
 
+
+
 /*-----------------------Avatar moves--------------------------- */
-// hideLeaderboard();
+
 const dolphin = document.getElementById("your_avatar");
 dolphin.src = getAvatarImagePath();
 
@@ -120,7 +125,7 @@ function placeDolphinAtCurrentLevel() {
     dolphin.style.transition = "";
   });
 }
-
+   
 document.addEventListener("DOMContentLoaded", placeDolphinAtCurrentLevel);
 
 /* =========================
@@ -137,7 +142,6 @@ document.addEventListener("guide:progress", (e) => {
 
 document.addEventListener("guide:finished", (e) => {
   const state = loadPlayerState();
-  console.log("Story finished:", e.detail.phase);
 
   if (state.story.phase === "welcome") {
     if (!state.journey.completedNodes.includes("welcome")) {
@@ -155,16 +159,16 @@ document.addEventListener("guide:finished", (e) => {
   state.story.level = null;
   state.story.lineIndex = null;
 
+  if (hasFinishedGame(state, 6)) {
+    renderCertificate();
+  }
+
   savePlayerState(state);
   unlockLevelsFromState(state);
   moveDolphinToLevel(currentLevel + 1);
 
 
 });
-
-// if (currentLevel == 6) {
-//   showLeaderboard()
-// }
 
 
 /* =========================
@@ -226,17 +230,6 @@ bindLevelButtons();
 
 
 
-
-// Show leaderboard
-function showLeaderboard() {
-  document.getElementById("leaderboard-overlay")
-    .classList.remove("hidden");
-}
-
-function hideLeaderboard() {
-  document.getElementById("leaderboard-overlay")
-    .classList.add("hidden");
-}
 
 
 document.getElementById("your_avatar")

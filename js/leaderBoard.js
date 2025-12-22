@@ -7,7 +7,7 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-import { db } from "../../js/data/firebase.js";
+import { db } from "./data/firebase.js";
 
 function calculateTotalScore(games = {}) {
   let total = 0;

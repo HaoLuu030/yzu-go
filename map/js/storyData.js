@@ -5,7 +5,7 @@ export const storyData = {
         "And then what? straight into unemployment?",
         "Not so fast. Before you’re allowed to leave, we need to make sure you actually meet YZU’s standards.",
         "There’s one last challenge waiting for you.",
-        "So go on - pack up your things. We’ll see if you’re really ready to graduate."
+        "So go on. Pack up your things. We’ll see if you’re really ready to graduate."
     ],
 
     postLevel: {
@@ -23,7 +23,7 @@ export const storyData = {
                     "Being a good student isn’t just about the mind. It’s about the body too. You know?",
                     "And nothing works the body like a good run.",
                     "Let’s see if you can move faster than you packed.",
-                    "Oh - and watch out for others on the track, will you? You’re not the only one using it."
+                    "Oh. And watch out for others on the track, will you? You’re not the only one using it."
                 ],
                 mid: [
                     "Well, you finished. Eventually.",
@@ -185,7 +185,7 @@ export const storyData = {
                     "Anyway, I’m exhausted from all that unnecessary running around.",
                     "Let’s get back to the brainy stuff, shall we?",
                     "Ah… the library.",
-                    "If you spent four years here and never stressed out in the library -",
+                    "If you spent four years here and never stressed out in the library",
                     "Congratulations. You somehow skipped the entire student experience.",
                     "So enough sightseeing. Let’s move on to your final quiz.",
                     "But I’ll be kind enough to give you a hint.",

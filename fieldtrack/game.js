@@ -263,7 +263,7 @@ export async function gameLoop() {
         document.getElementById("back-to-map").onclick = function () {
             finalScore = Math.floor(gameState.score);
             // queue post-level story
-            triggerPostLevelStory(levelKey, score);
+            triggerPostLevelStory(levelKey, finalScore);
             window.location.href = "../map/index.html";
         };
 

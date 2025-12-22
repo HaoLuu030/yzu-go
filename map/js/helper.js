@@ -148,4 +148,15 @@ function getAvatarImagePath() {
 }
 
 
-export { updateButtonState, lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath, levelPositions}
+function hasFinishedGame(state, totalLevels = 6) {
+  const levelsCompleted = Object.values(state.levels)
+    .slice(0, totalLevels)
+    .every(level => level.completed === true);
+    console.log("levels completed: " + levelsCompleted);
+    console.log("story active" + !state.story.active);
+
+  return levelsCompleted && state.story.active === false;
+}
+
+
+export { updateButtonState, lockAllLevels, unlockLevelsFromState, getLatestLevelFromStorage, moveDolphinToLevel, getAvatarImagePath, levelPositions, hasFinishedGame}
