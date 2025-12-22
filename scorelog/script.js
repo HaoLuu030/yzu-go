@@ -33,11 +33,9 @@ function buildScoreRowsFromProgress() {
 function updateScoreTitle() {
   const state = loadPlayerState();
   const titleEl = document.getElementById("score-title");
-  console.log(titleEl);
   if (!titleEl) return;
 
   const name = state?.profile?.name;
-  console.log(name);
 
   titleEl.textContent = name
     ? `${name}'s Progress`

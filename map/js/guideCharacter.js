@@ -87,10 +87,8 @@ export function startGuide({
     level = l;
     score = s;
     storyActive = true;
-    console.log(phase, level, score, storyActive);
 
     dialogLines = getStoryLines({ phase, level, score });
-    console.log(dialogLines);
 
     lineIndex = resumeIndex;
     charIndex = 0;

@@ -1,7 +1,3 @@
-console.log("leaderBoard.js loaded");
-
-console.log("db value:", db);
-
 import {
   collection,
   getDocs

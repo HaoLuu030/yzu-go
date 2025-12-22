@@ -1,7 +1,6 @@
 import { loadPlayerState, savePlayerState } from "../js/state/playerState.js";
 loadPlayerState();
 
-console.log("fixing")
 
 
 const s = loadPlayerState();

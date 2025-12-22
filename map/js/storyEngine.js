@@ -1,7 +1,6 @@
 import { storyData } from "./storyData.js";
 
 export function getStoryLines({ phase, level, score }) {
-  console.log(phase, level, score);
   if (phase === "welcome") {
     return storyData.welcome ?? [];
   }

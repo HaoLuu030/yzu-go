@@ -6,19 +6,40 @@ import { startLoader } from "./shared/loader/assetLoader/index.js";
 
 startLoader({
   assets: [
-    "./image/background.png",
-    "./image/bubble.png",
-    "./image/coral1.png",
-    "./image/coral2.png",
-    "./image/jellyfish.gif",
-    "./image/volume_off.png",
-    "./image/volume_on.png",
-    "./image/yzu_logo.png",
+    "./avatar/image/1.png",
+    "./avatar/image/10.png",
+    "./avatar/image/11.png",
+    "./avatar/image/12.png",
+    "./avatar/image/13.png",
+    "./avatar/image/14.png",
+    "./avatar/image/15.png",
+    "./avatar/image/16.png",
+    "./avatar/image/17.png",
+    "./avatar/image/18.png",
+    "./avatar/image/19.png",
+    "./avatar/image/2.png",
+    "./avatar/image/20.png",
+    "./avatar/image/3.png",
+    "./avatar/image/4.png",
+    "./avatar/image/5.png",
+    "./avatar/image/6.png",
+    "./avatar/image/7.png",
+    "./avatar/image/8.png",
+    "./avatar/image/9.png",
+    "image/bubble.png",
+    "image/background.png",
+    "image/bubble.png",
+    "image/coral1.png",
+    "image/coral2.png",
+    "image/jellyfish.gif",
+    "image/volume_off.png",
+    "image/volume_on.png",
+    "image/yzu_logo.png",
     "sfx/home_music.mp3",
     "sfx/result_high.mp3",
     "sfx/result_low.mp3",
     "sfx/select.mp3",
-    "sfx/gp.mp3",
+    "sfx/go.mp3",
   ],
   text: "Walking down the Hero Slope...",
 });
@@ -110,4 +131,4 @@ overlay?.addEventListener("click", e => {
 });
 
 document.querySelector(".score-close-btn")
-  ?.addEventListener("click",  hideLeaderboard);
+  ?.addEventListener("click", hideLeaderboard);
